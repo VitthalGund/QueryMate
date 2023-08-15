@@ -2,7 +2,7 @@
 
 ## Mentor :
 
-- Prof. Dr. Rupali Komatwar, Faculty, Computer Engineering, GPM.
+- Prof. Dr. Rupali M. Komatwar, Faculty, Computer Engineering, GPM.
 
 ## Developer Team :
 
