@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
+  console.log("Hello..");
   res.send("Welcome to QUERY-MATE!");
 });
-app.listen(port, () => console.log(`http://localhost:${port}!`));
+app.listen(port, () => console.log(`http://localhost:${port}`));
