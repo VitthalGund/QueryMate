@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { User } from "../models/User.js";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 // working 100% right
-const handleNewUser = async (req: Request, res: Response) => {
+export const handleNewUser = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email)
     return res
       .status(400)
-      .json({ message: "User name and password are required." });
+      .json({ message: "insufficient agruments are required." });
   // console.log(req.body)
 
   // to check whether some user already exists with the given email and username
@@ -22,7 +22,7 @@ const handleNewUser = async (req: Request, res: Response) => {
 
   try {
     // before storing into database encrypt the password
-    const hashedPwd = await bcrypt.hash(password, 10);
+    const hashedPwd = await bcryptjs.hash(password, 10);
 
     // create and store the new user details in database
     const result = await User.create({
@@ -32,10 +32,10 @@ const handleNewUser = async (req: Request, res: Response) => {
     });
     console.log(result);
     // send response to the client
-    res.status(201).json({ success: `New user ${username} created!` });
+    res
+      .status(201)
+      .json({ success: true, message: `User created successfully!` });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ success: true, message: err.message });
   }
 };
-
-module.exports = { handleNewUser };
