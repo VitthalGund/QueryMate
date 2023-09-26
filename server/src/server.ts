@@ -8,6 +8,7 @@ import Refresh from "./routes/refresh.js";
 import Logout from "./routes/logout.js";
 import UserInfo from "./routes/userinfo.js";
 import connectDB from "./config/dbConn.js";
+import ForgotPassword from "./routes/forgotPassword.js";
 // import { logger } from "./middlewares/logEvents.js";
 import cors from "cors";
 import corsOptions from "./config/corsOptions.js";
@@ -78,7 +79,7 @@ app.use("/register", Register);
 app.use("/auth", Auth);
 app.use("/refresh", Refresh);
 app.use("/logout", Logout);
-
+app.use("/password", ForgotPassword);
 app.get("/", (req, res) => {
   res.send("Welcome to Qna Boat");
 });

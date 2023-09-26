@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 import { User } from "../models/User.js";
+import { Types } from "mongoose";
 
 export const sendEmail = async ({
   email,
@@ -9,7 +10,7 @@ export const sendEmail = async ({
 }: {
   email: string;
   emailType: string;
-  userId: string;
+  userId: Types.ObjectId | string;
 }) => {
   console.log({ email, emailType, userId });
   try {
@@ -34,7 +35,7 @@ export const sendEmail = async ({
       port: 587,
       auth: {
         user: process.env.email,
-        pass: process.env.node,
+        pass: process.env.password,
       },
     });
 
