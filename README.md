@@ -1,17 +1,17 @@
 # QueryMate
 
-## Mentor :
+## 👩🏻‍💻 Mentor :
 
 - Prof. Dr. Rupali M. Komatwar, Faculty, Computer Engineering, GPM.
 
-## Developer Team :
+## 👥 Developer Team :
 
 - Vitthal Gund
 - Sarvesh Yadav
 - Justin Fernandes
 - Ramkrushna Sahu
 
-## Project Synopsis :
+## 📑 Project Synopsis :
 
 #### BACKGROUND :
 
@@ -25,7 +25,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 
 ---
 
-## Project Timeline :
+## 🕘 Project Timeline :
 
 <details>
 <summary><b>Week 1</b> : [31.07.2023 - 06.08.2023]</summary>
