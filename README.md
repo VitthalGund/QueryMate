@@ -68,8 +68,12 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <details>
 <summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
 
-+ 
-+ 
+---
+🛠️ SET UP THE DEVELOPMENT ENVIRONMENT
+
++ We began by configuring our development environment, which involves setting up necessary software tools, version control systems, and ensuring that all team members have access to the required resources.
++ Documenting our project is essential. Thus, we created a comprehensive initial project documentation that will encompass everything from project scope and requirements to technical specifications.
++ We have established the GitHub Repository for [QueryMate](https://github.com/VitthalGund/QueryMate) on 15th August, 2023! ⭐
 </details>
 <details>
 <summary><b>Week 05</b> : [21.08.2023 - 27.08.2023]</summary>
