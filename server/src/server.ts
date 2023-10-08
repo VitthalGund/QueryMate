@@ -1,6 +1,6 @@
 import express from "express";
 import * as dotenv from "dotenv";
-// import { router } from "./routes/textQna.js";
+import { router } from "./routes/textQna.js";
 import { verifyJWT } from "./middlewares/verifyJWT.js";
 import Register from "./routes/resgister.js";
 import Auth from "./routes/auth.js";
@@ -12,13 +12,12 @@ import ForgotPassword from "./routes/forgotPassword.js";
 // import { logger } from "./middlewares/logEvents.js";
 import cors from "cors";
 import corsOptions from "./config/corsOptions.js";
-// import errorHandler from './middleware/errorHandler.';
 import cookieParser from "cookie-parser";
 import { credentials } from "./middlewares/credentials.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import mongoose from "mongoose";
 const app = express();
-const PORT = 3500;
+const PORT = 2000;
 
 dotenv.config({
   encoding: "latin1",
@@ -69,7 +68,7 @@ app.use(function (
     // yes, cookie was already present
     console.log("cookie exists", cookie);
   }
-  next(); // <-- important!
+  next();
 });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -89,7 +88,7 @@ app.use(verifyJWT);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-// app.use("/model", router);
+app.use("/model", router);
 
 app.use(errorHandler);
 mongoose.connection.addListener("connected", () => {
