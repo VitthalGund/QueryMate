@@ -1,14 +1,25 @@
 import './App.css'
-
-function App() {
-
+import Home from "./components/Home";
+import LogSign from "./components/LoginwithGoogle"
+import SignEmail from "./components/Page 3"
+// import SignupPassword from "./components/Page 4"
+import LogIn from "./components/Page 5"
+// import ResetPassword from "./components/Page 6"
+import {BrowserRouter as Router,Routes,Route,} from "react-router-dom";
+export default function App() {
   return (
     <>
-      <h1 className='text-center text-lg font-bold'>
-        Welcome to Query-Mate
-      </h1>
+      <Router>
+        <Home/>
+        <Routes>
+          <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/loginwithgoogle" element={<LogSign title="QUERYMATE"/>}/>
+          <Route exact path="/login" element={<LogIn/>}/>
+          <Route exact path="/signupmail" element={<SignEmail/>}/>
+        </Routes>
+      </Router>
+      
     </>
   )
 }
 
-export default App
