@@ -31,7 +31,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <summary><b>Week 01</b> : [31.07.2023 - 06.08.2023]</summary>
 
 ---
-🚀 TEAM FORMATION AND MENTOR SELECTION -
+🚀 TEAM FORMATION AND MENTOR SELECTION
 
   + Formation of our team, carefully assembling a group of dedicated members.
   + After a series of collaborative meetings with the team, we carefully pinpoint our field and technology of interest.
