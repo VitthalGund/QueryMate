@@ -28,55 +28,64 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 ## 🕘 Project Timeline :
 
 <details>
-<summary><b>Week 1</b> : [31.07.2023 - 06.08.2023]</summary>
+<summary><b>Week 01</b> : [31.07.2023 - 06.08.2023]</summary>
+
+---
+🚀 TEAM FORMATION AND MENTOR SELECTION -
+
+  + Formation of our team, carefully assembling a group of dedicated members.
+  + After a series of collaborative meetings with the team, we carefully pinpoint our field and technology of interest.
+  + Selecting the mentor whose expertise aligns seamlessly with the chosen technology, ensuring the provision of the best guidance and support.
+</details>
+<details>
+<summary><b>Week 02</b> : [07.08.2023 - 13.08.2023]</summary>
+
+---
+💬 PROJECT IDEA DISCUSSION AND DRAFTING OF SYNOPSIS
+
+  + Every team member has explored and actively contributed in examining and suggesting different project ideas.
+  + We settled on five project ideas before presenting them to our project mentor, Rupali ma'am.
+  + In a meeting, we presented our ideas to Rupali ma'am. She approved three out of the five ideas, providing us with explanations for selecting these three and her reasons for disapproving the other two.
+  + In the end, we opted for QueryMate because we deemed it more practical, useful and valuable.
+</details>
+<details>
+<summary><b>Week 03</b> : [07.08.2023 - 13.08.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 2</b> : [07.08.2023 - 13.08.2023]</summary>
+<summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 3</b> : [07.08.2023 - 13.08.2023]</summary>
+<summary><b>Week 05</b> : [21.08.2023 - 27.08.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 4</b> : [14.08.2023 - 20.08.2023]</summary>
+<summary><b>Week 06</b> : [28.08.2023 - 03.09.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 5</b> : [21.08.2023 - 27.08.2023]</summary>
+<summary><b>Week 07</b> : [04.09.2023 - 10.09.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 6</b> : [28.08.2023 - 03.09.2023]</summary>
+<summary><b>Week 08</b> : [11.09.2023 - 17.09.2023]</summary>
 
 + 
 + 
 </details>
 <details>
-<summary><b>Week 7</b> : [04.09.2023 - 10.09.2023]</summary>
-
-+ 
-+ 
-</details>
-<details>
-<summary><b>Week 8</b> : [11.09.2023 - 17.09.2023]</summary>
-
-+ 
-+ 
-</details>
-<details>
-<summary><b>Week 9</b> : [18.09.2023 - 24.09.2023]</summary>
+<summary><b>Week 09</b> : [18.09.2023 - 24.09.2023]</summary>
 
 + 
 + 
