@@ -51,8 +51,19 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <details>
 <summary><b>Week 03</b> : [07.08.2023 - 13.08.2023]</summary>
 
-+ 
-+ 
+---
+🔍 EXPLORING PROJECT REQUIREMENTS
+
++ We conducted a thorough review of prior work in this related field, if any has been undertaken.
++ We began identifying and selecting further objectives that have the potential to greatly enhance the existing project's overall value and impact.
++ We found it imperative to acquire datasets for training our models, enabling us to accurately predict the desired outputs.
++ We agreed on utilizing ``Google BERT (Bidirectional Encoder Representations from Transformers)`` and ```Google USE (Universal Sentence Encoder)```, while also considering the need for ``Facebook RoBERTa (Robustly Optimized BERT Pre-Training Approach)`` if any challenges arise with ``Google BERT``
++ Taking into account the team's proficiency, we selected the following deep learning technologies:
+    + ``NLP (Natural Language Processing)`` techniques, including ``RNN (Recurrent Neural Networks)`` and ``LSTM (Long Short Term Memory)``
+    + ``TensorFlow`` framework for robust model training.
++  Overall, we chosed the technology stack for both the frontend and the backend of the project, with the committment to concurrently learn and master these technologies during the developmental phase:
+    + Frontend: ``ReactJS``
+    + Backend: ``NodeJS``
 </details>
 <details>
 <summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
