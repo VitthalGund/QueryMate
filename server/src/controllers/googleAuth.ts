@@ -37,8 +37,9 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
           existingUser = result;
         }
 
-        const token = jwt.sign(
+        const refreshToken = jwt.sign(
           {
+            username: firstName + lastName,
             email: existingUser.email,
             id: existingUser._id,
           },
@@ -46,7 +47,13 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
           { expiresIn: "1h" }
         );
 
-        res.status(200).json({ result: existingUser, token, success: true });
+        res.cookie("jwt", refreshToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          maxAge: 24 * 60 * 60 * 1000,
+        });
+        res.status(200).json({ result: existingUser, success: true });
       })
       .catch(() => {
         res.status(400).json({ message: "Invalid access token!" });
