@@ -11,7 +11,7 @@ const Chat = new Schema({
     required: true,
   },
   response: {
-    type: String,
+    type: Object||Array,
   },
 });
 
