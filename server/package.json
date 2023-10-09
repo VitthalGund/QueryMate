@@ -40,11 +40,13 @@
     "pstree.remy": "^1.1.8",
     "readdirp": "^3.6.0",
     "simple-update-notifier": "^2.0.0",
+    "tesseract.js": "^4.1.1",
     "textract": "^2.5.0",
     "to-regex-range": "^5.0.1",
     "touch": "^3.1.0",
     "undefsafe": "^2.0.5",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vosk": "^0.3.39"
   },
   "scripts": {
     "dev": "nodemon src/server.ts",

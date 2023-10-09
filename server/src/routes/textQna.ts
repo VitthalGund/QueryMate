@@ -2,15 +2,18 @@ import express, { Request, Response } from "express";
 export const router = express.Router();
 import qna from "@tensorflow-models/qna";
 import tf, { Rank, Tensor } from "@tensorflow/tfjs-node-gpu";
-import { chunkPassage, arrayIsEmpty, processChunks } from "../utils/passage.js";
+import { arrayIsEmpty, processChunks } from "../utils/passage.js";
 import use, {
   UniversalSentenceEncoder,
 } from "@tensorflow-models/universal-sentence-encoder";
-import natural from "natural";
+import { UserChat } from "../models/Chat.js";
+import mongoose from "mongoose";
+import { ChatMessage } from "../models/message.js";
+import { Mate } from "../types/mate.js";
 
 // Load the BERT-based question-answering model only once when the server starts
 let modelPromise: qna.QuestionAndAnswer;
-let useModel: UniversalSentenceEncoder;
+export let useModel: UniversalSentenceEncoder;
 
 // const userFeedback = new Map();
 async function loadQnaModel() {
@@ -58,10 +61,18 @@ async function loadModels(): Promise<void> {
 
 loadModels();
 
-// Endpoint to handle the questions
+// Endpoint to handle the questions: Passage size is around 500 to 1000 which around 5pages
 router.post("/qa", async (req: Request, res: Response) => {
-  const { passage, question } = req.body;
+  const { chatId, question } = req.body;
 
+  if (!chatId) {
+    return res.status(400).json({
+      error: "Missing ChatId in the request body.",
+    });
+  }
+
+  const result = await UserChat.findOne({ chatId });
+  const passage:string = result.passage.toString();
   if (!passage || !question) {
     return res.status(400).json({
       error: "Both passage and questions are required in the request body.",
@@ -100,11 +111,22 @@ router.post("/qa", async (req: Request, res: Response) => {
   }
 });
 
-// Endpoint to handle long passage questions
+
+// Endpoint to handle long passage questions: Passage size is around 4000 to 5000 which around 11 to 20 pages
 router.post("/qalong", async (req: Request, res: Response) => {
-  const { passage, question } = req.body;
+
+  const { chatId, question } = req.body;
+  if (!chatId) {
+    return res.status(400).json({
+      error: "Missing ChatId in the request body.",
+    });
+  }
+
+  const result = await UserChat.find({ chatId });
+  const passageChunks:string[] = result.map((data) => data.passage.toString());
   console.log("checking inputs");
-  if (!passage || !question) {
+
+  if (!processChunks || !question) {
     return res.status(400).json({
       error: "Both passage and questions are required in the request body.",
     });
@@ -120,16 +142,17 @@ router.post("/qalong", async (req: Request, res: Response) => {
     // Load the BERT-based question-answering model
     // const model = await qna.load();
     const model = await loadQnaModel();
-    const useModel = await loadUseModel();
+    // const useModel = await loadUseModel();
 
     // Encode the input question and passage using the Universal Sentence Encoder
     const questionEmbedding: tf.Tensor2D = await useModel.embed(question);
-    const passageEmbedding: tf.Tensor2D = await useModel.embed(passage);
+    const passageEmbedding: tf.Tensor2D = await useModel.embed(processChunks.toString());
 
     // Set the chunk size (adjust this based on your model's token limit and memory constraints)
-    const chunkSize = 300; // Example: 300 tokens per chunk
-    console.log("dividing passage");
+    // const chunkSize = 300; // Example: 300 tokens per chunk
+    // console.log("dividing passage");
     // Chunk the passage into smaller segments
+    /*
     const passageChunks = await chunkPassage(
       passage,
       chunkSize,
@@ -137,6 +160,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
       useModel,
       new natural.SentenceTokenizer()
     );
+    */
     console.log(passageChunks);
     console.log("finding Answers");
     // Find answers for each question in each chunk
@@ -175,6 +199,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
       // Sort answers by confidence score and send the most accurate 4 to 5 answers in the response
       // const topAnswers = rankedAnswers.sort((a, b) => a.score - b.score).slice(0, 5);
       console.log("response sent");
+      await saveToMongoDB(question, rankedAnswers, chatId);
       return res.json({ answers: rankedAnswers });
     } else {
       return res.json({
@@ -190,6 +215,15 @@ router.post("/qalong", async (req: Request, res: Response) => {
   }
 });
 
+
+async function saveToMongoDB(question: string, response: Mate | Mate[], chatId: mongoose.Types.ObjectId) {
+    const chat = new ChatMessage({
+      chatId: chatId,
+      question,
+      response
+    });
+    await chat.save();
+}
 // Endpoint to handle user feedback {have bugs}
 /*
 router.post("/feedback", (req, res) => {
