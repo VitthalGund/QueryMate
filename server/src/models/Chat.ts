@@ -16,6 +16,10 @@ const Chat = new Schema({
     type: String,
     required: true,
   },
+  passage: {
+    type: String,
+    required:true
+  }
 });
 
 export const UserChat = mongoose.model("Chat", Chat);
