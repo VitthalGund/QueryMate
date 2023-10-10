@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const Chat = new Schema({
+const Message = new Schema({
   chatId: {
     type: String,
     ref: "chat",
@@ -11,8 +11,8 @@ const Chat = new Schema({
     required: true,
   },
   response: {
-    type: Object||Array,
+    type: Object || Array,
   },
 });
 
-export const ChatMessage = mongoose.model("Chat", Chat);
+export const ChatMessage = mongoose.model("Message", Message);

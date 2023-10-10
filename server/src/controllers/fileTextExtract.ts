@@ -72,7 +72,7 @@ export const extractText = async (req: Request, res: Response) => {
       }
     } else if (req.file.mimetype.startsWith("audio/")) {
       // Handle audio or video file with Vosk speech-to-11
-      const model = new vosk.Model();
+      const model = new vosk.Model("Model");
       const recognizer = new vosk.Recognizer({ model: model });
 
       recognizer.write(req.file.buffer);

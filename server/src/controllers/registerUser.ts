@@ -46,3 +46,35 @@ export const handleNewUser = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+export const verifyUser = async (req: Request, res: Response) => {
+  try {
+    const reqBody = req.body;
+    const { token } = reqBody;
+    console.log(token);
+
+    const user = await User.findOne({
+      verifyToken: token,
+      verifyTokenExpiry: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid token", success: true });
+    }
+
+    console.log(user);
+
+    user.isVerified = true;
+    user.verifyToken = undefined;
+    user.verifyTokenExpiry = undefined;
+    user.save();
+
+    return res.json({
+      message: "email Verified!",
+      success: true,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};

@@ -2,8 +2,9 @@ import express from "express";
 const router = express.Router();
 import { handleNewUser } from "../controllers/registerUser.js";
 import { validationResult, body } from "express-validator";
+import { verifyUser } from "../controllers/registerUser.js";
 
-export default router.post(
+router.post(
   "/",
   [
     body("username").isLength({ min: 2 }),
@@ -24,3 +25,7 @@ export default router.post(
     await handleNewUser(req, res);
   }
 );
+
+router.post("/verify", verifyUser);
+
+export default router;

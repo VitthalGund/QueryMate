@@ -10,6 +10,8 @@ import { UserChat } from "../models/Chat.js";
 import mongoose from "mongoose";
 import { ChatMessage } from "../models/message.js";
 import { Mate } from "../types/mate.js";
+import NodeCache from "node-cache";
+const modelsCache = new NodeCache();
 
 // Load the BERT-based question-answering model only once when the server starts
 let modelPromise: qna.QuestionAndAnswer;
@@ -17,7 +19,7 @@ export let useModel: UniversalSentenceEncoder;
 
 // const userFeedback = new Map();
 async function loadQnaModel() {
-  if (!modelPromise) {
+  if (!modelPromise && !modelsCache.get("qna")) {
     // Explicitly register the backend for TensorFlow.js in Node.js1
     console.log("Loading Model");
     console.time("Qna Load time");
@@ -25,20 +27,22 @@ async function loadQnaModel() {
     // Load the BERT-based question-answering model
     modelPromise = await qna.load();
     console.timeEnd("Qna Load time");
+    modelsCache.set("Qna", modelPromise);
   }
-  return modelPromise;
+  return modelPromise || modelsCache.get("Qna");
 }
 
 // Load the Universal Sentence Encoder model during server startup
 async function loadUseModel() {
   try {
-    if (!useModel) {
+    if (!useModel && !modelsCache.get("qna")) {
       console.time("USE model load time:");
       useModel = await use.load();
       console.timeEnd("USE model load time:");
       console.log("Universal Sentence Encoder model loaded successfully.");
+      modelsCache.set("Use", useModel);
     }
-    return useModel;
+    return useModel || modelsCache.get("Use");
   } catch (error) {
     console.error("Error loading Universal Sentence Encoder model:", error);
     process.exit(1);
@@ -72,7 +76,7 @@ router.post("/qa", async (req: Request, res: Response) => {
   }
 
   const result = await UserChat.findOne({ chatId });
-  const passage:string = result.passage.toString();
+  const passage: string = result.passage.toString();
   if (!passage || !question) {
     return res.status(400).json({
       error: "Both passage and questions are required in the request body.",
@@ -111,10 +115,8 @@ router.post("/qa", async (req: Request, res: Response) => {
   }
 });
 
-
 // Endpoint to handle long passage questions: Passage size is around 4000 to 5000 which around 11 to 20 pages
 router.post("/qalong", async (req: Request, res: Response) => {
-
   const { chatId, question } = req.body;
   if (!chatId) {
     return res.status(400).json({
@@ -123,7 +125,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
   }
 
   const result = await UserChat.find({ chatId });
-  const passageChunks:string[] = result.map((data) => data.passage.toString());
+  const passageChunks: string[] = result.map((data) => data.passage.toString());
   console.log("checking inputs");
 
   if (!processChunks || !question) {
@@ -146,7 +148,9 @@ router.post("/qalong", async (req: Request, res: Response) => {
 
     // Encode the input question and passage using the Universal Sentence Encoder
     const questionEmbedding: tf.Tensor2D = await useModel.embed(question);
-    const passageEmbedding: tf.Tensor2D = await useModel.embed(processChunks.toString());
+    const passageEmbedding: tf.Tensor2D = await useModel.embed(
+      processChunks.toString()
+    );
 
     // Set the chunk size (adjust this based on your model's token limit and memory constraints)
     // const chunkSize = 300; // Example: 300 tokens per chunk
@@ -215,14 +219,17 @@ router.post("/qalong", async (req: Request, res: Response) => {
   }
 });
 
-
-async function saveToMongoDB(question: string, response: Mate | Mate[], chatId: mongoose.Types.ObjectId) {
-    const chat = new ChatMessage({
-      chatId: chatId,
-      question,
-      response
-    });
-    await chat.save();
+async function saveToMongoDB(
+  question: string,
+  response: Mate | Mate[],
+  chatId: mongoose.Types.ObjectId
+) {
+  const chat = new ChatMessage({
+    chatId: chatId,
+    question,
+    response,
+  });
+  await chat.save();
 }
 // Endpoint to handle user feedback {have bugs}
 /*
