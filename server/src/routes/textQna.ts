@@ -82,7 +82,7 @@ router.post("/qa", async (req: Request, res: Response) => {
       error: "Both passage and questions are required in the request body.",
     });
   }
-
+  console.info(passage);
   if (!modelPromise || !useModel) {
     return res
       .status(500)
@@ -96,6 +96,7 @@ router.post("/qa", async (req: Request, res: Response) => {
 
     // Find answers for each question
     const answers = await model.findAnswers(question, passage);
+    // console.log(answers);
     if (arrayIsEmpty(answers)) {
       // Send the most accurate 4 to 5 answers in the response
       const topAnswers = answers.slice(0, 5);

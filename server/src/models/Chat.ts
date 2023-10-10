@@ -14,7 +14,7 @@ const Chat = new Schema({
   },
   fileName: {
     type: String,
-    required: true,
+    default: "NO File",
   },
   passage: {
     type: String,

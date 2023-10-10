@@ -16,6 +16,7 @@ export const textProcessing = async (req: Request, res: Response) => {
       req,
       new mongoose.Types.ObjectId()
     );
+    console.log(resp);
     if (resp.success) {
       res.json({
         success: true,
