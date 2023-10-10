@@ -44,7 +44,7 @@ import { chunkPassage } from "../utils/passage.js"; // Import the chunking funct
 import mongoose from "mongoose";
 import { useModel } from "../routes/textQna.js";
 import natural from "natural";
-import jwt, { JwtPayload } from "jsonwebtoken";
+// import jwt, { JwtPayload } from "jsonwebtoken";
 // import shortid from 'mongoose-shortid-nodeps'; // Import mongoose-shortid-nodeps
 // Import Vosk speech-to-text
 import vosk from "vosk";
@@ -73,7 +73,9 @@ export const extractText = async (req: Request, res: Response) => {
       }
     } else if (req.file.mimetype.startsWith("audio/")) {
       // Handle audio or video file with Vosk speech-to-11
-      const model = new vosk.Model("Model");
+      const model = new vosk.Model(
+        "../../MLModels/vosk-model-small-en-us-0.15"
+      );
       const recognizer = new vosk.Recognizer({ model: model });
 
       recognizer.write(req.file.buffer);
@@ -155,18 +157,18 @@ export async function saveToMongoDB(
     chunks.push(text);
   }
 
-  const res: JwtPayload = jwt.verify(
-    req.headers.authorization,
-    process.env.REFRESH_TOKEN_SECRET!
-  ) as JwtPayload;
+  // const res: JwtPayload = jwt.verify(
+  //   req.headers.authorization,
+  //   process.env.REFRESH_TOKEN_SECRET!
+  // ) as JwtPayload;
 
   const chatResp = [];
   for (const chunk of chunks) {
     const chat = new UserChat({
       chatId: chatId,
       title: text.slice(0, 10),
-      email: res.decoded["email"],
-      fileName: req.file.originalname,
+      // email: res.decoded["email"],
+      // fileName: req.file.originalname || " ",
       passage: chunk,
     });
 
@@ -175,6 +177,6 @@ export async function saveToMongoDB(
   return {
     success: true,
     email: chatResp[0].email,
-    chatId: chatResp[0].chartId,
+    chatId: chatResp[0].chatId,
   };
 }
