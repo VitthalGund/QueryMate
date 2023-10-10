@@ -9,7 +9,7 @@ import Logout from "./routes/logout.js";
 import UserInfo from "./routes/userinfo.js";
 import connectDB from "./config/dbConn.js";
 import ForgotPassword from "./routes/forgotPassword.js";
-import FileProcess from "./routes/toText.js"
+import FileProcess from "./routes/toText.js";
 // import { logger } from "./middlewares/logEvents.js";
 import cors from "cors";
 import corsOptions from "./config/corsOptions.js";
@@ -89,7 +89,7 @@ app.use(verifyJWT);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-app.use("/file", FileProcess);
+app.use("/upload", FileProcess);
 app.use("/model", router);
 
 app.use(errorHandler);
