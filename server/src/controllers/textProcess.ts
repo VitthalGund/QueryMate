@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 
 export const textProcessing = async (req: Request, res: Response) => {
   try {
-    const { passage, question } = req.body;
-    if (!passage || !question) {
+    const { passage } = req.body;
+    if (!passage) {
       return res.status(400).json({
         success: false,
         error: "Missing ChatId in the request body.",
@@ -18,7 +18,8 @@ export const textProcessing = async (req: Request, res: Response) => {
     );
     if (resp.success) {
       res.json({
-        status: "File uploaded and processed successfully",
+        success: true,
+        message: "File uploaded and processed successfully",
         chartId: resp.chatId,
         email: resp.email,
       });

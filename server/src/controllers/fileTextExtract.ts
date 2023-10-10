@@ -61,7 +61,8 @@ export const extractText = async (req: Request, res: Response) => {
       const data = await saveToMongoDB(result.data.text, req, currentChatId);
       if (data.success) {
         res.status(200).json({
-          status: "File uploaded and processed successfully",
+          success: true,
+          message: "File uploaded and processed successfully",
           chartId: data.chatId,
           email: data.email,
         });
@@ -87,7 +88,8 @@ export const extractText = async (req: Request, res: Response) => {
         console.log("Speech recognition finished");
         if (data.success) {
           res.status(200).json({
-            status: "File uploaded and processed successfully",
+            success: true,
+            message: "File uploaded and processed successfully",
             chartId: data.chatId,
             email: data.email,
           });
@@ -113,7 +115,8 @@ export const extractText = async (req: Request, res: Response) => {
           console.log("Text saved to MongoDB");
           if (data.success) {
             res.json({
-              status: "File uploaded and processed successfully",
+              success: true,
+              message: "File uploaded and processed successfully",
               chartId: data.chatId,
               email: data.email,
             });

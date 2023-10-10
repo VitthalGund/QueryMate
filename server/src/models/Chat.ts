@@ -18,8 +18,12 @@ const Chat = new Schema({
   },
   passage: {
     type: String,
-    required:true
-  }
+    required: true,
+  },
+  multi: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const UserChat = mongoose.model("Chat", Chat);

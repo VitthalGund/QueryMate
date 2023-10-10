@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/upload", upload.single("file"), extractText);
+router.post("/file", upload.single("file"), extractText);
 router.post("/text", textProcessing);
 
 export default router;
