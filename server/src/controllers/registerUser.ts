@@ -43,6 +43,6 @@ export const handleNewUser = async (req: Request, res: Response) => {
       .status(201)
       .json({ success: true, message: `User created successfully!`, mail });
   } catch (err) {
-    res.status(500).json({ success: true, message: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };

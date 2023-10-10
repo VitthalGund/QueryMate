@@ -3,7 +3,7 @@ const router = express.Router();
 import path from "path";
 import multer from "multer";
 import { extractText } from "../controllers/fileTextExtract.js";
-
+import { textProcessing } from "../controllers/textProcess.js";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -17,5 +17,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/upload", upload.single("file"), extractText);
+router.post("/text", textProcessing);
 
 export default router;
