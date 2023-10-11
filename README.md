@@ -66,7 +66,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
     + Backend: ``NodeJS``
 </details>
 <details>
-<summary><b><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
+<summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
 
 ---
 🔐 Finalizing Project Plan
