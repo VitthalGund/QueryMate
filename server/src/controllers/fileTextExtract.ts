@@ -47,7 +47,7 @@ import natural from "natural";
 import jwt, { JwtPayload } from "jsonwebtoken";
 // import shortid from 'mongoose-shortid-nodeps'; // Import mongoose-shortid-nodeps
 // Import Vosk speech-to-text
-import vosk from "vosk";
+// import vosk from "vosk";
 // require("../../MLModels/vosk-model-small-en-us-0.15")
 export const extractText = async (req: Request, res: Response) => {
   const currentChatId = new mongoose.Types.ObjectId(); // Generate a new chatId for each file
@@ -73,37 +73,34 @@ export const extractText = async (req: Request, res: Response) => {
       }
     } else if (req.file.mimetype.startsWith("audio/")) {
       // Handle audio or video file with Vosk speech-to-11
-      const model = new vosk.Model("Model");
-      const recognizer = new vosk.Recognizer({ model: model });
-
-      recognizer.write(req.file.buffer);
-      recognizer.end();
-      const data = recognizer.on("data", async (data: { text: string }) => {
-        // Handle recognized text data
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        return await saveToMongoDB(data.text, req, currentChatId);
-      });
-
-      recognizer.on("end", () => {
-        console.log("Speech recognition finished");
-        if (data.success) {
-          res.status(200).json({
-            success: true,
-            message: "File uploaded and processed successfully",
-            chartId: data.chatId,
-            email: data.email,
-          });
-        } else {
-          res
-            .status(400)
-            .json({ success: false, message: "unable to perfrom operation" });
-        }
-      });
-
-      recognizer.on("error", (err) => {
-        console.error(err);
-        res.status(500).json({ error: "Failed to transcribe audio/video" });
-      });
+      // const model = new vosk.Model("Model");
+      // const recognizer = new vosk.Recognizer({ model: model });
+      // recognizer.write(req.file.buffer);
+      // recognizer.end();
+      // const data = recognizer.on("data", async (data: { text: string }) => {
+      //   // Handle recognized text data
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   return await saveToMongoDB(data.text, req, currentChatId);
+      // });
+      // recognizer.on("end", () => {
+      //   console.log("Speech recognition finished");
+      //   if (data.success) {
+      //     res.status(200).json({
+      //       success: true,
+      //       message: "File uploaded and processed successfully",
+      //       chartId: data.chatId,
+      //       email: data.email,
+      //     });
+      //   } else {
+      //     res
+      //       .status(400)
+      //       .json({ success: false, message: "unable to perfrom operation" });
+      //   }
+      // });
+      // recognizer.on("error", (err) => {
+      //   console.error(err);
+      //   res.status(500).json({ error: "Failed to transcribe audio/video" });
+      // });
     } else {
       // Handle other file types (e.g., PDF, DOC, TXT)
       textract.fromFileWithPath(req.file.path, async function (error, text) {
