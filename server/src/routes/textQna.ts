@@ -106,6 +106,7 @@ router.post("/qa", async (req: Request, res: Response) => {
       return res.json({
         "ambiguous-questions":
           "question is ambiguous or answers doesn't exits in dataset",
+        answers,
       });
     }
   } catch (error) {
@@ -210,6 +211,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
       return res.json({
         "ambiguous-questions":
           "question is ambiguous or answers doesn't exits in dataset",
+        answer: chunkAnswers,
       });
     }
   } catch (error) {
