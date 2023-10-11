@@ -1,4 +1,4 @@
-# QueryMate
+# QUERYMATE
 
 ## 👩🏻‍💻 Mentor :
 
@@ -75,6 +75,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 + We ensured that we had a comprehensive understanding of what needs to be accomplished.
 + Alongside, we crafted a detailed project plan including milestones, deadlines and resource allocation.
 + We organized regular team meetings to discuss progress, address any questions or concerns, and make any necessary adjustments to the project plan.
++ Established the GitHub Repository for [QueryMate](https://github.com/VitthalGund/QueryMate) on 15th August, 2023! ⭐
 </details>
 <details>
 <summary><b>Week 05</b> : [21.08.2023 - 27.08.2023]</summary>
@@ -84,7 +85,6 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 
 + We began by configuring our development environment, which involves setting up necessary software tools, version control systems, and ensuring that all team members have access to the required resources.
 + Documenting our project is essential. Thus, we created a comprehensive initial project documentation that will encompass everything from project scope and requirements to technical specifications.
-+ We have established the GitHub Repository for [QueryMate](https://github.com/VitthalGund/QueryMate) on 15th August, 2023! ⭐
 </details>
 <details>
 <summary><b>Week 06</b> : [28.08.2023 - 03.09.2023]</summary>
