@@ -9,7 +9,7 @@
 - [Vitthal Gund](https://github.com/VitthalGund)
 - [Sarvesh Yadav](https://github.com/sarveshpyadav)
 - [Justin Fernandes](https://github.com/FernandesJustin)
-- [Ramkrushna Sahu](https://github.com/Ramkrushna12)
+- [Ramkrushna Sahu](https://github.com/Ramkrushna-Sahu)
 
 ## 📑 Project Synopsis :
 
