@@ -6,10 +6,10 @@
 
 ## 👥 Developer Team :
 
-- Vitthal Gund
-- Sarvesh Yadav
-- Justin Fernandes
-- Ramkrushna Sahu
+- [Vitthal Gund](https://github.com/VitthalGund)
+- [Sarvesh Yadav](https://github.com/sarveshpyadav)
+- [Justin Fernandes](https://github.com/FernandesJustin)
+- [Ramkrushna Sahu](https://github.com/Ramkrushna12)
 
 ## 📑 Project Synopsis :
 
