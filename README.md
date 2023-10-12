@@ -97,12 +97,17 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 + Additionally, we meticukously created wireframes, which are detailed blueprints of the user interface. These wireframes will serve as the visual foundation for our application, helping us plan the arrangement of elements and userflow.
 + Throughout this week, we encouraged iterative design and feedback from team members to ensure that the UI aligns with project goals and user expectations.
 + Now, we have a well-thought-out design before we start coding.
-</details>
+</details>r
 <details>
 <summary><b>Week 07</b> : [04.09.2023 - 10.09.2023]</summary>
 
-+ 
-+ 
+---
+🧪 DEVELOPMENT AND TESTING
+
++ With the project plan in place, we were ready to start the development process by implementing core project features.
++ We began by setting up our development environment as planned during Week 5.
++ Alongside development, we established a robust testing strategy to focus on thorough testing, including unit tests, integration tests, and user testing.
++ Monitored development progress against the project plan, ensuring that we're on track and making necessary adjustments.
 </details>
 <details>
 <summary><b>Week 08</b> : [11.09.2023 - 17.09.2023]</summary>
