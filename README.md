@@ -69,7 +69,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
 
 ---
-🔐 Finalizing Project Plan
+🔐 FINALIZING PROJECT PLAN
 
 + We reviewed and confirmed the project requirements gathered during the previous week.
 + We ensured that we had a comprehensive understanding of what needs to be accomplished.
@@ -89,8 +89,14 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <details>
 <summary><b>Week 06</b> : [28.08.2023 - 03.09.2023]</summary>
 
-+ 
-+ 
+---
+🎨 DEVELOPMENT KICK-OFF BY DESIGNING USER INTERFACE AND WIREFRAMES
+
++ We dedicated our time for designing the system architecture, user interface (UI) and creating wireframes that outline the visual structure and flow of application.
++ This included crafting visually appealing and user-friendly layouts, color schemes, and interactive elements that enhance the overall user experience.
++ Additionally, we meticukously created wireframes, which are detailed blueprints of the user interface. These wireframes will serve as the visual foundation for our application, helping us plan the arrangement of elements and userflow.
++ Throughout this week, we encouraged iterative design and feedback from team members to ensure that the UI aligns with project goals and user expectations.
++ Now, we have a well-thought-out design before we start coding.
 </details>
 <details>
 <summary><b>Week 07</b> : [04.09.2023 - 10.09.2023]</summary>
