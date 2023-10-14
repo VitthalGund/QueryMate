@@ -17,8 +17,9 @@ import cors from "cors";
 import corsOptions from "./config/corsOptions.js";
 import cookieParser from "cookie-parser";
 import { credentials } from "./middlewares/credentials.js";
-import errorHandler from "./middlewares/errorHandler.js";
+// import errorHandler from "./middlewares/errorHandler.js";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 const app = express();
 const PORT = 2000;
 
@@ -29,7 +30,15 @@ dotenv.config({
 });
 
 // Set up JSON body parsing middleware
-app.use(express.json());
+// app.use(express.json());
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: "35mb",
+    parameterLimit: 50000,
+  })
+);
 
 // Connect to MongoDB
 connectDB();
@@ -45,7 +54,7 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // built-in middleware for json
 app.use(express.json());
@@ -95,8 +104,9 @@ app.get("/", (req, res) => {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 app.use("/upload", FileProcess);
 app.use("/model", router);
+// app.use("/messages", router);
 
-app.use(errorHandler);
+// app.use(errorHandler);
 mongoose.connection.addListener("connected", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => {

@@ -5,10 +5,11 @@ import mongoose from "mongoose";
 export const textProcessing = async (req: Request, res: Response) => {
   try {
     const { passage } = req.body;
+    // console.log(passage);
     if (!passage) {
       return res.status(400).json({
         success: false,
-        error: "Missing ChatId in the request body.",
+        error: "Missing passage in the request body.",
       });
     }
     const resp = await saveToMongoDB(
@@ -18,6 +19,7 @@ export const textProcessing = async (req: Request, res: Response) => {
     );
     console.log(resp);
     if (resp.success) {
+      // console.log(resp);
       res.json({
         success: true,
         message: "File uploaded and processed successfully",

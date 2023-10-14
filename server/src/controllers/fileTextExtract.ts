@@ -47,10 +47,13 @@ import natural from "natural";
 // import jwt, { JwtPayload } from "jsonwebtoken";
 // import shortid from 'mongoose-shortid-nodeps'; // Import mongoose-shortid-nodeps
 // Import Vosk speech-to-text
-import vosk from "vosk";
+// import vosk from "vosk";
 // require("../../MLModels/vosk-model-small-en-us-0.15")
+import { loadUseModel } from "../routes/textQna.js";
+
 export const extractText = async (req: Request, res: Response) => {
   const currentChatId = new mongoose.Types.ObjectId(); // Generate a new chatId for each file
+  console.log(req.file.path);
   try {
     if (
       req.file.mimetype.startsWith("image/") ||
@@ -65,6 +68,7 @@ export const extractText = async (req: Request, res: Response) => {
           message: "File uploaded and processed successfully",
           chartId: data.chatId,
           email: data.email,
+          multi: data.multi,
         });
       } else {
         res
@@ -73,8 +77,9 @@ export const extractText = async (req: Request, res: Response) => {
       }
     } else if (req.file.mimetype.startsWith("audio/")) {
       // Handle audio or video file with Vosk speech-to-11
+      /*
       const model = new vosk.Model(
-        "../../MLModels/vosk-model-small-en-us-0.15"
+        "../../MLModels/vosk-model-small-en-us-0.15/am/final.mdl"
       );
       const recognizer = new vosk.Recognizer({ model: model });
 
@@ -94,6 +99,7 @@ export const extractText = async (req: Request, res: Response) => {
             message: "File uploaded and processed successfully",
             chartId: data.chatId,
             email: data.email,
+            multi: data.multi,
           });
         } else {
           res
@@ -106,29 +112,41 @@ export const extractText = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).json({ error: "Failed to transcribe audio/video" });
       });
+      */
     } else {
       // Handle other file types (e.g., PDF, DOC, TXT)
-      textract.fromFileWithPath(req.file.path, async function (error, text) {
-        if (error) {
-          console.error(error);
-          res.status(500).json({ error: "Failed to extract text from file" });
-        } else {
-          const data = await saveToMongoDB(text, req, currentChatId);
-          console.log("Text saved to MongoDB");
-          if (data.success) {
-            res.json({
-              success: true,
-              message: "File uploaded and processed successfully",
-              chartId: data.chatId,
-              email: data.email,
-            });
+      // textract.fromFileWithPath(req.file.path, async function (error, text) {
+      textract.fromFileWithMimeAndPath(
+        req.file.mimetype,
+        req.file.path,
+        {
+          preserveLineBreaks: true,
+          includeAltText: true,
+        },
+        async function (error, text) {
+          if (error) {
+            console.error(error);
+            res.status(500).json({ error: "Failed to extract text from file" });
           } else {
-            res
-              .status(400)
-              .json({ success: false, message: "unable to perfrom operation" });
+            const data = await saveToMongoDB(text, req, currentChatId);
+            console.log("Text saved to MongoDB");
+            if (data.success) {
+              res.json({
+                success: true,
+                message: "File uploaded and processed successfully",
+                chatId: data.chatId,
+                email: data.email,
+                multi: data.multi,
+              });
+            } else {
+              res.status(400).json({
+                success: false,
+                message: "unable to perfrom operation",
+              });
+            }
           }
         }
-      });
+      );
     }
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -143,8 +161,13 @@ export async function saveToMongoDB(
 ) {
   let chunks = [];
 
+  if (!useModel) {
+    await loadUseModel();
+  }
+
+  // console.log(text);
   // if (Buffer.from(text).length > 16 * 1024 * 1024) {
-  if (text.length >= 1000) {
+  if (text.length >= 7000) {
     // Split the text into chunks if it exceeds 16MB
     chunks = await chunkPassage(
       text,
@@ -161,8 +184,12 @@ export async function saveToMongoDB(
   //   req.headers.authorization,
   //   process.env.REFRESH_TOKEN_SECRET!
   // ) as JwtPayload;
-
+  // console.log(chunks);
   const chatResp = [];
+  let multi = false;
+  if (chunks.length > 0) {
+    multi = true;
+  }
   for (const chunk of chunks) {
     const chat = new UserChat({
       chatId: chatId,
@@ -170,6 +197,7 @@ export async function saveToMongoDB(
       // email: res.decoded["email"],
       // fileName: req.file.originalname || " ",
       passage: chunk,
+      multi,
     });
 
     chatResp.push(await chat.save());
@@ -178,5 +206,6 @@ export async function saveToMongoDB(
     success: true,
     email: chatResp[0].email,
     chatId: chatResp[0].chatId,
+    multi,
   };
 }

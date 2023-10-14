@@ -33,7 +33,7 @@ async function loadQnaModel() {
 }
 
 // Load the Universal Sentence Encoder model during server startup
-async function loadUseModel() {
+export async function loadUseModel() {
   try {
     if (!useModel && !modelsCache.get("qna")) {
       console.time("USE model load time:");
@@ -68,7 +68,7 @@ loadModels();
 // Endpoint to handle the questions: Passage size is around 500 to 1000 which around 5pages
 router.post("/qa", async (req: Request, res: Response) => {
   const { chatId, question } = req.body;
-
+  // console.log(req);
   if (!chatId) {
     return res.status(400).json({
       error: "Missing ChatId in the request body.",
@@ -79,14 +79,16 @@ router.post("/qa", async (req: Request, res: Response) => {
   const passage: string = result.passage.toString();
   if (!passage || !question) {
     return res.status(400).json({
+      success: false,
       error: "Both passage and questions are required in the request body.",
     });
   }
   console.info(passage);
   if (!modelPromise || !useModel) {
-    return res
-      .status(500)
-      .json({ error: "Models are not loaded yet. Please try again later." });
+    return res.status(500).json({
+      success: false,
+      error: "Models are not loaded yet. Please try again later.",
+    });
   }
   try {
     // Load the BERT-based question-answering model
@@ -95,18 +97,20 @@ router.post("/qa", async (req: Request, res: Response) => {
     const model = await loadQnaModel();
 
     // Find answers for each question
-    const answers = await model.findAnswers(question, passage);
-    // console.log(answers);
+    const answers: Mate[] = await model.findAnswers(question, passage);
+    console.log(answers);
     if (arrayIsEmpty(answers)) {
       // Send the most accurate 4 to 5 answers in the response
-      const topAnswers = answers.slice(0, 5);
+      const topAnswers: Mate[] = answers.slice(0, 5);
       console.log("response sent");
-      return res.json({ answers: topAnswers });
+      const data = await saveToMongoDB(question, answers, chatId);
+      return res.json({ success: true, answers: topAnswers, Date: data.Date });
     } else {
       return res.json({
         "ambiguous-questions":
           "question is ambiguous or answers doesn't exits in dataset",
         answers,
+        success: false,
       });
     }
   } catch (error) {
@@ -120,8 +124,10 @@ router.post("/qa", async (req: Request, res: Response) => {
 // Endpoint to handle long passage questions: Passage size is around 4000 to 5000 which around 11 to 20 pages
 router.post("/qalong", async (req: Request, res: Response) => {
   const { chatId, question } = req.body;
+  console.log(req.body);
   if (!chatId) {
     return res.status(400).json({
+      success: false,
       error: "Missing ChatId in the request body.",
     });
   }
@@ -132,14 +138,16 @@ router.post("/qalong", async (req: Request, res: Response) => {
 
   if (!processChunks || !question) {
     return res.status(400).json({
+      success: false,
       error: "Both passage and questions are required in the request body.",
     });
   }
 
   if (!modelPromise || !useModel) {
-    return res
-      .status(500)
-      .json({ error: "Models are not loaded yet. Please try again later." });
+    return res.status(500).json({
+      success: false,
+      error: "Models are not loaded yet. Please try again later.",
+    });
   }
 
   try {
@@ -205,8 +213,12 @@ router.post("/qalong", async (req: Request, res: Response) => {
       // Sort answers by confidence score and send the most accurate 4 to 5 answers in the response
       // const topAnswers = rankedAnswers.sort((a, b) => a.score - b.score).slice(0, 5);
       console.log("response sent");
-      await saveToMongoDB(question, rankedAnswers, chatId);
-      return res.json({ answers: rankedAnswers });
+      const data = await saveToMongoDB(question, rankedAnswers, chatId);
+      return res.json({
+        success: true,
+        answers: rankedAnswers,
+        Date: data.Date,
+      });
     } else {
       return res.json({
         "ambiguous-questions":
@@ -232,7 +244,7 @@ async function saveToMongoDB(
     question,
     response,
   });
-  await chat.save();
+  return await chat.save();
 }
 // Endpoint to handle user feedback {have bugs}
 /*
