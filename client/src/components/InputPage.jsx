@@ -50,10 +50,9 @@ export default function InputPage() {
                 requestData.append('file', fileInputRef.current?.files[0], fileName);
             } else {
                 uploadRoute += 'text';
-                requestData += { passage: value };
             }
             console.log(requestData)
-            const response = await axios.post(`${uploadRoute}`, requestData, {
+            const response = await axios.post(`${uploadRoute}`, requestData == null ? { passage: textAreaRef.current.value } : requestData, {
                 'Content-Type': textInputDisable ? 'application/json' : 'multipart/form-data',
             });
             if (response.data.success) {

@@ -10,8 +10,7 @@ function ChatPage() {
     const route = useNavigate();
     const [question, setQuestion] = useState("");
     // const query = useRef(null);
-    let { chatId, multi } = useContext(ChatContext);
-    chatId = "65277207f56c4305f288e967"
+    const { chatId, multi } = useContext(ChatContext);
     const [info, setInfo] = useState([{
         mate: "QueryMate",
         text: "Hello! I am your QueryMate assistant. I am here to help you with any question you may have regarding the provided curpus",
@@ -29,39 +28,9 @@ function ChatPage() {
         return `${h.slice(-2)}:${m.slice(-2)}`;
     }
 
-    // function getLocalStorageItem(key) {
-    //     const item = localStorage.getItem(key);
-    //     if (item === null) {
-    //         return undefined;
-    //     }
-
-    //     try {
-    //         return JSON.parse(item);
-    //     } catch (e) {
-    //         return undefined;
-    //     }
-    // }
-
-    // let [storage, setStorage] = useState(getLocalStorageItem("message"));
-
-    // if (!storage) {
-    //     setStorage([{
-    //         mate: "🛡️QueryMate",
-    //         text: "Hey, Welcome to QueryMate",
-    //         date: formatDate(new Date()),
-    //         img: "https://api.multiavatar.com/QueryMate.png",
-    //         side: "start"
-    //     }])
-    //     localStorage.setItem("message", storage);
-    // }
-    function isEqual(obj1, obj2) {
-        // Compare objects based on their "id" property
-        return obj1.text === obj2.text;
-    }
-
     function addObjectToArrayIfNotExists(array, objectToAdd) {
         // Check if the object exists in the array
-        const exists = array.some(item => isEqual(item, objectToAdd));
+        const exists = array.some(item => item.text === objectToAdd.text);
 
         // If it doesn't exist, add it to the array
         if (!exists) {
@@ -70,10 +39,42 @@ function ChatPage() {
         return array;
     }
 
+    const scrollToBottom = () => {
+        const chat = document.getElementById("chatList");
+        chat.scrollTop = chat.scrollHeight;
+    };
+
+    const getConveration = async () => {
+        const response = await axios.post("http://localhost:2000/messages", { chatId });
+        console.log(response.data.messages)
+        let update = []
+        for (let index = 0; index < response.data.messages.length; index++) {
+            const element = response.data.messages[index];
+            update = addObjectToArrayIfNotExists(info, {
+                mate: "Mate",
+                img: `https://api.multiavatar.com/Mate.png`,
+                text: element.question,
+                date: element.Date,
+                side: "end"
+            });
+            for (let index = 0; index < element.response.length; index++) {
+                const ans = element.response[index];
+                update += addObjectToArrayIfNotExists(info, {
+                    mate: "Mate",
+                    img: `https://api.multiavatar.com/Mate.png`,
+                    text: ans,
+                    date: ans,
+                    side: "start"
+                });
+            }
+        }
+        setInfo([...info, ...update])
+
+    }
 
     const onSubmit = async () => {
         if (question !== "") {
-            toast.loading("Finding the Mate!")
+            let id = toast.loading("Finding the Mate!")
             setInfo(addObjectToArrayIfNotExists(info, {
                 mate: "Mate",
                 text: question,
@@ -84,23 +85,30 @@ function ChatPage() {
             setQuestion("");
             const resp = await axios.post(path, { chatId, question });
             try {
-                console.log(resp)
                 if (resp.data.success) {
                     toast.success("We found it😎!")
-                    resp.data.answers.map((item) => {
-                        setInfo(addObjectToArrayIfNotExists(info, {
+                    let update = {}
+                    for (let index = 0; index < resp.data.answers.length; index++) {
+                        const element = resp.data.answers[index];
+                        update = addObjectToArrayIfNotExists(info, {
                             mate: "Mate",
                             img: `https://api.multiavatar.com/Mate.png`,
-                            text: item.answer,
-                            date: formatDate(new Date),
+                            text: element.text,
+                            date: resp.data.Date,
                             side: "start"
-                        }))
-                    })
+                        });
+                    }
+                    setInfo([...update]);
+                    console.log(info)
+                    scrollToBottom();
                 } else {
-                    toast.success(resp.data.message)
+                    toast.error(resp.data.message)
                 }
             } catch (error) {
                 toast.error(error.message);
+                toast.dismiss(id);
+            } finally {
+                toast.dismiss(id);
             }
         }
     }
@@ -109,7 +117,9 @@ function ChatPage() {
         if (chatId === "" || chatId === undefined) {
             route("/")
         }
-    }, [chatId, route])
+        getConveration()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chatId])
 
     return (
         <>
@@ -125,12 +135,10 @@ function ChatPage() {
                     <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate(Lite) - Your Helping Hand😊</h1>
                 </div>
                 <div className="flex-grow overflow-y-auto">
-                    <div className="flex flex-col space-y-2 p-4">
-
-                        {info ? info.map(item => {
-                            return <Chat key={item.date} mate={item.mate} text={item.text} side={item.side} img={item.img} />
-                        }) : ""
-                        }
+                    <div className="flex flex-col space-y-2 p-4" id='chatList'>
+                        {info.map((item, idx) => {
+                            return (<Chat key={idx} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
+                        })}
                     </div>
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
