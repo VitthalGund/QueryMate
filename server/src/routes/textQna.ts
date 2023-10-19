@@ -80,14 +80,14 @@ router.post("/qa", async (req: Request, res: Response) => {
   if (!passage || !question) {
     return res.status(400).json({
       success: false,
-      error: "Both passage and questions are required in the request body.",
+      message: "Both passage and questions are required in the request body.",
     });
   }
   console.info(passage);
   if (!modelPromise || !useModel) {
     return res.status(500).json({
       success: false,
-      error: "Models are not loaded yet. Please try again later.",
+      message: "Models are not loaded yet. Please try again later.",
     });
   }
   try {
@@ -96,19 +96,47 @@ router.post("/qa", async (req: Request, res: Response) => {
     console.log("Models");
     const model = await loadQnaModel();
 
+    // Encode the input question and passage using the Universal Sentence Encoder
+    const questionEmbedding: tf.Tensor2D = await useModel.embed(question);
+    const passageEmbedding: tf.Tensor2D = await useModel.embed(passage);
+
     // Find answers for each question
     const answers: Mate[] = await model.findAnswers(question, passage);
     console.log(answers);
     if (arrayIsEmpty(answers)) {
       // Send the most accurate 4 to 5 answers in the response
-      const topAnswers: Mate[] = answers.slice(0, 5);
+      const rankedAnswersPromises = answers.map(async (answer) => {
+        const answerEmbeddingPromise: Promise<tf.Tensor2D> = useModel.embed(
+          answer.text
+        );
+        const answerEmbedding: Tensor<Rank.R2> = await answerEmbeddingPromise;
+        const questionSimilarityScore = tf.losses
+          .cosineDistance(questionEmbedding, answerEmbedding, 0)
+          .toFloat();
+        const passageSimilarityScore: tf.Tensor<tf.Rank> = tf.losses
+          .cosineDistance(passageEmbedding, answerEmbedding, 0)
+          .toFloat();
+
+        const similarityScore: Tensor<Rank> = questionSimilarityScore
+          .add(passageSimilarityScore.toFloat())
+          .div(2);
+
+        return { ...answer, similarityScore: similarityScore };
+      });
+
+      const rankedAnswers = await Promise.all(rankedAnswersPromises);
+      // Sort answers by confidence score and send the most accurate 4 to 5 answers in the response
+      // const topAnswers = rankedAnswers.sort((a, b) => a.score - b.score).slice(0, 5);
       console.log("response sent");
       const data = await saveToMongoDB(question, answers, chatId);
-      return res.json({ success: true, answers: topAnswers, Date: data.Date });
+      return res.json({
+        success: true,
+        answers: rankedAnswers,
+        Date: data.Date,
+      });
     } else {
       return res.json({
-        "ambiguous-questions":
-          "question is ambiguous or answers doesn't exits in dataset",
+        message: "question is ambiguous or answers doesn't exits in dataset",
         answers,
         success: false,
       });
@@ -128,7 +156,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
   if (!chatId) {
     return res.status(400).json({
       success: false,
-      error: "Missing ChatId in the request body.",
+      messgae: "Missing ChatId in the request body.",
     });
   }
 
@@ -139,14 +167,14 @@ router.post("/qalong", async (req: Request, res: Response) => {
   if (!processChunks || !question) {
     return res.status(400).json({
       success: false,
-      error: "Both passage and questions are required in the request body.",
+      message: "Both passage and questions are required in the request body.",
     });
   }
 
   if (!modelPromise || !useModel) {
     return res.status(500).json({
       success: false,
-      error: "Models are not loaded yet. Please try again later.",
+      message: "Models are not loaded yet. Please try again later.",
     });
   }
 
@@ -216,13 +244,12 @@ router.post("/qalong", async (req: Request, res: Response) => {
       const data = await saveToMongoDB(question, rankedAnswers, chatId);
       return res.json({
         success: true,
-        answers: rankedAnswers,
+        answers: rankedAnswers.sort(),
         Date: data.Date,
       });
     } else {
       return res.json({
-        "ambiguous-questions":
-          "question is ambiguous or answers doesn't exits in dataset",
+        message: "question is ambiguous or answers doesn't exits in dataset",
         answer: chunkAnswers,
       });
     }
@@ -236,13 +263,18 @@ router.post("/qalong", async (req: Request, res: Response) => {
 
 async function saveToMongoDB(
   question: string,
-  response: Mate | Mate[],
+  response: Mate[],
   chatId: mongoose.Types.ObjectId
 ) {
+  const answer: string[] = [];
+  for (let index = 0; index < response.length; index++) {
+    const element = response[index];
+    answer.push(element.text);
+  }
   const chat = new ChatMessage({
     chatId: chatId,
     question,
-    response,
+    response: answer,
   });
   return await chat.save();
 }

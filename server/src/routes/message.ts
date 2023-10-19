@@ -13,3 +13,5 @@ router.post("/", async (req: express.Request, res: express.Response) => {
   const response = await ChatMessage.find({ chatId });
   res.json({ messages: response });
 });
+
+export default router;

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { saveToMongoDB } from "./fileTextExtract.js";
+import { saveToMongoDB } from "../utils/database.js";
 import mongoose from "mongoose";
 
 export const textProcessing = async (req: Request, res: Response) => {

@@ -37,26 +37,18 @@ export const extractText = async (req: Request, res: Response) => {
 };
 */
 import textract from "textract";
-import { UserChat } from "../models/Chat.js";
 // import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response } from "express";
-import Tesseract from "tesseract.js";
-import { chunkPassage } from "../utils/passage.js"; // Import the chunking function
 import mongoose from "mongoose";
-import { useModel } from "../routes/textQna.js";
-import natural from "natural";
+import Tesseract from "tesseract.js";
 // import jwt, { JwtPayload } from "jsonwebtoken";
-// import shortid from 'mongoose-shortid-nodeps'; // Import mongoose-shortid-nodeps
-// Import Vosk speech-to-text
-import vosk from "vosk";
-// require("../../MLModels/vosk-model-small-en-us-0.15")
-import { loadUseModel } from "../routes/textQna.js";
 
-// import deepspeech from "deepspeech";
-import fs from "fs";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import stt from "stt";
-import { exec } from "child_process";
+import { saveToMongoDB } from "../utils/database.js";
+import {
+  extractAudioFromVideo,
+  extractTextFromAudio,
+  extractTextFromVideo,
+} from "../utils/extractText.js";
 
 export const extractText = async (req: Request, res: Response) => {
   const currentChatId = new mongoose.Types.ObjectId(); // Generate a new chatId for each file
@@ -141,154 +133,3 @@ export const extractText = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
-// Function to save text data to MongoDB
-export async function saveToMongoDB(
-  text: string,
-  req: Request,
-  chatId: mongoose.Types.ObjectId
-) {
-  let chunks = [];
-
-  if (!useModel) {
-    await loadUseModel();
-  }
-
-  // console.log(text);
-  // if (Buffer.from(text).length > 16 * 1024 * 1024) {
-  if (text.length >= 4000) {
-    // Split the text into chunks if it exceeds 16MB
-    chunks = await chunkPassage(
-      text,
-      500,
-      0.8,
-      useModel,
-      new natural.SentenceTokenizer()
-    );
-  } else {
-    chunks.push(text);
-  }
-
-  // const res: JwtPayload = jwt.verify(
-  //   req.headers.authorization,
-  //   process.env.REFRESH_TOKEN_SECRET!
-  // ) as JwtPayload;
-  // console.log(chunks);
-  const chatResp = [];
-  let multi = false;
-  if (chunks.length > 0) {
-    multi = true;
-  }
-  for (const chunk of chunks) {
-    const chat = new UserChat({
-      chatId: chatId,
-      title: text.slice(0, 10),
-      // email: res.decoded["email"],
-      // fileName: req.file.originalname || " ",
-      passage: chunk,
-      multi,
-    });
-
-    chatResp.push(await chat.save());
-  }
-  return {
-    email: chatResp[0].email,
-    chatId: chatResp[0].chatId,
-    multi,
-  };
-}
-
-async function extractTextFromAudio(audioBuffer: Buffer) {
-  try {
-    // Initialize Vosk model
-    const model = new vosk.Model("../../MLModels/vosk-model-small-en-in-0.4");
-
-    // Perform speech-to-text using Vosk
-    const recognizer = new vosk.Recognizer({ model: model });
-    recognizer.acceptWaveform(audioBuffer);
-
-    const text = recognizer.result();
-    return { text, success: true };
-  } catch (error) {
-    console.error("Error transcribing audio:", error);
-    return { success: false };
-  }
-}
-// Function to extract audio from a video and return it as a buffer
-async function extractAudioFromVideo(videoPath: string): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
-    const audioData: Uint8Array[] = [];
-
-    // FFmpeg command to extract audio as a raw PCM stream
-    const ffmpegCmd = `ffmpeg -i ${videoPath} -f s16le -acodec pcm_s16le -ar 44100 -ac 2 pipe:1`;
-
-    const process = exec(ffmpegCmd);
-
-    process.on("error", (error) => {
-      reject(error);
-    });
-
-    process.on("exit", (code) => {
-      if (code === 0) {
-        const audioBuffer = Buffer.concat(audioData);
-        resolve(audioBuffer);
-      } else {
-        reject(new Error("Failed to extract audio from video."));
-      }
-    });
-
-    process.stdout.on("data", (chunk) => {
-      audioData.push(new Uint8Array(chunk));
-    });
-  });
-}
-
-// Function to extract text from a video frame using Tesseract.js
-async function extractTextFromVideoFrame(
-  frameImagePath: string
-): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    Tesseract.recognize(frameImagePath)
-      .then(({ data: { text } }) => {
-        resolve(text);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
-// Function to extract text from a video using Tesseract.js
-async function extractTextFromVideo(videoPath) {
-  return new Promise((resolve, reject) => {
-    const framesDirectory = "/path/to/frames"; // Directory to store extracted frames
-
-    // Extract frames from the video
-    const frameCmd = `ffmpeg -i ${videoPath} -vf "fps=1" ${framesDirectory}/frame-%04d.png`;
-
-    exec(frameCmd, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        const uniqueTextSet = new Set(); // Store unique text content
-
-        // Process each frame using Tesseract.js
-        fs.readdir(framesDirectory, async (err, files) => {
-          if (err) {
-            reject(err);
-          }
-
-          for (const file of files) {
-            const frameImagePath = `${framesDirectory}/${file}`;
-            const frameText = await extractTextFromVideoFrame(frameImagePath);
-            uniqueTextSet.add(frameText); // Store unique text in the set
-          }
-
-          const uniqueTextArray = Array.from(uniqueTextSet); // Convert to an array
-          const fullText = uniqueTextArray.join("\n");
-          resolve(fullText);
-        });
-      }
-    });
-  });
-}

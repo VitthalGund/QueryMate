@@ -11,6 +11,7 @@ import ForgotPassword from "./routes/forgotPassword.js";
 import UserInfo from "./routes/userinfo.js";
 */
 import FileProcess from "./routes/toText.js";
+import GetMessage from "./routes/message.js";
 import connectDB from "./config/dbConn.js";
 // import { logger } from "./middlewares/logEvents.js";
 import cors from "cors";
@@ -104,7 +105,7 @@ app.get("/", (req, res) => {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 app.use("/upload", FileProcess);
 app.use("/model", router);
-// app.use("/messages", router);
+app.use("/messages", GetMessage);
 
 // app.use(errorHandler);
 mongoose.connection.addListener("connected", () => {
