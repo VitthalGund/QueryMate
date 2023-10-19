@@ -18,19 +18,13 @@ export const textProcessing = async (req: Request, res: Response) => {
       new mongoose.Types.ObjectId()
     );
     console.log(resp);
-    if (resp.success) {
-      // console.log(resp);
-      res.json({
-        success: true,
-        message: "File uploaded and processed successfully",
-        chartId: resp.chatId,
-        email: resp.email,
-      });
-    } else {
-      res
-        .status(400)
-        .json({ success: false, message: "unable to perfrom operation" });
-    }
+    // console.log(resp);
+    res.json({
+      success: true,
+      message: "File uploaded and processed successfully",
+      chartId: resp.chatId,
+      email: resp.email,
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

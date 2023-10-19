@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 /*
 export const extractText = async (req: Request, res: Response) => {
   textract.fromFileWithPath(
@@ -51,68 +52,63 @@ import natural from "natural";
 // require("../../MLModels/vosk-model-small-en-us-0.15")
 import { loadUseModel } from "../routes/textQna.js";
 
+import deepspeech from "deepspeech";
+import fs from "fs";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import stt from "stt";
+import { exec } from "child_process";
+
 export const extractText = async (req: Request, res: Response) => {
   const currentChatId = new mongoose.Types.ObjectId(); // Generate a new chatId for each file
   console.log(req.file.path);
   try {
-    if (
-      req.file.mimetype.startsWith("image/") ||
-      req.file.mimetype.startsWith("video/")
-    ) {
+    if (req.file.mimetype.startsWith("image/")) {
       // Handle image file
       const result = await Tesseract.recognize(req.file.path);
       const data = await saveToMongoDB(result.data.text, req, currentChatId);
-      if (data.success) {
-        res.status(200).json({
+      res.status(200).json({
+        success: true,
+        message: "File uploaded and processed successfully",
+        chartId: data.chatId,
+        email: data.email,
+        multi: data.multi,
+      });
+    } else if (req.file.mimetype.startsWith("audio/")) {
+      const textOutput = await extractTextFromAudio(req.file.buffer);
+      if (textOutput.success) {
+        const data = await saveToMongoDB(textOutput.text, req, currentChatId);
+        res.json({
           success: true,
           message: "File uploaded and processed successfully",
-          chartId: data.chatId,
+          chatId: data.chatId,
           email: data.email,
           multi: data.multi,
         });
       } else {
-        res
-          .status(400)
-          .json({ success: false, message: "unable to perfrom operation" });
+        res.status(400).json({
+          success: false,
+          message: "unable to perfrom operation",
+        });
       }
-    } else if (req.file.mimetype.startsWith("audio/")) {
-      // Handle audio or video file with Vosk speech-to-11
-      /*
-      const model = new vosk.Model(
-        "../../MLModels/vosk-model-small-en-us-0.15/am/final.mdl"
+    } else if (req.file.mimetype.startsWith("video/")) {
+      const audio = extractAudioFromVideo(req.file.path);
+      const videoText = extractTextFromVideo(req.file.path);
+      const output = await Promise.all([audio, videoText]);
+      const audioText = await extractTextFromAudio(output[0]);
+      const resp = await saveToMongoDB(
+        audioText + "\n" + videoText,
+        req,
+        currentChatId
       );
-      const recognizer = new vosk.Recognizer({ model: model });
-
-      recognizer.write(req.file.buffer);
-      recognizer.end();
-      const data = recognizer.on("data", async (data: { text: string }) => {
-        // Handle recognized text data
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        return await saveToMongoDB(data.text, req, currentChatId);
+      // Error handling needed to implement.
+      console.log("Text saved to MongoDB");
+      res.json({
+        success: true,
+        message: "File uploaded and processed successfully",
+        chatId: resp.chatId,
+        email: resp.email,
+        multi: resp.multi,
       });
-
-      recognizer.on("end", () => {
-        console.log("Speech recognition finished");
-        if (data.success) {
-          res.status(200).json({
-            success: true,
-            message: "File uploaded and processed successfully",
-            chartId: data.chatId,
-            email: data.email,
-            multi: data.multi,
-          });
-        } else {
-          res
-            .status(400)
-            .json({ success: false, message: "unable to perfrom operation" });
-        }
-      });
-
-      recognizer.on("error", (err) => {
-        console.error(err);
-        res.status(500).json({ error: "Failed to transcribe audio/video" });
-      });
-      */
     } else {
       // Handle other file types (e.g., PDF, DOC, TXT)
       // textract.fromFileWithPath(req.file.path, async function (error, text) {
@@ -130,20 +126,13 @@ export const extractText = async (req: Request, res: Response) => {
           } else {
             const data = await saveToMongoDB(text, req, currentChatId);
             console.log("Text saved to MongoDB");
-            if (data.success) {
-              res.json({
-                success: true,
-                message: "File uploaded and processed successfully",
-                chatId: data.chatId,
-                email: data.email,
-                multi: data.multi,
-              });
-            } else {
-              res.status(400).json({
-                success: false,
-                message: "unable to perfrom operation",
-              });
-            }
+            res.json({
+              success: true,
+              message: "File uploaded and processed successfully",
+              chatId: data.chatId,
+              email: data.email,
+              multi: data.multi,
+            });
           }
         }
       );
@@ -167,7 +156,7 @@ export async function saveToMongoDB(
 
   // console.log(text);
   // if (Buffer.from(text).length > 16 * 1024 * 1024) {
-  if (text.length >= 7000) {
+  if (text.length >= 4000) {
     // Split the text into chunks if it exceeds 16MB
     chunks = await chunkPassage(
       text,
@@ -203,9 +192,109 @@ export async function saveToMongoDB(
     chatResp.push(await chat.save());
   }
   return {
-    success: true,
     email: chatResp[0].email,
     chatId: chatResp[0].chatId,
     multi,
   };
+}
+
+export const extractTextFromAudio = async (
+  audioBuffer: Buffer
+): Promise<{ text?: string; success: boolean }> => {
+  try {
+    // Initialize DeepSpeech model
+    const modelPath = "../../MLModels/DeepSpeech/deepspeech-0.9.3-models.pbmm"; // Replace with the path to your DeepSpeech model directory
+    const scorerPath =
+      "../../MLModels/DeepSpeech/deepspeech-0.9.3-models.scorer";
+    // Replace with the path to your DeepSpeech model directory
+    const model = new deepspeech.Model(modelPath);
+    model.enableExternalScorer(scorerPath);
+
+    // Perform speech-to-text using DeepSpeech with the identified sample rate
+    const text = model.stt(audioBuffer);
+
+    return { text, success: true };
+  } catch (error) {
+    console.error("Error transcribing audio:", error);
+    return { success: false };
+  }
+};
+
+// Function to extract audio from a video and return it as a buffer
+async function extractAudioFromVideo(videoPath: string): Promise<Buffer> {
+  return new Promise<Buffer>((resolve, reject) => {
+    const audioData: Uint8Array[] = [];
+
+    // FFmpeg command to extract audio as a raw PCM stream
+    const ffmpegCmd = `ffmpeg -i ${videoPath} -f s16le -acodec pcm_s16le -ar 44100 -ac 2 pipe:1`;
+
+    const process = exec(ffmpegCmd);
+
+    process.on("error", (error) => {
+      reject(error);
+    });
+
+    process.on("exit", (code) => {
+      if (code === 0) {
+        const audioBuffer = Buffer.concat(audioData);
+        resolve(audioBuffer);
+      } else {
+        reject(new Error("Failed to extract audio from video."));
+      }
+    });
+
+    process.stdout.on("data", (chunk) => {
+      audioData.push(new Uint8Array(chunk));
+    });
+  });
+}
+
+// Function to extract text from a video frame using Tesseract.js
+async function extractTextFromVideoFrame(
+  frameImagePath: string
+): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    Tesseract.recognize(frameImagePath)
+      .then(({ data: { text } }) => {
+        resolve(text);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Function to extract text from a video using Tesseract.js
+async function extractTextFromVideo(videoPath) {
+  return new Promise((resolve, reject) => {
+    const framesDirectory = "/path/to/frames"; // Directory to store extracted frames
+
+    // Extract frames from the video
+    const frameCmd = `ffmpeg -i ${videoPath} -vf "fps=1" ${framesDirectory}/frame-%04d.png`;
+
+    exec(frameCmd, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        const uniqueTextSet = new Set(); // Store unique text content
+
+        // Process each frame using Tesseract.js
+        fs.readdir(framesDirectory, async (err, files) => {
+          if (err) {
+            reject(err);
+          }
+
+          for (const file of files) {
+            const frameImagePath = `${framesDirectory}/${file}`;
+            const frameText = await extractTextFromVideoFrame(frameImagePath);
+            uniqueTextSet.add(frameText); // Store unique text in the set
+          }
+
+          const uniqueTextArray = Array.from(uniqueTextSet); // Convert to an array
+          const fullText = uniqueTextArray.join("\n");
+          resolve(fullText);
+        });
+      }
+    });
+  });
 }
