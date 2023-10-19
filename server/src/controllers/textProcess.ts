@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
-import { saveToMongoDB } from "./fileTextExtract.js";
+import { saveToMongoDB } from "../utils/database.js";
 import mongoose from "mongoose";
 
 export const textProcessing = async (req: Request, res: Response) => {
   try {
     const { passage } = req.body;
+    // console.log(passage);
     if (!passage) {
       return res.status(400).json({
         success: false,
-        error: "Missing ChatId in the request body.",
+        error: "Missing passage in the request body.",
       });
     }
     const resp = await saveToMongoDB(
@@ -16,18 +17,14 @@ export const textProcessing = async (req: Request, res: Response) => {
       req,
       new mongoose.Types.ObjectId()
     );
-    if (resp.success) {
-      res.json({
-        success: true,
-        message: "File uploaded and processed successfully",
-        chartId: resp.chatId,
-        email: resp.email,
-      });
-    } else {
-      res
-        .status(400)
-        .json({ success: false, message: "unable to perfrom operation" });
-    }
+    console.log(resp);
+    // console.log(resp);
+    res.json({
+      success: true,
+      message: "File uploaded and processed successfully",
+      chartId: resp.chatId,
+      email: resp.email,
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

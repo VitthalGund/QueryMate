@@ -10,11 +10,11 @@ const Chat = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   fileName: {
     type: String,
-    required: true,
+    default: "NO File",
   },
   passage: {
     type: String,

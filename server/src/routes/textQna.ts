@@ -33,7 +33,7 @@ async function loadQnaModel() {
 }
 
 // Load the Universal Sentence Encoder model during server startup
-async function loadUseModel() {
+export async function loadUseModel() {
   try {
     if (!useModel && !modelsCache.get("qna")) {
       console.time("USE model load time:");
@@ -68,7 +68,7 @@ loadModels();
 // Endpoint to handle the questions: Passage size is around 500 to 1000 which around 5pages
 router.post("/qa", async (req: Request, res: Response) => {
   const { chatId, question } = req.body;
-
+  // console.log(req);
   if (!chatId) {
     return res.status(400).json({
       error: "Missing ChatId in the request body.",
@@ -79,14 +79,16 @@ router.post("/qa", async (req: Request, res: Response) => {
   const passage: string = result.passage.toString();
   if (!passage || !question) {
     return res.status(400).json({
-      error: "Both passage and questions are required in the request body.",
+      success: false,
+      message: "Both passage and questions are required in the request body.",
     });
   }
-
+  console.info(passage);
   if (!modelPromise || !useModel) {
-    return res
-      .status(500)
-      .json({ error: "Models are not loaded yet. Please try again later." });
+    return res.status(500).json({
+      success: false,
+      message: "Models are not loaded yet. Please try again later.",
+    });
   }
   try {
     // Load the BERT-based question-answering model
@@ -94,18 +96,49 @@ router.post("/qa", async (req: Request, res: Response) => {
     console.log("Models");
     const model = await loadQnaModel();
 
+    // Encode the input question and passage using the Universal Sentence Encoder
+    const questionEmbedding: tf.Tensor2D = await useModel.embed(question);
+    const passageEmbedding: tf.Tensor2D = await useModel.embed(passage);
+
     // Find answers for each question
-    const answers = await model.findAnswers(question, passage);
+    const answers: Mate[] = await model.findAnswers(question, passage);
+    console.log(answers);
     if (arrayIsEmpty(answers)) {
       // Send the most accurate 4 to 5 answers in the response
-      const topAnswers = answers.slice(0, 5);
+      const rankedAnswersPromises = answers.map(async (answer) => {
+        const answerEmbeddingPromise: Promise<tf.Tensor2D> = useModel.embed(
+          answer.text
+        );
+        const answerEmbedding: Tensor<Rank.R2> = await answerEmbeddingPromise;
+        const questionSimilarityScore = tf.losses
+          .cosineDistance(questionEmbedding, answerEmbedding, 0)
+          .toFloat();
+        const passageSimilarityScore: tf.Tensor<tf.Rank> = tf.losses
+          .cosineDistance(passageEmbedding, answerEmbedding, 0)
+          .toFloat();
+
+        const similarityScore: Tensor<Rank> = questionSimilarityScore
+          .add(passageSimilarityScore.toFloat())
+          .div(2);
+
+        return { ...answer, similarityScore: similarityScore };
+      });
+
+      const rankedAnswers = await Promise.all(rankedAnswersPromises);
+      // Sort answers by confidence score and send the most accurate 4 to 5 answers in the response
+      // const topAnswers = rankedAnswers.sort((a, b) => a.score - b.score).slice(0, 5);
       console.log("response sent");
-      return res.json({ answers: topAnswers });
+      const data = await saveToMongoDB(question, answers, chatId);
+      return res.json({
+        success: true,
+        answers: rankedAnswers,
+        Date: data.Date,
+      });
     } else {
       return res.json({
-        "ambiguous-questions":
-          "question is ambiguous or answers doesn't exits in dataset",
+        message: "question is ambiguous or answers doesn't exits in dataset",
         answers,
+        success: false,
       });
     }
   } catch (error) {
@@ -119,9 +152,11 @@ router.post("/qa", async (req: Request, res: Response) => {
 // Endpoint to handle long passage questions: Passage size is around 4000 to 5000 which around 11 to 20 pages
 router.post("/qalong", async (req: Request, res: Response) => {
   const { chatId, question } = req.body;
+  console.log(req.body);
   if (!chatId) {
     return res.status(400).json({
-      error: "Missing ChatId in the request body.",
+      success: false,
+      messgae: "Missing ChatId in the request body.",
     });
   }
 
@@ -131,14 +166,16 @@ router.post("/qalong", async (req: Request, res: Response) => {
 
   if (!processChunks || !question) {
     return res.status(400).json({
-      error: "Both passage and questions are required in the request body.",
+      success: false,
+      message: "Both passage and questions are required in the request body.",
     });
   }
 
   if (!modelPromise || !useModel) {
-    return res
-      .status(500)
-      .json({ error: "Models are not loaded yet. Please try again later." });
+    return res.status(500).json({
+      success: false,
+      message: "Models are not loaded yet. Please try again later.",
+    });
   }
 
   try {
@@ -204,12 +241,15 @@ router.post("/qalong", async (req: Request, res: Response) => {
       // Sort answers by confidence score and send the most accurate 4 to 5 answers in the response
       // const topAnswers = rankedAnswers.sort((a, b) => a.score - b.score).slice(0, 5);
       console.log("response sent");
-      await saveToMongoDB(question, rankedAnswers, chatId);
-      return res.json({ answers: rankedAnswers });
+      const data = await saveToMongoDB(question, rankedAnswers, chatId);
+      return res.json({
+        success: true,
+        answers: rankedAnswers.sort(),
+        Date: data.Date,
+      });
     } else {
       return res.json({
-        "ambiguous-questions":
-          "question is ambiguous or answers doesn't exits in dataset",
+        message: "question is ambiguous or answers doesn't exits in dataset",
         answer: chunkAnswers,
       });
     }
@@ -223,15 +263,20 @@ router.post("/qalong", async (req: Request, res: Response) => {
 
 async function saveToMongoDB(
   question: string,
-  response: Mate | Mate[],
+  response: Mate[],
   chatId: mongoose.Types.ObjectId
 ) {
+  const answer: string[] = [];
+  for (let index = 0; index < response.length; index++) {
+    const element = response[index];
+    answer.push(element.text);
+  }
   const chat = new ChatMessage({
     chatId: chatId,
     question,
-    response,
+    response: answer,
   });
-  await chat.save();
+  return await chat.save();
 }
 // Endpoint to handle user feedback {have bugs}
 /*
