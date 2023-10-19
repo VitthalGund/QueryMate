@@ -1,15 +1,14 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { router } from "./routes/textQna.js";
-// import { verifyJWT } from "./middlewares/verifyJWT.js";
-/*
+import { verifyJWT } from "./middlewares/verifyJWT.js";
 import Register from "./routes/resgister.js";
 import Auth from "./routes/auth.js";
 import Refresh from "./routes/refresh.js";
 import Logout from "./routes/logout.js";
 import ForgotPassword from "./routes/forgotPassword.js";
 import UserInfo from "./routes/userinfo.js";
-*/
+
 import FileProcess from "./routes/toText.js";
 import GetMessage from "./routes/message.js";
 import connectDB from "./config/dbConn.js";
@@ -87,7 +86,7 @@ app.use(function (
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // app.use("/test", require("./routes/imageQna"));
 // routes
-/*
+
 app.use("/register", Register);
 app.use("/auth", Auth);
 app.use("/refresh", Refresh);
@@ -96,12 +95,11 @@ app.use("/password", ForgotPassword);
 app.get("/", (req, res) => {
   res.send("Welcome to Qna Boat");
 });
-*/
 
 // app.use("/sendmail", require("./routes/email")); //TODO
-// app.use(verifyJWT);
+app.use(verifyJWT);
 // app.use("/users", require("./routes/api/users"));
-// app.use("/userinfo", UserInfo);
+app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 app.use("/upload", FileProcess);
 app.use("/model", router);

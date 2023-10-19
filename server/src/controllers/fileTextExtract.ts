@@ -41,8 +41,6 @@ import textract from "textract";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Tesseract from "tesseract.js";
-// import jwt, { JwtPayload } from "jsonwebtoken";
-
 import { saveToMongoDB } from "../utils/database.js";
 import {
   extractAudioFromVideo,

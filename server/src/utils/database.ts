@@ -5,6 +5,8 @@ import natural from "natural";
 import { UserChat } from "../models/Chat.js";
 import express from "express";
 
+// import jwt, { JwtPayload } from "jsonwebtoken";
+
 // Function to save text data to MongoDB
 export async function saveToMongoDB(
   text: string,
