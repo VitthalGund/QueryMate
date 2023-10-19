@@ -101,9 +101,9 @@ app.use(verifyJWT);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-app.use("/upload", FileProcess);
 app.use("/model", router);
 app.use("/messages", GetMessage);
+app.use("/upload", FileProcess);
 
 // app.use(errorHandler);
 mongoose.connection.addListener("connected", () => {

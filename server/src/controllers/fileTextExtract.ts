@@ -1,4 +1,3 @@
-/* eslint-disable no-inner-declarations */
 /*
 export const extractText = async (req: Request, res: Response) => {
   textract.fromFileWithPath(
