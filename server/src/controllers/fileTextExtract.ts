@@ -48,11 +48,11 @@ import natural from "natural";
 // import jwt, { JwtPayload } from "jsonwebtoken";
 // import shortid from 'mongoose-shortid-nodeps'; // Import mongoose-shortid-nodeps
 // Import Vosk speech-to-text
-// import vosk from "vosk";
+import vosk from "vosk";
 // require("../../MLModels/vosk-model-small-en-us-0.15")
 import { loadUseModel } from "../routes/textQna.js";
 
-import deepspeech from "deepspeech";
+// import deepspeech from "deepspeech";
 import fs from "fs";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import stt from "stt";
@@ -198,28 +198,22 @@ export async function saveToMongoDB(
   };
 }
 
-export const extractTextFromAudio = async (
-  audioBuffer: Buffer
-): Promise<{ text?: string; success: boolean }> => {
+async function extractTextFromAudio(audioBuffer: Buffer) {
   try {
-    // Initialize DeepSpeech model
-    const modelPath = "../../MLModels/DeepSpeech/deepspeech-0.9.3-models.pbmm"; // Replace with the path to your DeepSpeech model directory
-    const scorerPath =
-      "../../MLModels/DeepSpeech/deepspeech-0.9.3-models.scorer";
-    // Replace with the path to your DeepSpeech model directory
-    const model = new deepspeech.Model(modelPath);
-    model.enableExternalScorer(scorerPath);
+    // Initialize Vosk model
+    const model = new vosk.Model("../../MLModels/vosk-model-small-en-in-0.4");
 
-    // Perform speech-to-text using DeepSpeech with the identified sample rate
-    const text = model.stt(audioBuffer);
+    // Perform speech-to-text using Vosk
+    const recognizer = new vosk.Recognizer({ model: model });
+    recognizer.acceptWaveform(audioBuffer);
 
+    const text = recognizer.result();
     return { text, success: true };
   } catch (error) {
     console.error("Error transcribing audio:", error);
     return { success: false };
   }
-};
-
+}
 // Function to extract audio from a video and return it as a buffer
 async function extractAudioFromVideo(videoPath: string): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {
