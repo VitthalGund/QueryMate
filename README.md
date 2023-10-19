@@ -1,4 +1,4 @@
-# QueryMate
+# QUERYMATE
 
 ## 👩🏻‍💻 Mentor :
 
@@ -6,10 +6,10 @@
 
 ## 👥 Developer Team :
 
-- Vitthal Gund
-- Sarvesh Yadav
-- Justin Fernandes
-- Ramkrushna Sahu
+- [Vitthal Gund](https://github.com/VitthalGund)
+- [Sarvesh Yadav](https://github.com/sarveshpyadav)
+- [Justin Fernandes](https://github.com/FernandesJustin)
+- [Ramkrushna Sahu](https://github.com/Ramkrushna-Sahu)
 
 ## 📑 Project Synopsis :
 
@@ -69,29 +69,45 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 <summary><b>Week 04</b> : [14.08.2023 - 20.08.2023]</summary>
 
 ---
-🛠️ SET UP THE DEVELOPMENT ENVIRONMENT
+🔐 FINALIZING PROJECT PLAN
 
-+ We began by configuring our development environment, which involves setting up necessary software tools, version control systems, and ensuring that all team members have access to the required resources.
-+ Documenting our project is essential. Thus, we created a comprehensive initial project documentation that will encompass everything from project scope and requirements to technical specifications.
-+ We have established the GitHub Repository for [QueryMate](https://github.com/VitthalGund/QueryMate) on 15th August, 2023! ⭐
++ We reviewed and confirmed the project requirements gathered during the previous week.
++ We ensured that we had a comprehensive understanding of what needs to be accomplished.
++ Alongside, we crafted a detailed project plan including milestones, deadlines and resource allocation.
++ We organized regular team meetings to discuss progress, address any questions or concerns, and make any necessary adjustments to the project plan.
++ Established the GitHub Repository for [QueryMate](https://github.com/VitthalGund/QueryMate) on 15th August, 2023! ⭐
 </details>
 <details>
 <summary><b>Week 05</b> : [21.08.2023 - 27.08.2023]</summary>
 
-+ 
-+ 
+---
+🛠️ SET UP THE DEVELOPMENT ENVIRONMENT
+
++ We began by configuring our development environment, which involves setting up necessary software tools, version control systems, and ensuring that all team members have access to the required resources.
++ Documenting our project is essential. Thus, we created a comprehensive initial project documentation that will encompass everything from project scope and requirements to technical specifications.
 </details>
 <details>
 <summary><b>Week 06</b> : [28.08.2023 - 03.09.2023]</summary>
 
-+ 
-+ 
+---
+🎨 DEVELOPMENT KICK-OFF BY DESIGNING USER INTERFACE AND WIREFRAMES
+
++ We dedicated our time for designing the system architecture, user interface (UI) and creating wireframes that outline the visual structure and flow of application.
++ This included crafting visually appealing and user-friendly layouts, color schemes, and interactive elements that enhance the overall user experience.
++ Additionally, we meticukously created wireframes, which are detailed blueprints of the user interface. These wireframes will serve as the visual foundation for our application, helping us plan the arrangement of elements and userflow.
++ Throughout this week, we encouraged iterative design and feedback from team members to ensure that the UI aligns with project goals and user expectations.
++ Now, we have a well-thought-out design before we start coding.
 </details>
 <details>
 <summary><b>Week 07</b> : [04.09.2023 - 10.09.2023]</summary>
 
-+ 
-+ 
+---
+🧪 DEVELOPMENT AND TESTING
+
++ With the project plan in place, we were ready to start the development process by implementing core project features.
++ We began by setting up our development environment as planned during Week 5.
++ Alongside development, we established a robust testing strategy to focus on thorough testing, including unit tests, integration tests, and user testing.
++ Monitored development progress against the project plan, ensuring that we're on track and making necessary adjustments.
 </details>
 <details>
 <summary><b>Week 08</b> : [11.09.2023 - 17.09.2023]</summary>
