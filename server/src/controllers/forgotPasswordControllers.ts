@@ -55,7 +55,8 @@ export async function verifyPassword(
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    const resp = await User.findOneAndUpdate(
+    // const resp =
+    await User.findOneAndUpdate(
       {
         forgotPasswordToken: token,
         forgotPasswordTokenExpiry: { $gt: Date.now() },
@@ -69,9 +70,9 @@ export async function verifyPassword(
     );
 
     return res.json({
-      message: "Password reset successfully!",
+      message: "Password changed successfully!",
       success: true,
-      info: resp,
+      // info: resp,
     });
   } catch (error: any) {
     return res.status(500).json({ message: error.message, success: true });

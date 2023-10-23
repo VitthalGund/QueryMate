@@ -91,13 +91,14 @@ app.use("/register", Register);
 app.use("/auth", Auth);
 app.use("/refresh", Refresh);
 app.use("/logout", Logout);
-app.use("/password", ForgotPassword);
+
 app.get("/", (req, res) => {
   res.send("Welcome to Qna Boat");
 });
 
 // app.use("/sendmail", require("./routes/email")); //TODO
 app.use(verifyJWT);
+app.use("/password", ForgotPassword);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires

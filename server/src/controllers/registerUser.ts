@@ -59,7 +59,7 @@ export const verifyUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid token", success: true });
+      return res.status(400).json({ message: "Invalid token", success: false });
     }
 
     console.log(user);
