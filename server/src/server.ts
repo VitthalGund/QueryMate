@@ -1,7 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { router } from "./routes/textQna.js";
-import { verifyJWT } from "./middlewares/verifyJWT.js";
+// import { verifyJWT } from "./middlewares/verifyJWT.js";
 import Register from "./routes/resgister.js";
 import Auth from "./routes/auth.js";
 import Refresh from "./routes/refresh.js";
@@ -97,7 +97,7 @@ app.get("/", (req, res) => {
 });
 
 // app.use("/sendmail", require("./routes/email")); //TODO
-app.use(verifyJWT);
+// app.use(verifyJWT);
 app.use("/password", ForgotPassword);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);

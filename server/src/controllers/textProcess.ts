@@ -22,8 +22,9 @@ export const textProcessing = async (req: Request, res: Response) => {
     res.json({
       success: true,
       message: "File uploaded and processed successfully",
-      chartId: resp.chatId,
+      chatId: resp.chatId,
       email: resp.email,
+      multi: resp.multi,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

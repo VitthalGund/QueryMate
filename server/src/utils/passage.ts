@@ -57,7 +57,7 @@ export async function chunkPassage(
     a: tfcore.Tensor<tfcore.Rank> | tfcore.TensorLike,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     b: any
-  ) {
+  ): number {
     const dotProduct = tf.matMul(a, b.transpose());
     const normA = tf.norm(a);
     const normB = tf.norm(b);

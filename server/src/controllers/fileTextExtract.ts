@@ -58,7 +58,7 @@ export const extractText = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: "File uploaded and processed successfully",
-        chartId: data.chatId,
+        chatId: data.chatId,
         email: data.email,
         multi: data.multi,
       });

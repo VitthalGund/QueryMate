@@ -13,7 +13,7 @@ export async function saveToMongoDB(
   req: express.Request,
   chatId: mongoose.Types.ObjectId
 ) {
-  let chunks = [];
+  let chunks: string[] = [];
 
   if (!useModel) {
     await loadUseModel();
@@ -25,8 +25,8 @@ export async function saveToMongoDB(
     // Split the text into chunks if it exceeds 16MB
     chunks = await chunkPassage(
       text,
-      500,
-      0.8,
+      1000,
+      0.3,
       useModel,
       new natural.SentenceTokenizer()
     );
@@ -44,17 +44,19 @@ export async function saveToMongoDB(
   if (chunks.length > 0) {
     multi = true;
   }
+  console.log(chunks);
   for (const chunk of chunks) {
-    const chat = new UserChat({
-      chatId: chatId,
-      title: text.slice(0, 10),
-      // email: res.decoded["email"],
-      // fileName: req.file.originalname || " ",
-      passage: chunk,
-      multi,
-    });
-
-    chatResp.push(await chat.save());
+    if (chunk) {
+      const chat = new UserChat({
+        chatId: chatId,
+        title: text.slice(0, 10),
+        // email: res.decoded["email"],
+        // fileName: req.file.originalname || " ",
+        passage: chunk,
+        multi,
+      });
+      chatResp.push(await chat.save());
+    }
   }
   return {
     email: chatResp[0].email,
