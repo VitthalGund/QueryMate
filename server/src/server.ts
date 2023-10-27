@@ -1,6 +1,6 @@
 import express from "express";
 import * as dotenv from "dotenv";
-import { router } from "./routes/textQna.js";
+// import { router } from "./routes/textQna.js";
 // import { verifyJWT } from "./middlewares/verifyJWT.js";
 import Register from "./routes/resgister.js";
 import Auth from "./routes/auth.js";
@@ -9,7 +9,7 @@ import Logout from "./routes/logout.js";
 import ForgotPassword from "./routes/forgotPassword.js";
 import UserInfo from "./routes/userinfo.js";
 
-import FileProcess from "./routes/toText.js";
+// import FileProcess from "./routes/toText.js";
 import GetMessage from "./routes/message.js";
 import connectDB from "./config/dbConn.js";
 // import { logger } from "./middlewares/logEvents.js";
@@ -102,9 +102,9 @@ app.use("/password", ForgotPassword);
 // app.use("/users", require("./routes/api/users"));
 app.use("/userinfo", UserInfo);
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-app.use("/model", router);
+// app.use("/model", router);
 app.use("/messages", GetMessage);
-app.use("/upload", FileProcess);
+// app.use("/upload", FileProcess);
 
 // app.use(errorHandler);
 mongoose.connection.addListener("connected", () => {

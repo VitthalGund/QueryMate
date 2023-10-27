@@ -115,6 +115,7 @@ export async function processChunks(
     const chunkAnswers: Answer[] = await qnaModel.findAnswers(question, chunk);
     answers.push(...chunkAnswers);
   }
+  console.log(answers);
   return answers;
 }
 

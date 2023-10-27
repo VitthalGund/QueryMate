@@ -65,6 +65,22 @@ async function loadModels(): Promise<void> {
 
 loadModels();
 
+function filterAnswer(arr: Mate[]) {
+  if (arr.length === 0) {
+    return [];
+  }
+
+  // Sort the array by score in descending order
+  arr.sort((a, b) => b.score - a.score);
+
+  // Get the top 5 objects with the highest length of 'text' field
+  const top5Objects = arr
+    .slice(0, 5)
+    .sort((a, b) => b.text.length - a.text.length);
+
+  return top5Objects;
+}
+
 // Endpoint to handle the questions: Passage size is around 500 to 1000 which around 5pages
 router.post("/qa", async (req: Request, res: Response) => {
   const { chatId, question } = req.body;
@@ -131,13 +147,13 @@ router.post("/qa", async (req: Request, res: Response) => {
       const data = await saveToMongoDB(question, answers, chatId);
       return res.json({
         success: true,
-        answers: rankedAnswers,
+        answers: filterAnswer(rankedAnswers),
         Date: data.Date,
       });
     } else {
       return res.json({
         message: "question is ambiguous or answers doesn't exits in dataset",
-        answers,
+        answer: filterAnswer(answers),
         success: false,
       });
     }
@@ -244,13 +260,13 @@ router.post("/qalong", async (req: Request, res: Response) => {
       const data = await saveToMongoDB(question, rankedAnswers, chatId);
       return res.json({
         success: true,
-        answers: rankedAnswers.sort(),
+        answers: filterAnswer(rankedAnswers),
         Date: data.Date,
       });
     } else {
       return res.json({
         message: "question is ambiguous or answers doesn't exits in dataset",
-        answer: chunkAnswers,
+        answer: filterAnswer(chunkAnswers),
       });
     }
   } catch (error) {

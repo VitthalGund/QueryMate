@@ -60,7 +60,6 @@ export default function InputPage() {
                 setMulti(response.data.multi);
                 toast.success("File uploaded Successfully!")
                 navigate('/Qna');
-                navigate('/Qna');
             }
             console.log(response);
         } catch (error) {
