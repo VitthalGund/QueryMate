@@ -28,7 +28,6 @@ export default function InputPage() {
 
     const handleText = (e) => {
         setValue(e.target.value)
-        console.log(e.target.value)
         if (e.target.value === "") {
             setTextInputDisable(false)
             setFileInputDisable(false)
@@ -56,9 +55,11 @@ export default function InputPage() {
                 'Content-Type': textInputDisable ? 'application/json' : 'multipart/form-data',
             });
             if (response.data.success) {
+                console.log(response)
                 setChatId(response.data.chatId);
-                setMulti(response.data.mutli);
+                setMulti(response.data.multi);
                 toast.success("File uploaded Successfully!")
+                navigate('/Qna');
                 navigate('/Qna');
             }
             console.log(response);

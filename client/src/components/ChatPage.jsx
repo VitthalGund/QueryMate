@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react'
 // import './style.css'
 import Chat from './Chat';
 import ChatContext from '../context/useContext';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -13,13 +13,13 @@ function ChatPage() {
     const { chatId, multi } = useContext(ChatContext);
     const [info, setInfo] = useState([{
         mate: "QueryMate",
-        text: "Hello! I am your QueryMate assistant. I am here to help you with any question you may have regarding the provided curpus",
+        text: "Hello! I am your QueryMate assistant.\n I am here to help you with any question you may have regarding the provided curpus",
         date: formatDate(new Date()),
         img: `https://api.multiavatar.com/QueryMate.png`,
         side: "start"
     }]);
 
-    const path = `http://localhost:2000/model/${multi ? "qnalong" : "qa"}`;
+    const path = `/model/${multi ? "qalong" : "qa"}`;
 
     function formatDate(date) {
         const h = "0" + date.getHours();
@@ -45,12 +45,11 @@ function ChatPage() {
     };
 
     const getConveration = async () => {
-        const response = await axios.post("http://localhost:2000/messages", { chatId });
+        const response = await axios.post("/messages", { chatId });
         console.log(response.data.messages)
-        let update = []
         for (let index = 0; index < response.data.messages.length; index++) {
             const element = response.data.messages[index];
-            update = addObjectToArrayIfNotExists(info, {
+            addObjectToArrayIfNotExists(info, {
                 mate: "Mate",
                 img: `https://api.multiavatar.com/Mate.png`,
                 text: element.question,
@@ -59,7 +58,7 @@ function ChatPage() {
             });
             for (let index = 0; index < element.response.length; index++) {
                 const ans = element.response[index];
-                update += addObjectToArrayIfNotExists(info, {
+                addObjectToArrayIfNotExists(info, {
                     mate: "Mate",
                     img: `https://api.multiavatar.com/Mate.png`,
                     text: ans,
@@ -68,7 +67,8 @@ function ChatPage() {
                 });
             }
         }
-        setInfo([...info, ...update])
+        // setInfo([...info, ...update])
+        setInfo([...info])
 
     }
 
@@ -131,13 +131,13 @@ function ChatPage() {
                     containerClassName=""
                     containerStyle={{}}
                 />
-                <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center h-14">
+                <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
                     <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate(Lite) - Your Helping Hand😊</h1>
                 </div>
                 <div className="flex-grow overflow-y-auto">
                     <div className="flex flex-col space-y-2 p-4" id='chatList'>
-                        {info.map((item, idx) => {
-                            return (<Chat key={idx} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
+                        {info.map((item, index) => {
+                            return (<Chat key={index} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
                         })}
                     </div>
                 </div>
