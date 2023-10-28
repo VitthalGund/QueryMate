@@ -5,7 +5,7 @@ import natural from "natural";
 import { UserChat } from "../models/Chat.js";
 import express from "express";
 
-// import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 // Function to save text data to MongoDB
 export async function saveToMongoDB(
@@ -34,10 +34,10 @@ export async function saveToMongoDB(
     chunks.push(text);
   }
 
-  // const res: JwtPayload = jwt.verify(
-  //   req.headers.authorization,
-  //   process.env.REFRESH_TOKEN_SECRET!
-  // ) as JwtPayload;
+  const res: JwtPayload = jwt.verify(
+    req.headers.authorization,
+    process.env.REFRESH_TOKEN_SECRET!
+  ) as JwtPayload;
   // console.log(chunks);
   const chatResp = [];
   let multi = false;
@@ -50,8 +50,8 @@ export async function saveToMongoDB(
       const chat = new UserChat({
         chatId: chatId,
         title: text.slice(0, 10),
-        // email: res.decoded["email"],
-        // fileName: req.file.originalname || " ",
+        email: res.decoded["email"],
+        fileName: req.file.originalname || " ",
         passage: chunk,
         multi,
       });

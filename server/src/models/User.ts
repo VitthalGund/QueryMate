@@ -23,7 +23,6 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   refreshToken: String,
   date: {
@@ -42,6 +41,9 @@ const userSchema = new Schema({
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,
   verifyTokenExpiry: Date,
+  socialLogin: {
+    type: Boolean,
+  },
 });
 
 export const User = mongoose.model("User", userSchema);

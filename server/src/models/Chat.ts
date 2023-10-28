@@ -10,7 +10,7 @@ const Chat = new Schema({
   },
   email: {
     type: String,
-    // required: true,
+    required: true,
   },
   fileName: {
     type: String,

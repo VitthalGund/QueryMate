@@ -6,13 +6,13 @@ import jwt from "jsonwebtoken";
 // working 100% right
 export const handleGoogleAuth = async (req: Request, res: Response) => {
   try {
-    if (req.body.googleAccessToken) {
+    const { googleAccessToken } = req.body;
+    // console.log("Bearer " + googleAccessToken);
+    if (!googleAccessToken) {
       return res
         .status(400)
         .json({ message: "insufficient agruments are required." });
     }
-
-    const { googleAccessToken } = req.body;
 
     axios
       .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -30,13 +30,24 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
 
         if (!existingUser) {
           const result = await User.create({
-            verified: true,
+            isVerified: true,
             email,
             username: firstName + lastName,
           });
           existingUser = result;
         }
-
+        const roles = Object.values(existingUser.roles).filter(Boolean);
+        const authToken = jwt.sign(
+          {
+            UserInfo: {
+              username: firstName + lastName,
+              email: email,
+              roles: roles,
+            },
+          },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "1" }
+        );
         const refreshToken = jwt.sign(
           {
             username: firstName + lastName,
@@ -44,7 +55,7 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
             id: existingUser._id,
           },
           process.env.REFRESH_TOKEN_SECRET!,
-          { expiresIn: "1h" }
+          { expiresIn: "1d" }
         );
 
         res.cookie("jwt", refreshToken, {
@@ -53,9 +64,16 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
           sameSite: "none",
           maxAge: 24 * 60 * 60 * 1000,
         });
-        res.status(200).json({ result: existingUser, success: true });
+        res.status(200).json({
+          email: existingUser.email,
+          username: existingUser.username,
+          roles,
+          success: true,
+          accessToken: authToken,
+        });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         res.status(400).json({ message: "Invalid access token!" });
       });
   } catch (err) {
