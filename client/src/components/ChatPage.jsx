@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext } from 'react'
 // import './style.css'
 import Chat from './Chat';
-import ChatContext from '../context/useContext';
+import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 
-function ChatPage() {
+export function ChatPage() {
     const route = useNavigate();
     const [question, setQuestion] = useState("");
     // const query = useRef(null);
@@ -59,8 +59,8 @@ function ChatPage() {
             for (let index = 0; index < element.response.length; index++) {
                 const ans = element.response[index];
                 addObjectToArrayIfNotExists(info, {
-                    mate: "Mate",
-                    img: `https://api.multiavatar.com/Mate.png`,
+                    mate: "QueryMate",
+                    img: `https://api.multiavatar.com/QueryMate.png`,
                     text: ans,
                     date: ans,
                     side: "start"
@@ -91,8 +91,8 @@ function ChatPage() {
                     for (let index = 0; index < resp.data.answers.length; index++) {
                         const element = resp.data.answers[index];
                         update = addObjectToArrayIfNotExists(info, {
-                            mate: "Mate",
-                            img: `https://api.multiavatar.com/Mate.png`,
+                            mate: "QueryMate",
+                            img: `https://api.multiavatar.com/QueryMate.png`,
                             text: element.text,
                             date: resp.data.Date,
                             side: "start"
@@ -132,7 +132,7 @@ function ChatPage() {
                     containerStyle={{}}
                 />
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
-                    <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate(Lite) - Your Helping Hand😊</h1>
+                    <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - Your Helping Hand😊</h1>
                 </div>
                 <div className="flex-grow overflow-y-auto">
                     <div className="flex flex-col space-y-2 p-4" id='chatList'>
@@ -143,7 +143,7 @@ function ChatPage() {
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
                     <div className="flex items-center p-4">
-                        <input type="text" placeholder="Type your message..."
+                        <input type="text" placeholder="Type your query..."
                             className="w-full rounded-lg border border-gray-300 px-4 py-2"
                             value={question ? question : ""}
                             onChange={(e) => setQuestion(e.target.value)}
@@ -159,4 +159,3 @@ function ChatPage() {
     )
 }
 
-export default ChatPage;
