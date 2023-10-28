@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.11.1",
     "axios": "^1.5.1",
+    "gapi-script": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-login": "^5.2.2",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.16.0"
+    "react-icons": "^4.11.0",
+    "react-router-dom": "^6.16.0",
+    "react-simple-typewriter": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
