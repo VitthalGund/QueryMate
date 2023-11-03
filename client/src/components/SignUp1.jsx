@@ -1,51 +1,64 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import UserContext from '../context/Auth/userContext';
-const USER_REGEX = /^[A-z][A-z0-9-_]{2,23}$/;
-export default function SignEmail() {
-    const { userData, setUserData } = useContext(UserContext);
 
-    const [username, setUsername] = useState("")
-    const [validName, setValidName] = useState(false);
-    const [email, setEmail] = useState("")
+export default function SignEmail() {
+    const { auth, userData, setUserData } = useContext(UserContext);
+    const [username, setUsername] = useState(!auth ? userData?.username : "");
+    const [email, setEmail] = useState(!auth ? userData?.email : "");
+
     const navigate = useNavigate()
-    useEffect(() => {
-        setValidName(USER_REGEX.test(username));
-    }, [username])
-    useEffect(() => {
-        setUserData({ ...userData, username, email });
-    }, [username, email, setUserData]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        if (!validName || !(email)) {
-            alert("Invalid Entry");
-            return;
-        }
-    }
-    const handleOnClick = () => {
-        navigate('/signuppassword')
+        setUserData({ ...userData, username, email });
+        navigate('/signuppassword');
     }
     return (
         <>
-            <header className="text-lg pl-2 font-medium text-blue-700 hover:text-blue-900 font-serif">
-                <Link to="/signupmail">Sign Up</Link>
+
+            <header className="text-lg pl-2 font-medium z-10 text-blue-700 hover:text-blue-900 font-serif">
+                <div className="font-serif mt-3 z-20">
+                    <Link to="/loginwithgoogle" className="ml-4 z-20 text-3xl">←</Link>
+                </div>
             </header>
-            <div className="flex flex-col justify-center items-center font-serif">
-                <div className="mt-16 mb-12 pl-0 pr-0 pt-4 pb-4">
+            <form onSubmit={handleOnSubmit}
+                className="flex flex-col justify-center items-center font-serif bg-white p-4 rounded-lg">
+                <div className="mt-10 mb-5 pl-0 pr-0 pt-2 pb-2">
                     <p className="text-3xl font-semibold">Hello, User!</p>
                 </div>
-                <form onSubmit={handleOnSubmit}>
-                    <div className=" w-52 pt-1 pb-6 pl-1 pr-1 mt-0 mb-0 ml-3 mr-3">
-                        {/* <p className="text-xl font-medium pt-4 pb-2">What's your Email?</p> */}
-                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-64 p-1 pl-3 my-3 font-normal text-base border-2 border-solid border-black rounded-md" placeholder="Enter The Username..." required />
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-64 p-1 pl-3 my-3 font-normal text-base border-2 border-solid border-black rounded-md" placeholder="Enter Your Email..." required />
-                    </div>
-                    <div className="m-2 pt-1 pb-1 pl-2 pr-2">
-                        <button className="w-52 pl-[2px] pr-[2px] font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={handleOnClick}>CONTINUE</button>
-                    </div>
-                </form>
-            </div>
+                <div className="grid self-center mb-2">
+                    <p className="text-xl text-start">Hey tell Me Your?</p>
+                </div>
+                <div className="relative bg-inherit mt-3 mb-7">
+                    <input type="text" id="username" name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="username"
+                        required
+                        minLength={2}
+                        className="peer bg-transparent h-10 w-64 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                    />
+                    <label htmlFor="username"
+                        className="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                    >Username</label>
+                </div>
+                <div className="relative bg-inherit">
+                    <input type="email" id="username" name="username"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        placeholder='Email'
+                        className="peer bg-transparent h-10 w-64 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                    />
+                    <label htmlFor="username"
+                        className="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                    >Email</label>
+                </div>
+                <button
+                    className="w-max h-14 pl-10 pr-10 pt-2 pb-2 font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-800 mt-5"
+                >CONTINUE</button>
+            </form>
         </>
     )
 }
