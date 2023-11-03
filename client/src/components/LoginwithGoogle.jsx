@@ -2,25 +2,28 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { useGoogleLogin } from '@react-oauth/google';
 import UserContext from '../context/Auth/userContext';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const LogSign = (props) => {
-  const { setAuth } = useContext(UserContext);
-  const navigate = useNavigate()
+  const { auth, setAuth, setUserData, setPersist } = useContext(UserContext);
+  const navigate = useNavigate();
 
   async function handleGoogleLoginSuccess(tokenResponse) {
-
     const accessToken = tokenResponse.access_token;
-    console.log(tokenResponse)
     const credentails = await axios.post("/auth/google", { googleAccessToken: accessToken });
-    console.log(credentails);
+    setUserData({
+      username: credentails.data.username,
+      email: credentails.data.email
+    })
     setAuth({
       email: credentails.data.email,
-      password: credentails.data.password,
       roles: credentails.data.roles,
       accessToken: credentails.data.accessToken
     });
+    toast.success("Login Successfully!")
     navigate("/")
+    setPersist(true);
   }
   const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
   // const login = useGoogleLogin({
@@ -28,15 +31,21 @@ const LogSign = (props) => {
   //   onSuccess: handleGoogleLoginSuccess
   // });
 
+  useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, [auth, navigate])
   return (
     <>
-      <div className="bg-white h-screen flex justify-center items-center font-serif">
-        <div className="font-serif">
-          <div className="flex-grow flex justify-center items-center">
-            <h1 className="font-semibold text-4xl font-staatliches">{props.title}</h1>
-          </div>
+      <div className="font-serif mt-3">
+        <Link to="/" className="ml-4 text-3xl">←</Link>
+      </div>
+      <div className="bg-white h-screen flex justify-center items-center font-serif text-center pl-10">
+        <div className="font-serif text-center">
+          <h1 className="font-semibold text-3xl font-staatliches text-center">{props.title}</h1>
           <div className="flex items-center w-80 h-64 flex-col justify-center">
-            <button className="w-80 h-10 border border-gray-300 bg-white rounded-md font-bold flex items-center justify-center mb-7 text-sm hover:bg-slate-200"
+            <button className="w-auto pl-5 pr-5 h-10 border border-gray-300 bg-white rounded-md font-bold flex items-center justify-center mb-7 text-sm hover:bg-slate-200"
               onClick={
                 () => login()} >
               <img src="https://www.androidpolice.com/wp-content/uploads/2019/12/google-logo-hd.png" width="33" alt="Google Logo" />
