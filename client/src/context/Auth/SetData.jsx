@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import UserContext from "./userContext";
 const SetData = (props) => {
-    const [userData, setUserData] = useState({ username: '', email: '' });
+    const [userData, setUserData] = useState({ username: null, email: null });
     const [auth, setAuth] = useState("");
     const [rmail, setRmail] = useState();
-    const [persist, setPersist] = useState(localStorage.getItem("persist"));
+    const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false);
     useEffect(() => {
         localStorage.setItem("persist", persist);
     }, [persist])

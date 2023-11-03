@@ -6,12 +6,12 @@ const RequireAuth = ({ allowedRoles }) => {
     const { auth, userData } = useContext(UserContext);
     const location = useLocation();
     console.log(auth?.roles == allowedRoles)
-    console.log("object")
+    console.log(userData)
     return (
         <>
             {auth?.roles?.find(role => allowedRoles?.includes(role))
                 ? <Outlet />
-                : userData?.user
+                : userData?.username
                     ? <Navigate to="/loginwithgoogle" state={{ from: location }} replace />
                     : <Navigate to="/login" state={{ from: location }} replace />
             }

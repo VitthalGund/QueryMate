@@ -13,13 +13,17 @@ export default function LogIn() {
     const [password, setPassword] = useState("");
     const [isChecked] = useState(true);
     // const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(persist === "true" ? true : false);
+    const [success, setSuccess] = useState();
     const navigate = useNavigate();
 
     const togglePersist = () => {
         setPersist((prev) => !prev);
     };
 
+
+    useEffect(() => {
+        localStorage.setItem("persist", persist);
+    }, [persist]);
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
@@ -99,6 +103,7 @@ export default function LogIn() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="password"
                                     required
+                                    autoComplete='current-password'
                                     minLength={2}
                                     className="peer bg-transparent h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
                                 />
@@ -113,8 +118,7 @@ export default function LogIn() {
                                     id="persist"
                                     name="persist"
                                     checked={persist}
-                                    value={persist}
-                                    onChange={togglePersist}
+                                    onChange={() => togglePersist()}
                                 /> Remember Me</label>
                             <Link to="/resetpassword" className="text-lg font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
                             <div>

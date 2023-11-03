@@ -20,7 +20,7 @@ const PersistenLogin = () => {
       }
     };
 
-    !auth?.accessToken && (persist == "true" ? true : false)
+    !auth?.accessToken && (persist === "true" ? true : false)
       ? verifyRefreshToken()
       : setIsLoading(false);
 
