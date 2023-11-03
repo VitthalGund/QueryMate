@@ -40,7 +40,8 @@ function MailResetPassword() {
             <div className="flex flex-col justify-center items-center h-[75vh]">
                 <h1 className="text-2xl font-bold">RESET PASSWORD</h1>
                 <div className="mb-2">
-                    <input type="email" placeholder='Enter The Email' value={email} onChange={(e) => setEmail(e.target.value)} className="sm:w-64 sm:mb-1 w-56 mb-6 mt-6 p-1 pl-3 font-normal text-base border-2 border-solid border-black rounded-md" />
+                    <input type="email" placeholder='Enter The Email' value={email} onChange={(e) => setEmail(e.target.value)}
+                        className="sm:w-64 sm:mb-1 w-56 mb-6 mt-6 p-1 pl-3 font-normal text-base border-2 border-solid border-black rounded-md" />
                 </div>
                 <div className="mb-2">
                     <p className="text-sm sm:text-base text-gray-900">Enter your Email address & we&apos;ll send you a link to reset your password & create a new one.</p>
