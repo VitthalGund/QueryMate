@@ -1,10 +1,18 @@
 import { Typewriter, Cursor } from 'react-simple-typewriter';
 import { useNavigate } from "react-router-dom";
+import UserContext from '../context/Auth/userContext';
+import { useContext } from 'react';
 // import useAuth from '../hooks/useAuth';
 const Home = () => {
   const navigate = useNavigate();
+  const { auth } = useContext(UserContext);
   const handleOnclick = () => {
-    navigate('/loginwithgoogle');
+    if (auth.accessToken) {
+      console.log(auth.accessToken)
+      navigate("/chat")
+    } else {
+      navigate('/loginwithgoogle');
+    }
   }
   return (
     <>
