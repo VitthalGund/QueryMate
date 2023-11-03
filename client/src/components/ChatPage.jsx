@@ -5,12 +5,16 @@ import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
+import UserContext from '../context/Auth/userContext';
+import Sider from './Sider';
 
 export function ChatPage() {
     const route = useNavigate();
     const [question, setQuestion] = useState("");
     // const query = useRef(null);
+    const { auth } = useContext(UserContext);
     const { chatId, multi } = useContext(ChatContext);
+
     const [info, setInfo] = useState([{
         mate: "QueryMate",
         text: "Hello! I am your QueryMate assistant.\n I am here to help you with any question you may have regarding the provided curpus",
@@ -45,7 +49,11 @@ export function ChatPage() {
     };
 
     const getConveration = async () => {
-        const response = await axios.post("/messages", { chatId });
+        const response = await axios.post("/messages", { chatId }, {
+            headers: {
+                Authorization: auth.accessToken
+            }
+        });
         console.log(response.data.messages)
         for (let index = 0; index < response.data.messages.length; index++) {
             const element = response.data.messages[index];
@@ -83,7 +91,11 @@ export function ChatPage() {
                 side: "end"
             }));
             setQuestion("");
-            const resp = await axios.post(path, { chatId, question });
+            const resp = await axios.post(path, { chatId, question }, {
+                headers: {
+                    Authorization: auth.accessToken
+                }
+            });
             try {
                 if (resp.data.success) {
                     toast.success("We found it😎!")
@@ -114,8 +126,9 @@ export function ChatPage() {
     }
     useEffect(() => {
         console.log(chatId)
-        if (chatId === "" || chatId === undefined) {
+        if (chatId === "" || chatId === undefined || chatId === null) {
             route("/")
+
         }
         getConveration()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,6 +147,7 @@ export function ChatPage() {
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
                     <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - Your Helping Hand😊</h1>
                 </div>
+                <Sider />
                 <div className="flex-grow overflow-y-auto">
                     <div className="flex flex-col space-y-2 p-4" id='chatList'>
                         {info.map((item, index) => {
