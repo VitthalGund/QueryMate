@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ChatContext from '../context/useContext';
+import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
 import { Toaster, toast } from 'react-hot-toast';
+import UserContext from '../context/Auth/userContext';
 
-export default function InputPage() {
+export function InputPage() {
     const { setChatId, setMulti } = useContext(ChatContext);
+    const { auth } = useContext(UserContext);
 
     const fileInputRef = useRef(null);
     const [fileName, setFileName] = useState();
@@ -42,24 +44,42 @@ export default function InputPage() {
             let uploadRoute = '/upload/';
             let requestData = null;
             // setLoading(true);
+            let response;
             if (textInputDisable) {
                 uploadRoute += 'file';
                 requestData = new FormData();
                 // console.log(fileInputRef.current?.files[0],fileName)
                 requestData.append('file', fileInputRef.current?.files[0], fileName);
+                response = await axios.post(`${uploadRoute}`,
+                    { requestData, email: auth.email },
+                    {
+                        headers: {
+                            Authorization: auth.accessToken,
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }
+                );
             } else {
                 uploadRoute += 'text';
+                response = await axios.post(`${uploadRoute}`,
+                    { "passage": textAreaRef.current.value, email: auth.email },
+                    {
+                        headers: {
+                            Authorization: auth.accessToken,
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
             }
-            console.log(requestData)
-            const response = await axios.post(`${uploadRoute}`, requestData == null ? { passage: textAreaRef.current.value } : requestData, {
-                'Content-Type': textInputDisable ? 'application/json' : 'multipart/form-data',
-            });
+            console.log(uploadRoute)
+
+
             if (response.data.success) {
                 console.log(response)
                 setChatId(response.data.chatId);
                 setMulti(response.data.multi);
                 toast.success("File uploaded Successfully!")
-                navigate('/Qna');
+                navigate('/chat');
             }
             console.log(response);
         } catch (error) {
@@ -113,7 +133,7 @@ export default function InputPage() {
                     </div>
                     <div className="text-center py-5">
                         <p className="text-xs text-gray-500 ">By starting interaction, you agree with our data privacy policy and terms.</p>
-                        <button className="py-2 w-2/4 sm:w-1/4 mt-3 bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={(e) => { console.log(e.detail); handleOnclick(e) }}>START INTERACTION</button>
+                        <button className="py-2 w-2/4 sm:w-1/4 mt-3 bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={(e) => { handleOnclick(e) }}>START INTERACTION</button>
                     </div>
                 </div>
             </div>
