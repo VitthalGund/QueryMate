@@ -1,69 +1,124 @@
-import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/Auth/userContext';
 import axios from '../api/axios';
+import { toast } from 'react-toastify';
+
 
 const LOG_IN_URL = "/auth";
 export default function LogIn() {
-    const { setAuth } = useContext(UserContext);
+    const { auth, setAuth, persist, setPersist } = useContext(UserContext);
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [isChecked, setIsChecked] = useState(false)
-    // const [errMsg, setErrMsg] = useState('')
-    const [success, setSuccess] = useState(false)
-    const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
-    }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isChecked] = useState(true);
+    // const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(persist === "true" ? true : false);
+    const navigate = useNavigate();
+
+    const togglePersist = () => {
+        setPersist((prev) => !prev);
+    };
+
+
     const handleOnSubmit = async (e) => {
         e.preventDefault()
-
+        // console.log({
+        //     email, password
+        // })
         try {
-            const response = await axios.post(LOG_IN_URL,
-                JSON.stringify({ email, password }),
+            const response = await toast.promise(axios.post(LOG_IN_URL,
+                { email, password },
                 {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true
                 }
-            );
-            console.log(response?.data)
-            const accessToken = response?.data?.accessToken;
+            ), {
+                pending: 'validating your credentials',
+                success: 'Login Successfully👌',
+                error: "Unable to connect"
+            });
+            // console.log(response?.data)
+            const accessToken = response?.data?.authToken;
             const roles = response?.data?.roles;
-            setAuth({ email, password, roles, accessToken });
-            setEmail("")
-            setPassword("")
-            setSuccess(true)
+            setAuth({ email, roles, accessToken });
+            setEmail("");
+            setPassword("");
+            setSuccess(true);
+            setPersist(isChecked ? "true" : "false");
+            navigate("/")
         } catch (error) {
             if (!error?.response) {
-                console.error("No Server Response")
+                toast.error("No Server Response")
             } else if (error.response?.status === 400) {
-                console.error('Missing Email or Password');
+                toast.error('Invalid Email id or Password');
             } else if (error.response?.status === 401) {
-                console.error('Unauthorize');
+                toast.error('Unauthorize');
             } else {
-                console.error('Login Failed');
+                toast.error('Login Failed');
             }
         }
     }
+
+    useEffect(() => {
+        if (auth) {
+            console.log("object")
+            navigate("/");
+        }
+    }, [auth, navigate])
     return (
         <>{
             success ?
-                <div>{alert("User Logged in Successfully.")}</div> :
+                <div></div> :
                 <>
                     <div className="font-serif mt-3">
-                        <Link to="/signupmail" className="ml-4 text-3xl">←</Link>
+                        <Link to="/loginwithgoogle" className="ml-4 text-3xl">←</Link>
                     </div>
                     <div className="flex justify-center items-center flex-col h-[90vh]">
-                        <div className=" ml-0 mr-0 ">
-                            <p className="text-2xl font-bold">LOG IN</p>
+                        <div className="ml-0 mr-0 ">
+                            <p className="text-2xl font-bold mb-3">LOG IN</p>
                         </div>
-                        <form onSubmit={handleOnSubmit} className="contents">
-                            <input type="email" placeholder='Enter The Email' value={email} onChange={(e) => setEmail(e.target.value)} className="sm:w-64 sm:mb-1 w-56 mb-6 mt-6 p-1 pl-3 font-normal text-base border-2 border-solid border-black rounded-md" required />
-                            <input type={(isChecked ? "text" : "password")} placeholder='Enter The Password' value={password} onChange={(e) => setPassword(e.target.value)} className="sm:w-64 sm:mb-1 w-56 mb-6 mt-6 p-1 pl-3 font-normal text-base border-2 border-solid border-black rounded-md" required />
-                            <label htmlFor="showPassword" className="mb-4"><input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} /> Show Password</label>
-                            <Link to="/resetpassword" className="text-xs font-medium text-blue-600 hover:text-blue-700">RESET PASSWORD</Link>
+                        <form onSubmit={handleOnSubmit}
+                            className="flex flex-col justify-center items-center font-serif bg-white p-4 rounded-lg">
+                            <div className="relative bg-inherit mt-3 mb-5">
+                                <input type="email"
+                                    id="email" name="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    placeholder='Email'
+                                    className="peer bg-transparent h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                                />
+                                <label htmlFor="email"
+                                    className="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                                >Email</label>
+                            </div>
+                            <div className="relative bg-inherit mt-3 mb-5">
+                                <input type="password" id="password" name="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="password"
+                                    required
+                                    minLength={2}
+                                    className="peer bg-transparent h-10 w-72 rounded-lg text-black placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+                                />
+                                <label htmlFor="password"
+                                    className="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
+                                >Password</label>
+                            </div>
+                            <label htmlFor="showPassword" className="mb-4">
+
+                                <input
+                                    type="checkbox"
+                                    id="persist"
+                                    name="persist"
+                                    checked={persist}
+                                    value={persist}
+                                    onChange={togglePersist}
+                                /> Remember Me</label>
+                            <Link to="/resetpassword" className="text-lg font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
                             <div>
-                                <button className="sm:w-64 w-56 pl-[2px] pr-[2px] mt-2 font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-700">Log in</button>
+                                <button className="sm:w-64 w-56 pl-7 pr-7 pt-2 pb-2  font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-700">Log in</button>
                             </div>
                         </form>
 
