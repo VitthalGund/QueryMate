@@ -46,7 +46,7 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
             },
           },
           process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: "1" }
+          { expiresIn: "30h" }
         );
         const refreshToken = jwt.sign(
           {
@@ -55,14 +55,14 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
             id: existingUser._id,
           },
           process.env.REFRESH_TOKEN_SECRET!,
-          { expiresIn: "1d" }
+          { expiresIn: "72h" }
         );
 
         res.cookie("jwt", refreshToken, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          maxAge: 24 * 60 * 60 * 1000,
+          maxAge: 72 * 60 * 60 * 1000,
         });
         res.status(200).json({
           email: existingUser.email,
