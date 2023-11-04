@@ -120,7 +120,7 @@ export default function LogIn() {
                                     checked={persist}
                                     onChange={() => togglePersist()}
                                 /> Remember Me</label>
-                            <Link to="/resetpassword" className="text-lg font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
+                            <Link to="/resetpassword" className="text-sm font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
                             <div>
                                 <button className="sm:w-64 w-56 pl-7 pr-7 pt-2 pb-2  font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-700">Log in</button>
                             </div>
