@@ -4,9 +4,15 @@ import mongoose from "mongoose";
 
 export const textProcessing = async (req: Request, res: Response) => {
   try {
-    const { passage } = req.body;
-    // console.log(passage);
+    const { passage, email } = req.body;
+    // console.log(req.body);
     if (!passage) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing passage in the request body.",
+      });
+    }
+    if (!email) {
       return res.status(400).json({
         success: false,
         error: "Missing passage in the request body.",
@@ -15,7 +21,8 @@ export const textProcessing = async (req: Request, res: Response) => {
     const resp = await saveToMongoDB(
       passage,
       req,
-      new mongoose.Types.ObjectId()
+      new mongoose.Types.ObjectId(),
+      email
     );
     console.log(resp);
     // console.log(resp);
