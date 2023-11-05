@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 export const router = express.Router();
 import qna from "@tensorflow-models/qna";
-import tf, { Rank, Tensor } from "@tensorflow/tfjs-node-gpu";
+import tf, { Rank, Tensor } from "@tensorflow/tfjs-node";
 import { arrayIsEmpty, processChunks } from "../utils/passage.js";
 import use, {
   UniversalSentenceEncoder,
@@ -12,24 +12,48 @@ import { ChatMessage } from "../models/message.js";
 import { Mate } from "../types/mate.js";
 import NodeCache from "node-cache";
 const modelsCache = new NodeCache();
-
 // Load the BERT-based question-answering model only once when the server starts
-let modelPromise: qna.QuestionAndAnswer;
+let qnaModel: qna.QuestionAndAnswer;
 export let useModel: UniversalSentenceEncoder;
+
+// Function to load a model from a local file
+const checkSize = (usedBefore: number) => {
+  // Measure memory usage before loading the model
+  console.log(
+    `Memory usage before loading model: ${usedBefore / 1024 / 1024} MB`
+  );
+
+  // Measure memory usage after loading the model
+  const usedAfter = process.memoryUsage().heapUsed;
+  console.log(
+    `Memory usage after loading model: ${usedAfter / 1024 / 1024} MB`
+  );
+
+  // Calculate the memory increase
+  const memoryIncrease = (usedAfter - usedBefore) / 1024 / 1024;
+  console.log(`Model size estimate: ${memoryIncrease} MB`);
+};
 
 // const userFeedback = new Map();
 async function loadQnaModel() {
-  if (!modelPromise && !modelsCache.get("qna")) {
-    // Explicitly register the backend for TensorFlow.js in Node.js1
-    console.log("Loading Model");
-    console.time("Qna Load time");
-    tf.setBackend("tensorflow");
-    // Load the BERT-based question-answering model
-    modelPromise = await qna.load();
-    console.timeEnd("Qna Load time");
-    modelsCache.set("Qna", modelPromise);
+  try {
+    if (!qnaModel && !modelsCache.get("qna")) {
+      // Explicitly register the backend for TensorFlow.js in Node.js1
+      console.log("Loading Model");
+      console.time("Qna Load time");
+      tf.setBackend("tensorflow");
+      // Load the BERT-based question-answering model
+      const usedBefore = process.memoryUsage().heapUsed;
+      qnaModel = await qna.load();
+      checkSize(usedBefore);
+      console.timeEnd("Qna Load time");
+      modelsCache.set("Qna", qnaModel);
+    }
+    return qnaModel || modelsCache.get("Qna");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.log("Error while load BERT QNA: ", error);
   }
-  return modelPromise || modelsCache.get("Qna");
 }
 
 // Load the Universal Sentence Encoder model during server startup
@@ -37,7 +61,10 @@ export async function loadUseModel() {
   try {
     if (!useModel && !modelsCache.get("qna")) {
       console.time("USE model load time:");
+      const usedBefore = process.memoryUsage().heapUsed;
       useModel = await use.load();
+      checkSize(usedBefore);
+      // fs.writeFileSync("UseMode.json", JSON.stringify(useModel));
       console.timeEnd("USE model load time:");
       console.log("Universal Sentence Encoder model loaded successfully.");
       modelsCache.set("Use", useModel);
@@ -100,7 +127,7 @@ router.post("/qa", async (req: Request, res: Response) => {
     });
   }
   console.info(passage);
-  if (!modelPromise || !useModel) {
+  if (!qnaModel || !useModel) {
     return res.status(500).json({
       success: false,
       message: "Models are not loaded yet. Please try again later.",
@@ -187,7 +214,7 @@ router.post("/qalong", async (req: Request, res: Response) => {
     });
   }
 
-  if (!modelPromise || !useModel) {
+  if (!qnaModel || !useModel) {
     return res.status(500).json({
       success: false,
       message: "Models are not loaded yet. Please try again later.",
