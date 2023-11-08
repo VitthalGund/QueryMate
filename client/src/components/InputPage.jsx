@@ -42,37 +42,27 @@ export function InputPage() {
         let id = toast.loading("Uploading the file");
         try {
             let uploadRoute = '/upload/';
-            let requestData = null;
+            let requestData = null
             // setLoading(true);
             let response;
             if (textInputDisable) {
-                uploadRoute += 'file';
                 requestData = new FormData();
-                // console.log(fileInputRef.current?.files[0],fileName)
+                uploadRoute += 'file';
                 requestData.append('file', fileInputRef.current?.files[0], fileName);
-                response = await axios.post(`${uploadRoute}`,
-                    { requestData, email: auth.email },
-                    {
-                        headers: {
-                            Authorization: auth.accessToken,
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }
-                );
             } else {
                 uploadRoute += 'text';
-                response = await axios.post(`${uploadRoute}`,
-                    { "passage": textAreaRef.current.value, email: auth.email },
-                    {
-                        headers: {
-                            Authorization: auth.accessToken,
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
             }
+            console.log(requestData ? { file: requestData.get("file") } : { passage: textAreaRef.current.value, email: auth.email })
+            response = await axios.post(`${uploadRoute}`,
+                requestData ? requestData : { passage: textAreaRef.current.value, email: auth.email },
+                {
+                    headers: {
+                        authorization: auth.accessToken,
+                        'Content-Type': textInputDisable ? 'multipart/form-data' : "application/json",
+                    },
+                }
+            );
             console.log(uploadRoute)
-
 
             if (response.data.success) {
                 console.log(response)
@@ -114,7 +104,7 @@ export function InputPage() {
                     containerStyle={{}}
                 />
                 <div className="py-4 ">
-                    <p className="font-bold text-2xl pt-28 text-center">QUERYMATE</p>
+                    <p className="font-bold text-2xl pt-16 text-center">QUERYMATE</p>
                 </div>
                 <div className="py-4">
                     <p className="font-semibold text-xl text-center">Add your text corpus OR Upload your document.</p>
