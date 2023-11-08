@@ -1,16 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 import UserContext from '../context/Auth/userContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import axios from '../api/axios';
 import { toast } from 'react-toastify';
 
 export const NavBar = () => {
-  const { auth, setAuth, setUserData } = useContext(UserContext);
+  const { auth, setAuth, setUserData, setPersist } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [flyer, setFlyer] = useState(false);
   const [flyerTwo, setFlyerTwo] = useState(false);
-
+  const [width, setWidth] = useState(window.screen.width);
   const location = useLocation();
 
   // const [nav, setNav] = useState(false);
@@ -18,6 +18,26 @@ export const NavBar = () => {
   // const handleNav = () => {
   //   setNav(!nav);
   // };
+
+  const logout = async () => {
+    const resp = await toast.promise(axios.get("/logout", {
+      headers: {
+        authorization: auth.accessToken
+      }
+    }), {
+      pending: "requesting to logout...",
+      success: "Logout Successfully",
+      error: "Something went wrong!"
+    });
+    if (resp.status.toString() === "204") {
+      setAuth(undefined);
+      setUserData(undefined);
+      setPersist(false);
+    }
+  }
+  useEffect(() => {
+    setWidth(window.screen.width);
+  }, [])
   return (
     <nav className={`${location.pathname === "/chat" ? "hidden" : ""}`}>
       <div className={`bg-white z-2 `}>
@@ -303,21 +323,11 @@ export const NavBar = () => {
               </div>
             </nav>
             {auth ?
-              window.screen.width > 768 ? <Link
+              width > 768 ? <Link
                 className="w-min flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                onClick={async () => {
-                  const resp = await axios.get("/logout", {
-                    headers: {
-                      Authorization: auth.accessToken
-                    }
-                  })
-                  if (resp.status.toString() === "204") {
-                    setAuth(undefined);
-                    setUserData(undefined);
-                    toast.success("Logout Successfully")
-                  }
-                }}
-              >
+                onClick={() => {
+                  logout();
+                }}>
                 Logout
               </Link> : "" : <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
                 <Link
@@ -531,17 +541,8 @@ export const NavBar = () => {
               </div>
               {auth ? <Link
                 className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                onClick={async () => {
-                  const resp = await axios.get("/logout", {
-                    headers: {
-                      Authorization: auth.accessToken
-                    }
-                  })
-                  if (resp.status.toString() === "204") {
-                    setAuth(undefined);
-                    setUserData(undefined);
-                    toast.success("Logout Successfully")
-                  }
+                onClick={() => {
+                  logout()
                 }}
               >
                 Logout
