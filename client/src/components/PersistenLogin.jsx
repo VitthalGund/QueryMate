@@ -12,7 +12,7 @@ const PersistenLogin = () => {
     let isMounted = true;
     const verifyRefreshToken = async () => {
       try {
-        console.log(await refresh());
+        await refresh();
       } catch (err) {
         console.error(err);
       } finally {
@@ -35,7 +35,7 @@ const PersistenLogin = () => {
   // }, [isLoading]);
 
   return (
-    <>{!persist ? <Outlet /> : isLoading ? <div className="lds-facebook"><div></div><div></div><div></div></div> : <Outlet />}</>
+    <>{!persist == "true" ? <Outlet /> : isLoading ? <div className="lds-facebook"><div></div><div></div><div></div></div> : <Outlet />}</>
   );
 };
 
