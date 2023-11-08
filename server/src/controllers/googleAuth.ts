@@ -33,6 +33,7 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
             isVerified: true,
             email,
             username: firstName + lastName,
+            socialLogin: true,
           });
           existingUser = result;
         }
@@ -52,7 +53,7 @@ export const handleGoogleAuth = async (req: Request, res: Response) => {
           {
             username: firstName + lastName,
             email: existingUser.email,
-            id: existingUser._id,
+            roles: roles,
           },
           process.env.REFRESH_TOKEN_SECRET!,
           { expiresIn: "72h" }
