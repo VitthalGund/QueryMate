@@ -4,7 +4,7 @@ import { chunkPassage } from "./passage.js";
 import natural from "natural";
 import { UserChat } from "../models/Chat.js";
 import express from "express";
-
+import jwt from "jsonwebtoken";
 // Function to save text data to MongoDB
 export async function saveToMongoDB(
   text: string,
@@ -13,6 +13,11 @@ export async function saveToMongoDB(
   email?: string
 ) {
   let chunks: string[] = [];
+  const Response = jwt.verify(
+    req.headers.authorization,
+    process.env.ACCESS_TOKEN_SECRET
+  );
+  // console.log(Response);
   // console.log(text);
   // if (Buffer.from(text).length > 16 * 1024 * 1024) {
   if (text.length >= 4000) {
@@ -38,14 +43,14 @@ export async function saveToMongoDB(
   if (chunks.length > 0) {
     multi = true;
   }
-  console.log(chunks);
+  // console.log(chunks);
   for (const chunk of chunks) {
     if (chunk) {
       const chat = new UserChat({
         chatId: chatId,
-        title: text.slice(0, 10),
-        email,
-        fileName: req.file?.originalname || " ",
+        title: req.file?.originalname || text.slice(0, 10),
+        email: Response["UserInfo"].email,
+        source: req.file?.originalname || " ",
         passage: chunk,
         multi,
       });
