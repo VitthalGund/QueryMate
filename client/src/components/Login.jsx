@@ -7,23 +7,22 @@ import { toast } from 'react-toastify';
 
 const LOG_IN_URL = "/auth";
 export default function LogIn() {
-    const { auth, setAuth, persist, setPersist } = useContext(UserContext);
-
+    const { auth, setAuth, persist, setPersist, setUserData } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isChecked] = useState(true);
-    // const [errMsg, setErrMsg] = useState('');
+    const [localperist, setLocalPersist] = useState(persist == "true" ? true : false);
     const [success, setSuccess] = useState();
     const navigate = useNavigate();
 
     const togglePersist = () => {
-        setPersist((prev) => !prev);
+        setLocalPersist((prev) => !prev);
     };
 
 
     useEffect(() => {
-        localStorage.setItem("persist", persist);
-    }, [persist]);
+        setPersist(JSON.stringify(localperist))
+    }, [localperist, setPersist]);
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
@@ -47,9 +46,10 @@ export default function LogIn() {
             const roles = response?.data?.roles;
             setAuth({ email, roles, accessToken });
             setEmail("");
+            setUserData({ email, username: response.data.username })
             setPassword("");
             setSuccess(true);
-            setPersist(isChecked ? "true" : "false");
+            setPersist(JSON.stringify(isChecked));
             navigate("/")
         } catch (error) {
             if (!error?.response) {
@@ -117,7 +117,7 @@ export default function LogIn() {
                                     type="checkbox"
                                     id="persist"
                                     name="persist"
-                                    checked={persist}
+                                    checked={localperist}
                                     onChange={() => togglePersist()}
                                 /> Remember Me</label>
                             <Link to="/resetpassword" className="text-sm font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
