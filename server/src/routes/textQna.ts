@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 export const router = express.Router();
 import qna from "@tensorflow-models/qna";
-import tf, { Rank, Tensor } from "@tensorflow/tfjs-node";
+import tf, { Rank, Tensor } from "@tensorflow/tfjs-node-gpu";
 import { arrayIsEmpty, processChunks } from "../utils/passage.js";
 import use, {
   UniversalSentenceEncoder,
@@ -11,6 +11,7 @@ import mongoose from "mongoose";
 import { ChatMessage } from "../models/message.js";
 import { Mate } from "../types/mate.js";
 import NodeCache from "node-cache";
+import fs from "fs";
 const modelsCache = new NodeCache();
 // Load the BERT-based question-answering model only once when the server starts
 let qnaModel: qna.QuestionAndAnswer;
