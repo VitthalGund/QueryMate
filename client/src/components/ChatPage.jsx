@@ -3,34 +3,20 @@ import { useEffect, useState, useContext } from 'react'
 import Chat from './Chat';
 import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
-import { useNavigate } from 'react-router-dom';
-import { Toaster, toast } from 'react-hot-toast';
+// import { useNavigate } from 'react-router-dom';
+// import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import UserContext from '../context/Auth/userContext';
 import Sider from './Sider';
 
 export function ChatPage() {
-    const route = useNavigate();
+    // const route = useNavigate();
     const [question, setQuestion] = useState("");
     // const query = useRef(null);
-    const { auth } = useContext(UserContext);
-    const { chatId, multi } = useContext(ChatContext);
-
-    const [info, setInfo] = useState([{
-        mate: "QueryMate",
-        text: "Hello! I am your QueryMate assistant.\n I am here to help you with any question you may have regarding the provided curpus",
-        date: formatDate(new Date()),
-        img: `https://api.multiavatar.com/QueryMate.png`,
-        side: "start"
-    }]);
+    const { auth, userData } = useContext(UserContext);
+    const { chatId, multi, info, setInfo, formatDate } = useContext(ChatContext);
 
     const path = `/model/${multi ? "qalong" : "qa"}`;
-
-    function formatDate(date) {
-        const h = "0" + date.getHours();
-        const m = "0" + date.getMinutes();
-
-        return `${h.slice(-2)}:${m.slice(-2)}`;
-    }
 
     function addObjectToArrayIfNotExists(array, objectToAdd) {
         // Check if the object exists in the array
@@ -51,15 +37,15 @@ export function ChatPage() {
     const getConveration = async () => {
         const response = await axios.post("/messages", { chatId }, {
             headers: {
-                Authorization: auth.accessToken
+                authorization: auth.accessToken
             }
         });
-        console.log(response.data.messages)
+        // console.log(response.data.messages)
         for (let index = 0; index < response.data.messages.length; index++) {
             const element = response.data.messages[index];
             addObjectToArrayIfNotExists(info, {
-                mate: "Mate",
-                img: `https://api.multiavatar.com/Mate.png`,
+                mate: userData.username,
+                img: `https://api.multiavatar.com/${userData.username.toUpperCase()}.png`,
                 text: element.question,
                 date: element.Date,
                 side: "end"
@@ -84,16 +70,16 @@ export function ChatPage() {
         if (question !== "") {
             let id = toast.loading("Finding the Mate!")
             setInfo(addObjectToArrayIfNotExists(info, {
-                mate: "Mate",
+                mate: userData.username,
                 text: question,
                 date: formatDate(new Date()),
-                img: `https://api.multiavatar.com/QueryMate.png`,
+                img: `https://api.multiavatar.com/${userData.username.toUpperCase()}.png`,
                 side: "end"
             }));
             setQuestion("");
             const resp = await axios.post(path, { chatId, question }, {
                 headers: {
-                    Authorization: auth.accessToken
+                    authorization: auth.accessToken
                 }
             });
             try {
@@ -111,7 +97,6 @@ export function ChatPage() {
                         });
                     }
                     setInfo([...update]);
-                    console.log(info)
                     scrollToBottom();
                 } else {
                     toast.error(resp.data.message)
@@ -125,34 +110,34 @@ export function ChatPage() {
         }
     }
     useEffect(() => {
-        console.log(chatId)
         if (chatId === "" || chatId === undefined || chatId === null) {
-            route("/")
-
+            toast.info("No chats founds!")
         }
-        getConveration()
+        setInfo(null);
+        getConveration();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chatId])
 
     return (
         <>
             <div className="flex h-screen flex-col bg-gray-100">
-                <Toaster
+                {/* <Toaster
                     position="top-center"
                     reverseOrder={false}
                     gutter={8}
                     containerClassName=""
                     containerStyle={{}}
-                />
+                /> */}
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
                     <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - Your Helping Hand😊</h1>
                 </div>
                 <Sider />
                 <div className="flex-grow overflow-y-auto">
-                    <div className="flex flex-col space-y-2 p-4" id='chatList'>
-                        {info.map((item, index) => {
-                            return (<Chat key={index} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
-                        })}
+                    <div key={info} className="flex flex-col space-y-2 p-4" id='chatList'>
+                        {info?.length > 0 && chatId ? info.map((item, ind) => {
+                            return (<Chat key={ind} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
+                        }) :
+                            <h1 className="text-center text-2xl font-bold text-violet-500 mx-10 flex justify-center items-center">No Chats found</h1>}
                     </div>
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
