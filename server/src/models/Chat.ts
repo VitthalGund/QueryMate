@@ -12,7 +12,7 @@ const Chat = new Schema({
     type: String,
     required: true,
   },
-  fileName: {
+  source: {
     type: String,
     default: "NO File",
   },
