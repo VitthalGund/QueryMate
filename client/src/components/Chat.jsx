@@ -22,8 +22,8 @@ function Chat({ mate, text, side, img }) {
         <>
             <div className={`msg flex items-start mb-10 ${side === "end" ? "justify-end" : ""}`}>
                 {side !== "end" ? <div className={`msg-img w-10 h-10 mr-2 bg-gray-300 rounded-full ${side === "end" ? "justify-end" : ""}`}
-                ><img src={message.img} alt="icons" /></div> : ""}
-                <div className="msg-bubble max-w-72 p-1 rounded-lg bg-left-msg-bg">
+                ><img className="w-fit" src={message.img} alt="icons" /></div> : ""}
+                <div className="msg-bubble max-w-72 p-1 rounded-lg bg-left-msg-bg flex-wrap">
                     <div className={`msg-info flex ${side === "start" ? "justify-between" : "justify-end"} items-center mb-2`}>
                         <div className="msg-info-name font-bold">{message.mate}</div>
                         <div className={`msg-info-time text-sm ${side === "end" ? "ml-4" : ""}`}>{message.date}</div>
