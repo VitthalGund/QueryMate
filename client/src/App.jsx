@@ -58,7 +58,9 @@ export default function App() {
             <Route exact path="/notify" element={<ResetPassword />} />
             <Route exact path="/resetpassword-mail" element={<MailResetPassword />} />
             <Route exact path="/check-inbox" element={<ResetPassword />} />
-            <Route exact path="/verify:token" element={<Verify />} />
+            <Route exact path="/verify">
+              <Route exact path=":token=?" element={<Verify />} />
+            </Route>
             <Route exact path="/privacy" element={<PrivacyPolicy />} />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/help" element={<FAQ />} />
