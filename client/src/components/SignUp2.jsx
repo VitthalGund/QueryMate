@@ -69,7 +69,7 @@ export default function SignupPassword() {
   }
 
   const handleClickShowPassword = () => {
-    console.log("object")
+
     if (showPassword) {
       setShowPassword(false)
     } else {
@@ -87,7 +87,6 @@ export default function SignupPassword() {
     }
   }
 
-  console.log(showPassword)
   return (
 
     <>
