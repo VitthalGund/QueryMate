@@ -5,13 +5,13 @@ import jwt from "jsonwebtoken";
 
 // Authentication of user is working 100% fine
 export const handleLogin = async (req: Request, res: Response) => {
-  const { username, password, email } = req.body;
-  if (!username || !password || !email)
+  const { password, email } = req.body;
+  if (!password || !email)
     return res
       .status(400)
       .json({ message: "Username,email and password are required." });
   // console.log(req.body)
-  const foundUser = await User.findOne({ username: username });
+  const foundUser = await User.findOne({ email: email });
   if (!foundUser) return res.sendStatus(401); //Unauthorized
   // check password with hash to evaluate password is correct or not
   const match = await bcryptjs.compare(password, foundUser.password);
@@ -32,14 +32,19 @@ export const handleLogin = async (req: Request, res: Response) => {
     );
     // 2.create new refresh Token
     const refreshToken = jwt.sign(
-      { username: foundUser.username },
+      {
+        username: foundUser.username,
+        email: foundUser.email,
+        roles: roles,
+      },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
     // 3.Saving refreshToken with current username
     foundUser.refreshToken = refreshToken;
-    const result = await foundUser.save();
-    console.log(result);
+    // const result = await foundUser.save();
+    await foundUser.save();
+    // console.log(result);
 
     // 4.Creates Secure Cookie with refresh token
     // res.setHeader("Set-Cookie", `jwt=${refreshToken}; httpOnly=true; secure=true; sameSite=None; maxAge=${24 * 60 * 60 * 1000};`)
@@ -50,7 +55,13 @@ export const handleLogin = async (req: Request, res: Response) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
     // Send authorization roles and access token to username
-    res.json({ roles, authToken, refreshToken, success: true });
+    res.json({
+      roles,
+      authToken,
+      refreshToken,
+      success: true,
+      username: foundUser.username,
+    });
   } else {
     res.sendStatus(401);
   }
