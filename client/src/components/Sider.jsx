@@ -1,12 +1,20 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import axios from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../context/Auth/userContext";
+import ChatContext from "../context/Chat/useContext";
+import { toast } from 'react-toastify';
 
 const Sider = () => {
+    const { userData, auth, setAuth, setUserData, setPersist } = useContext(UserContext);
+    const { setChatId, info, setInfo } = useContext(ChatContext);
+    const navigate = useNavigate();
     const sideBar = useRef();
     const subMenu = useRef();
     const arrow = useRef();
     const [drop, setDrop] = useState();
     const [open, setOpen] = useState(false); // Initialize with `false` here.
-
+    const [chats, setChats] = useState([]);
     function dropdown() {
         setDrop(pre => !pre);
         if (subMenu.current !== undefined) {
@@ -20,6 +28,99 @@ const Sider = () => {
     function openSidebar() {
         setOpen(pre => !pre);
     }
+    const toUpload = () => {
+        navigate("/upload");
+        toast.info("navigating to upload page...")
+    }
+
+    const handleSwitch = (chatId) => {
+        info.length = 1;
+        setChatId(chatId);
+        if (editingChatId === chatId) {
+            return
+        }
+        openSidebar();
+    }
+    const logout = async () => {
+        const resp = await toast.promise(axios.get("/logout", {
+            headers: {
+                authorization: auth.accessToken
+            }
+        }), {
+            pending: "requesting to logout...",
+            success: "Logout Successfully",
+            error: "Something went wrong!"
+        });
+        if (resp.status.toString() === "204") {
+            setAuth(undefined);
+            setUserData(undefined);
+            setPersist(false);
+        }
+    }
+
+    useEffect(() => {
+        const fetchChat = async () => {
+            const resp = await axios.post("/messages/chats", { email: userData.email }, {
+                headers: {
+                    authorization: auth.accessToken
+                }
+            });
+            if (resp.data.chats.length < 0) {
+                toUpload();
+                return;
+            }
+            setChats(resp.data.chats)
+            if (!localStorage.getItem("chatId")) {
+                localStorage.setItem("chatId", chats[0].chatId)
+            }
+        }
+        fetchChat();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [auth.accessToken, userData.email])
+
+    const [editingChatId, setEditingChatId] = useState(null);
+    const [editedChatTitle, setEditedChatTitle] = useState("");
+
+    // Function to enter "edit mode" for a chat item
+    const startEditing = (chatId, chatTitle) => {
+        setEditingChatId(chatId);
+        setEditedChatTitle(chatTitle);
+    };
+
+    // Function to save changes for a chat title
+    const saveChanges = async (editedChatTitle, editingChatId) => {
+        // Implement your logic to save changes here, e.g., update the chat title in your state or storage.
+        // Then, exit "edit mode" for the chat item.
+        // console.log({ editedChatTitle, editingChatId })
+        setEditedChatTitle(editedChatTitle);
+        let data = chats;
+        const resp = await toast.promise(axios.post("messages/edit", { newTitle: editedChatTitle, chatId: editingChatId }, {
+            headers: {
+                authorization: auth.accessToken
+            }
+        }), {
+            promise: "reflecting your changes...",
+            success: "changes saved!",
+            error: "unable to save changes."
+        });
+        if (!resp.data.success) {
+            return
+        }
+        data.map((item) => {
+            if (item.chatId === editingChatId) {
+                item.title = editedChatTitle;
+            }
+            return item;
+        })
+        setEditingChatId(null);
+
+    };
+
+    // Function to cancel changes for a chat title
+    const cancelChanges = () => {
+        // Simply exit "edit mode" without saving changes.
+        setEditingChatId(null);
+    };
 
     return (
         <div className="bg-blue-600">
@@ -43,7 +144,8 @@ const Sider = () => {
                             className="bi bi-x cursor-pointer ml-28"
                             onClick={() => openSidebar()}
                         ></i>
-                        <i className="bi bi-plus-circle mx-3"
+                        <i className="bi bi-plus-circle mx-3 cursor-pointer"
+                            onClick={() => toUpload()}
                         ></i>
                     </div>
                     <div className="my-2 bg-gray-600 h-[1px]"></div>
@@ -73,40 +175,87 @@ const Sider = () => {
                     </div>
                 </div>
                 <div
-                    className={`text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold ${drop ? "hidden" : ""}`}
+                    className={`text-left text-sm mt-2 w-[93%] mx-auto text-gray-200 font-bold ${drop ? "hidden" : ""}`}
                     id="submenu"
                 >
-                    <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-                        Java Reference.pdf
-                    </h1>
-                    <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
+                    {/* {chats.map((item) => {
+                        return (
+                            <h1 key={item.chatId}
+                                onClick={() => {
+                                    handleSwitch(item.chatId)
+                                    openSidebar()
+                                }}
+                                className={`cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1 ${item.chatId === localStorage.getItem("chatId") ? "bg-blue-500" : ""}`}
+                            >
+                                {item.title}
+                            </h1>
+                        )
+                    })} */}
+                    {chats.map((item) => {
+                        return (
+                            <h1
+                                key={item.chatId}
+                                onClick={() => handleSwitch(item.chatId)}
+                                className={`cursor-pointer w-full bg-slate-800 my-3 p-2 ${editingChatId === item.chatId ? "" : "hover:bg-blue-600"} rounded-md mt-1${item.chatId === localStorage.getItem("chatId") ? " bg-blue-500" : ""
+                                    }`}
+                            >
+                                {editingChatId === item.chatId ? (
+                                    // Display the input field when in "edit mode"
+                                    <div className="flex flex-row justify-between items-center">
+                                        <input
+                                            type="text"
+                                            value={editedChatTitle}
+                                            onChange={(e) => setEditedChatTitle(e.target.value)}
+                                            className="text-black rounded-lg p-2"
+                                        />
+                                        <i onClick={() => saveChanges(editedChatTitle, editingChatId)} className="bi bi-check-lg mr-2 ml-[0.33rem] cursor-pointer"></i>
+                                        <i onClick={cancelChanges} className="bi bi-x-lg mr-[0.4rem] ml-1 cursor-pointer"></i>
+                                    </div>
+                                ) : (
+                                    // Display the chat title when not in "edit mode"
+                                    <>
+                                        <div className="flex space-x-44 flex-row justify-between" >
+                                            {item.title}
+                                            <button onClick={() => startEditing(item.chatId, item.title)}><i className="bi bi-pencil-square items-start"></i></button>
+                                        </div>
+                                    </>
+                                )}
+                            </h1>
+                        )
+                    })}
+                    {/* <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
                         Chanakya: India&apos;s Machiavelli
                     </h1>
                     <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
                         10th Science part 1.docs
-                    </h1>
+                    </h1> */}
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
                 >
                     <i className="bi bi-house-door-fill"></i>
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
+                    <Link to="/" className="text-[15px] ml-4 text-gray-200 font-bold">Home</Link>
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
                 >
                     <i className="bi bi-bookmark-fill"></i>
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Bookmark</span>
+                    <Link to="/help" className="text-[15px] ml-4 text-gray-200 font-bold">FAQ</Link>
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
                 >
                     <i className="bi bi-box-arrow-in-right"></i>
-                    <span className="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
+                    <span
+                        className="text-[15px] ml-4 text-gray-200 font-bold"
+                        onClick={() => {
+                            logout();
+                        }}
+                    >Logout</span>
                 </div>
 
             </div>
-        </div>
+        </div >
     );
 }
 
