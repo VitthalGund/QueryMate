@@ -49,12 +49,23 @@ import {
 
 export const extractText = async (req: Request, res: Response) => {
   const currentChatId = new mongoose.Types.ObjectId(); // Generate a new chatId for each file
-  console.log(req.file.path);
+
+  // console.log(req.file);
+  if (!req.file) {
+    return res
+      .status(400)
+      .json({ sucess: false, message: "missing file input!" });
+  }
   try {
     if (req.file.mimetype.startsWith("image/")) {
       // Handle image file
       const result = await Tesseract.recognize(req.file.path);
-      const data = await saveToMongoDB(result.data.text, req, currentChatId);
+      const data = await saveToMongoDB(
+        result.data.text,
+        req,
+        currentChatId,
+        req.body?.email
+      );
       res.status(200).json({
         success: true,
         message: "File uploaded and processed successfully",
@@ -65,7 +76,12 @@ export const extractText = async (req: Request, res: Response) => {
     } else if (req.file.mimetype.startsWith("audio/")) {
       const textOutput = await extractTextFromAudio(req.file.buffer);
       if (textOutput.success) {
-        const data = await saveToMongoDB(textOutput.text, req, currentChatId);
+        const data = await saveToMongoDB(
+          textOutput.text,
+          req,
+          currentChatId,
+          req.body?.email
+        );
         res.json({
           success: true,
           message: "File uploaded and processed successfully",
@@ -87,7 +103,8 @@ export const extractText = async (req: Request, res: Response) => {
       const resp = await saveToMongoDB(
         audioText + "\n" + videoText,
         req,
-        currentChatId
+        currentChatId,
+        req.body?.email
       );
       // Error handling needed to implement.
       console.log("Text saved to MongoDB");
