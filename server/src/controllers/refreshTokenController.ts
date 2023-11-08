@@ -12,26 +12,30 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
   // if user not found
   if (!foundUser) return res.sendStatus(403); //Forbidden
   // evaluate jwt to assign the new jwt token to user
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundUser.username !== decoded.username)
-      return res.sendStatus(403);
-    const roles = Object.values(foundUser.roles);
-    const accessToken = jwt.sign(
-      {
-        UserInfo: {
-          username: decoded.username,
-          email: decoded.email,
-          roles: roles,
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET!,
+    (err, decoded) => {
+      if (err || foundUser.username !== decoded.username)
+        return res.sendStatus(403);
+      const roles = Object.values(foundUser.roles);
+      const accessToken = jwt.sign(
+        {
+          UserInfo: {
+            username: decoded.username,
+            email: decoded.email,
+            roles: roles,
+          },
         },
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "72h" }
-    );
-    res.json({
-      roles,
-      accessToken,
-      email: foundUser.email,
-      username: foundUser.username,
-    });
-  });
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "72h" }
+      );
+      res.json({
+        roles,
+        accessToken,
+        email: foundUser.email,
+        username: foundUser.username,
+      });
+    }
+  );
 };
