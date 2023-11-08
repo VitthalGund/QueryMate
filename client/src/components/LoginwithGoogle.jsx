@@ -23,7 +23,7 @@ const LogSign = (props) => {
     });
     toast.success("Login Successfully!")
     navigate("/")
-    setPersist(true);
+    setPersist(JSON.stringify(true));
   }
   const login = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
   // const login = useGoogleLogin({
