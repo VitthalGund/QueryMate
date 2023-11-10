@@ -55,6 +55,7 @@ const Sider = () => {
             setAuth(undefined);
             setUserData(undefined);
             setPersist(false);
+            setChatId(null);
         }
     }
 
@@ -178,19 +179,7 @@ const Sider = () => {
                     className={`text-left text-sm mt-2 w-[93%] mx-auto text-gray-200 font-bold ${drop ? "hidden" : ""}`}
                     id="submenu"
                 >
-                    {/* {chats.map((item) => {
-                        return (
-                            <h1 key={item.chatId}
-                                onClick={() => {
-                                    handleSwitch(item.chatId)
-                                    openSidebar()
-                                }}
-                                className={`cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1 ${item.chatId === localStorage.getItem("chatId") ? "bg-blue-500" : ""}`}
-                            >
-                                {item.title}
-                            </h1>
-                        )
-                    })} */}
+
                     {chats.map((item) => {
                         return (
                             <h1
@@ -223,12 +212,7 @@ const Sider = () => {
                             </h1>
                         )
                     })}
-                    {/* <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-                        Chanakya: India&apos;s Machiavelli
-                    </h1>
-                    <h1 className="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
-                        10th Science part 1.docs
-                    </h1> */}
+
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
