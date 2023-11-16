@@ -14,12 +14,12 @@ export const handleNewUser = async (req: Request, res: Response) => {
     }
     // console.log(req.body)
 
-    // to check whether some user already exists with the given email and username
+    // to check whether some user already exists with the given username
     const duplicate = await User.findOne({ username: username });
     // if the given email or username exists with this email and password send error message
     if (duplicate) return res.sendStatus(409); //Conflict
-    // to check whether some user already exists with the given email and username
-    const duplicate2 = await User.findOne({ username: username });
+    // to check whether some user already exists with the given email
+    const duplicate2 = await User.findOne({ email: email });
     // if the given email or username exists with this email and password send error message
     if (duplicate2) return res.sendStatus(409); //Conflict
 
