@@ -20,6 +20,7 @@ import Verify from "./components/Verify";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import About from "./components/About";
 import { FAQ } from "./components/FAQ";
+import Page404 from "./components/Page404";
 const ROLES = {
   'User': 2001,
   'Editor': 1984,
@@ -64,6 +65,7 @@ export default function App() {
             <Route exact path="/privacy" element={<PrivacyPolicy />} />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/help" element={<FAQ />} />
+            <Route exact path="*" element={<Page404 />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
               {/* <Route exact path="/chat-page" element={<ChatPage/>}/> */}
               <Route exact path="/create-new-password" element={<CreateNewPassword />} />
