@@ -39,7 +39,7 @@ export const NavBar = () => {
     setWidth(window.screen.width);
   }, [])
   return (
-    <nav className={`${location.pathname === "/chat" ? "hidden" : ""}`}>
+    <nav className={`${location.pathname === "/chat" ? "hidden" : ""} z-50`}>
       <div className={`bg-white z-2 `}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
