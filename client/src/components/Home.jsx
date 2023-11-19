@@ -64,7 +64,7 @@ const Home = () => {
             <p className="mt-4 sm:text-xl/relaxed ">
               QueryMate is an AI-powered application capable of understanding questions posed in natural language and extracting precise answers from a given <span className='font-semibold text-xl py-2 text-indigo-600'>
                 <Typewriter
-                  words={['Text', 'Files', "PDF's", "DOC's", "Image's", "PPT's", "Audio's", "Video's", "online articles", "blogs"]}
+                  words={['Text', 'Files', "PDFs", "DOCS", "Images", "PPTs", "Audio", "Video", "Online articles, ", "blogs"]}
                   loop={Infinity}
                   cursorStyle='_'
                   typeSpeed={50}
