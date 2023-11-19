@@ -11,7 +11,7 @@ export async function sendVerificationEmail(
   try {
     const { email } = await request.body;
 
-    console.log({ email });
+    // console.log({ email });
     const id: string = (await User.findOne({ email }).select(
       "_id"
     )) as unknown as string;
@@ -39,7 +39,7 @@ export async function verifyPassword(
 ) {
   try {
     const { token, password } = await request.body;
-    console.log(token);
+    // console.log(token);
 
     const user = await User.findOne({
       forgotPasswordToken: token,
@@ -50,7 +50,7 @@ export async function verifyPassword(
       return res.status(401).json({ message: "Invalid token", success: true });
     }
 
-    console.log(user);
+    // console.log(user);
 
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);

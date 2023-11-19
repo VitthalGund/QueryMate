@@ -51,7 +51,7 @@ export const verifyUser = async (req: Request, res: Response) => {
   try {
     const reqBody = req.body;
     const { token } = reqBody;
-    console.log(token);
+    // console.log(token);
 
     const user = await User.findOne({
       verifyToken: token,
@@ -62,7 +62,7 @@ export const verifyUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid token", success: false });
     }
 
-    console.log(user);
+    // console.log(user);
 
     user.isVerified = true;
     user.verifyToken = undefined;

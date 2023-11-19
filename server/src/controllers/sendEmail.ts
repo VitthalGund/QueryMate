@@ -57,7 +57,7 @@ export const sendEmail = async ({
       }?token=${hashedToken} </p>`,
     };
 
-    console.log("66:" + mailOptions);
+    // console.log("66:" + mailOptions);
 
     return transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
