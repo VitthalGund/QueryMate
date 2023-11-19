@@ -12,12 +12,24 @@ export default function About() {
                 </div>
                 <div className="">
                     <div className="md:flex md:justify-evenly md:items-center block ">
-                        <StudentInfo name='Vitthal Gund' enrollmentNo='FS21CO044' gitacc='https://github.com/VitthalGund' linkacc='https://in.linkedin.com/in/vitthal-gund' />
-                        <StudentInfo name='Sarvesh Yadav' enrollmentNo='FS21CO027' gitacc='https://github.com/sarveshpyadav' linkacc='https://in.linkedin.com/in/sarveshpyadav' />
+                        <StudentInfo
+                            imgLink="https://avatars.githubusercontent.com/u/97181033?v=4"
+                            name='Vitthal Gund'
+                            github='https://github.com/VitthalGund'
+                            linkedin='https://in.linkedin.com/in/vitthal-gund'
+                            roles='Full Stack Developer'
+                        />
+                        <StudentInfo
+                            imgLink="https://avatars.githubusercontent.com/u/127607339?v=4"
+                            name='Sarvesh Yadav'
+                            roles='UI/UX Designer and Content Writer'
+                            github='https://github.com/sarveshpyadav'
+                            linkedin='https://in.linkedin.com/in/sarveshpyadav'
+                        />
                     </div>
                     <div className="md:flex md:justify-evenly md:items-center block">
-                        <StudentInfo name='Justin Fernandes' enrollmentNo='FH21CO001' gitacc='https://github.com/FernandesJustin' linkacc='https://in.linkedin.com/in/justin-fernandes-848459247' />
-                        <StudentInfo name='Ramkrushna Sahu' enrollmentNo='FS21CO036' gitacc='https://github.com/Ramkrushna-Sahu' linkacc='https://www.linkedin.com/in/ramkrushna-sahu' />
+                        <StudentInfo imgLink="https://avatars.githubusercontent.com/u/142326621?v=4" name='Justin Fernandes' role='FH21CO001' github='https://github.com/FernandesJustin' linkedin='https://in.linkedin.com/in/justin-fernandes-848459247' />
+                        <StudentInfo imgLink="https://avatars.githubusercontent.com/u/146202519?v=4" name='Ramkrushna Sahu' enrollmentNo='FS21CO036' github='https://github.com/Ramkrushna-Sahu' linkedin='https://www.linkedin.com/in/ramkrushna-sahu' />
                     </div>
                 </div>
             </div>
