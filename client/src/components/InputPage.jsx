@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
 import { Toaster, toast } from 'react-hot-toast';
@@ -95,7 +95,10 @@ export function InputPage() {
 
     return (
         <>
-            <div className="h-screen w-[80%]flex flex-col justify-center items-center">
+            <div className="font-serif bg-slate-50">
+                <Link to="/" className="ml-4 text-3xl">←</Link>
+            </div>
+            <div className="h-screen w-[80%]flex flex-col justify-center items-center bg-slate-50">
                 <Toaster
                     position="top-center"
                     reverseOrder={false}
@@ -104,7 +107,7 @@ export function InputPage() {
                     containerStyle={{}}
                 />
                 <div className="py-4 ">
-                    <p className="font-bold text-2xl pt-16 text-center">QUERYMATE</p>
+                    <p className="font-bold text-2xl pt-10 text-center">QUERYMATE</p>
                 </div>
                 <div className="py-4">
                     <p className="font-semibold text-xl text-center">Add your text corpus OR Upload your document.</p>
