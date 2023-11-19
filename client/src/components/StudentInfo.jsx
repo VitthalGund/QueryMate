@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom'
 export function StudentInfo(props) {
     return (
         <>
-            <div className="border-2 border-solid border-slate-300 rounded-xl w-[314px] max-w-full h-44 text-center bg-slate-100 hover:bg-slate-300 flex flex-col justify-center items-center m-auto px-8 my-3">
-                <p className="text-2xl font-bold py-2">{props.name}</p>
-                <p className="text-xl font-semibold">{props.enrollmentNo}</p>
-                <span className="flex py-2 px-10"><Link to={props.gitacc}><AiFillGithub size={30} /></Link><Link to={props.linkacc}><AiFillLinkedin size={30} /></Link></span>
+            <div className="p-2 lg:w-1/3 md:w-1/2 w-full">
+                <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                    <img alt="team" className="w-24 h-24 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={props.imgLink} />
+                    <div className="flex-grow">
+                        <h2 className="text-gray-900 title-font font-medium text-1xl">{props.name}</h2>
+                        <p className="text-gray-500">{props.role}</p>
+                        <span className="flex py-2 justify-start"><Link to={props.github} className='mr-2'><AiFillGithub size={30} /></Link><Link to={props.linkedin} className='mr-2'><AiFillLinkedin size={30} /></Link></span>
+                    </div>
+                </div>
             </div>
         </>
     )
