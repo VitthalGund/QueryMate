@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/Auth/userContext';
 import axios from '../api/axios';
@@ -10,11 +10,9 @@ export default function SignupPassword() {
   const { userData } = useContext(UserContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const errRef = useRef()
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   // const [success, setSuccess] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
   const navigate = useNavigate();
 
   const handleOnSubmit = async (e) => {
@@ -57,13 +55,12 @@ export default function SignupPassword() {
       // setSuccess(true)
     } catch (error) {
       if (!error?.response) {
-        setErrMsg("No Server Response");
+        toast.error("No Server Response");
       } else if (error.response?.status === 400) {
-        setErrMsg('Missing Username, Email or Password');
+        toast.error('Missing Username, Email or Password');
       } else {
-        setErrMsg("Registration Failed")
+        toast.error("Registration Failed")
       }
-      errRef.current.focus();
     }
 
   }
@@ -90,11 +87,10 @@ export default function SignupPassword() {
   return (
 
     <>
-      <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live='assertive'>{errMsg}</p>
-      <div className="font-serif mt-3">
+      <div className="font-serif bg-slate-50">
         <Link to="/signupmail" className="ml-4 text-3xl">←</Link>
       </div>
-      <div className="flex min-h-full flex-col justify-center items-center font-serif">
+      <div className="flex min-h-full flex-col justify-center items-center font-serif bg-slate-50">
         <p className="text-3xl font-semibold">Safety First</p>
         <div className="flex flex-col mt-10">
           <p className="text-2xl font-medium mb-2 pb-2 text-center">Set Your Password</p>

@@ -17,13 +17,13 @@ export default function SignEmail() {
     return (
         <>
 
-            <header className="text-lg pl-2 font-medium z-10 text-blue-700 hover:text-blue-900 font-serif">
-                <div className="font-serif mt-3 z-20">
+            <header className="text-lg pl-2 font-medium z-10 text-blue-700 hover:text-blue-900 font-serif bg-slate-50">
+                <div className="font-serif z-20">
                     <Link to="/loginwithgoogle" className="ml-4 z-20 text-3xl">←</Link>
                 </div>
             </header>
             <form onSubmit={handleOnSubmit}
-                className="flex flex-col justify-center items-center font-serif bg-white p-4 rounded-lg">
+                className="flex flex-col justify-center items-center font-serif bg-slate-50 p-4 rounded-lg">
                 <div className="mt-10 mb-5 pl-0 pr-0 pt-2 pb-2">
                     <p className="text-3xl font-semibold">Hello, User!</p>
                 </div>

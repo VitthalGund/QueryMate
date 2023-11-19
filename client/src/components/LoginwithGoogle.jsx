@@ -38,10 +38,10 @@ const LogSign = (props) => {
   }, [auth, navigate])
   return (
     <>
-      <div className="font-serif mt-3">
+      <div className="font-serif bg-slate-50">
         <Link to="/" className="ml-4 text-3xl">←</Link>
       </div>
-      <div className="bg-white h-screen flex justify-center items-center font-serif text-center pl-10">
+      <div className="h-screen flex justify-center items-center font-serif text-center pl-10  bg-slate-50">
         <div className="font-serif text-center">
           <h1 className="font-semibold text-3xl font-staatliches text-center">{props.title}</h1>
           <div className="flex items-center w-80 h-64 flex-col justify-center">
