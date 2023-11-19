@@ -2,7 +2,7 @@ import { Typewriter } from 'react-simple-typewriter';
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from '../context/Auth/userContext';
 import { useContext } from 'react';
-
+import "../assets/background.css"
 import { Feature } from './Features';
 import OurTeam from './OurTeam';
 // import useAuth from '../hooks/useAuth';
@@ -50,7 +50,7 @@ const Home = () => {
           </section>
         </div>
       </div> */}
-      <section className="bg-gray-50">
+      <section className="bg-gray-50 home">
         <div
           className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center"
         >
@@ -62,7 +62,7 @@ const Home = () => {
               </strong>
             </h1>
 
-            <p className="mt-4 sm:text-xl/relaxed ">
+            <p className="mt-4 sm:text-xl/relaxed">
               QueryMate is an AI-powered application capable of understanding questions posed in natural language and extracting precise answers from a given <span className='font-semibold text-xl py-2 text-indigo-600'>
                 <Typewriter
                   words={['Text', 'Files', "PDFs", "DOCS", "Images", "PPTs", "Audio", "Video", "Online articles, ", "blogs"]}
@@ -84,7 +84,7 @@ const Home = () => {
               </button>
 
               <Link
-                className="block w-full rounded px-12 py-3 text-sm font-medium text-indigo-600 shadow hover:text-indigo-700 focus:outline-none focus:ring active:text-indigo-500 sm:w-auto"
+                className="block w-full rounded px-12 py-3 text-sm font-medium text-indigo-600 shadow hover:text-indigo-700 focus:outline-none focus:ring active:text-indigo-500 sm:w-auto bg-white"
                 to="/about"
               >
                 Learn More
