@@ -12,9 +12,9 @@ const FeaturesItem = ({ title, description, points, svg }) => {
                     {description}
                 </p>
                 <ul className="mb-4 -ml-1 space-y-2">
-                    {points.map((item) => {
+                    {points.map((item, idx) => {
                         return (
-                            <li className="flex items-start" key={title}>
+                            <li className="flex items-start" key={idx}>
                                 <span className="mr-1">
                                     <svg
                                         className="w-5 h-5 mt-px text-deep-purple-accent-400 text-indigo-500"

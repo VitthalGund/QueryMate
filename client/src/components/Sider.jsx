@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const Sider = () => {
     const { userData, auth, setAuth, setUserData, setPersist } = useContext(UserContext);
-    const { setChatId, info, setInfo } = useContext(ChatContext);
+    const { setChatId, info } = useContext(ChatContext);
     const navigate = useNavigate();
     const sideBar = useRef();
     const subMenu = useRef();

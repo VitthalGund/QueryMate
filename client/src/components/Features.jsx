@@ -130,7 +130,7 @@ export const Feature = () => {
                 </div>
             </div>
             <div className="grid gap-10 row-gap-10 lg:grid-cols-2 sm:grid-cols-1">
-                {features.map((item) => <FeaturesItem key={item.title} title={item.title} svg={item.svg} points={item.points} description={item.description} />)}
+                {features.map((item, idx) => <FeaturesItem key={idx} title={item.title} svg={item.svg} points={item.points} description={item.description} />)}
             </div>
         </div>
     );
