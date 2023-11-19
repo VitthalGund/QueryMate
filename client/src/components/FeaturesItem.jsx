@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 const FeaturesItem = ({ title, description, points, svg }) => {
     return (
@@ -35,13 +36,12 @@ const FeaturesItem = ({ title, description, points, svg }) => {
                     }
 
                 </ul>
-                <a
-                    href="/"
-                    aria-label=""
+                <Link
+                    to="/about"
                     className="flex items-start font-semibold transition-colors duration-200 p-3  text-indigo-400 hover:text-indigo-800"
                 >
                     Learn more
-                </a>
+                </Link>
             </div>
         </>
     )
