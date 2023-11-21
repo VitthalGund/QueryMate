@@ -1,26 +1,30 @@
+import React, { Suspense } from "react";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
-import LogSign from "./components/LoginwithGoogle"
-import SignEmail from "./components/SignUp1"
-import SignupPassword from "./components/SignUp2"
-import LogIn from "./components/Login"
-import MailResetPassword from "./components/ResetPassword1";
-import ResetPassword from "./components/ResetPassword2";
-import CreateNewPassword from "./components/NewPassword";
-import NewPasswordCreated from "./components/NewPasswordCreated";
-import RequireAuth from "./components/RequireAuth";
+const LogSign = React.lazy(() => import("./components/LoginwithGoogle"));
+const SignEmail = React.lazy(() => import("./components/SignUp1"));
+const SignupPassword = React.lazy(() => import("./components/SignUp2"));
+const LogIn = React.lazy(() => import("./components/Login"));
+const MailResetPassword = React.lazy(() => import("./components/ResetPassword1"));
+const ResetPassword = React.lazy(() => import("./components/ResetPassword2"));
+const CreateNewPassword = React.lazy(() => import("./components/NewPassword"));
+const NewPasswordCreated = React.lazy(() => import("./components/NewPasswordCreated"));
+const Verify = React.lazy(() => import("./components/Verify"));
+const InputPage = React.lazy(() => import("./components/InputPage"));
+const PrivacyPolicy = React.lazy(() => import("./components/PrivacyPolicy"));
+const ChatPage = React.lazy(() => import("./components/ChatPage"));
+const Email = React.lazy(() => import("./components/Email"));
+const About = React.lazy(() => import("./components/About"));
+const FAQ = React.lazy(() => import("./components/FAQ"));
+const Page404 = React.lazy(() => import("./components/Page404"));
+
 import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
-import { ChatPage } from "./components/ChatPage";
+import RequireAuth from "./components/RequireAuth";
 import PersistenLogin from "./components/PersistenLogin";
 import { ToastContainer } from 'react-toastify';
-import { InputPage } from "./components/InputPage";
+import ReactLoading from "react-loading"
 import 'react-toastify/dist/ReactToastify.css';
-import { Email } from "./components/Email"
-import Verify from "./components/Verify";
-import { PrivacyPolicy } from "./components/PrivacyPolicy";
-import About from "./components/About";
-import { FAQ } from "./components/FAQ";
-import Page404 from "./components/Page404";
+
 const ROLES = {
   'User': 2001,
   'Editor': 1984,
@@ -43,6 +47,7 @@ export default function App() {
           pauseOnHover
           theme="colored"
         />
+
         <Routes>
           <Route element={<PersistenLogin />}>
             <Route exact path="/" element={
@@ -51,27 +56,94 @@ export default function App() {
               </>
             } />
             <Route exact path="/home" element={<Home />} />
-            <Route exact path="/loginwithgoogle" element={<LogSign title="QUERYMATE" />} />
-            <Route exact path="/login" element={<LogIn />} />
-            <Route exact path="/signupmail" element={<SignEmail />} />
-            <Route exact path="/signuppassword" element={<SignupPassword />} />
-            <Route exact path="/resetpassword" element={<Email />} />
-            <Route exact path="/notify" element={<ResetPassword />} />
-            <Route exact path="/resetpassword-mail" element={<MailResetPassword />} />
-            <Route exact path="/check-inbox" element={<ResetPassword />} />
+            <Route exact path="/loginwithgoogle" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <LogSign title="QUERYMATE" />
+              </Suspense>
+            } />
+            <Route exact path="/login" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <LogIn />
+              </Suspense>
+            } />
+            <Route exact path="/signupmail" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <SignEmail />
+              </Suspense>
+            } />
+            <Route exact path="/signuppassword" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <SignupPassword />
+              </Suspense>
+            } />
+            <Route exact path="/resetpassword" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <Email />
+              </Suspense>
+            } />
+            <Route exact path="/notify" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <ResetPassword />
+              </Suspense>
+            } />
+            <Route exact path="/resetpassword-mail" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <MailResetPassword />
+              </Suspense>
+            } />
+            <Route exact path="/check-inbox" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <ResetPassword />
+              </Suspense>
+            } />
             <Route exact path="/verify">
-              <Route exact path=":token=?" element={<Verify />} />
+              <Route exact path=":token=?" element={
+                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                  <Verify />
+                </Suspense>
+              } />
             </Route>
-            <Route exact path="/privacy" element={<PrivacyPolicy />} />
-            <Route exact path="/about" element={<About />} />
-            <Route exact path="/help" element={<FAQ />} />
-            <Route exact path="*" element={<Page404 />} />
+            <Route exact path="/privacy" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <PrivacyPolicy />
+              </Suspense>
+            } />
+            <Route exact path="/about" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <About />
+              </Suspense>
+            } />
+            <Route exact path="/help" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <FAQ />
+              </Suspense>
+            } />
+            <Route exact path="*" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <Page404 />
+              </Suspense>
+            } />
+            <Route exact path="/password" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <CreateNewPassword />
+              </Suspense>
+            } />
+            <Route exact path="/new-password-created" element={
+              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <NewPasswordCreated />
+              </Suspense>
+            } />
             <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-              {/* <Route exact path="/chat-page" element={<ChatPage/>}/> */}
-              <Route exact path="/create-new-password" element={<CreateNewPassword />} />
-              <Route exact path="/new-password-created" element={<NewPasswordCreated />} />
-              <Route exact path="/chat" element={<ChatPage />}></Route>
-              <Route exact path="/upload" element={<InputPage />}></Route>
+              <Route exact path="/chat" element={
+                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                  <ChatPage />
+                </Suspense>
+              }></Route>
+              <Route exact path="/upload" element={
+                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                  <InputPage />
+                </Suspense>
+              }></Route>
             </Route>
           </Route>
         </Routes>
