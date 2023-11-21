@@ -11,7 +11,7 @@ const Home = () => {
   const { auth } = useContext(UserContext);
   const handleOnclick = () => {
     if (auth.accessToken) {
-      console.log(auth.accessToken)
+      // console.log(auth.accessToken)
       navigate("/chat")
     } else {
       console.log("object")

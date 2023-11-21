@@ -1,5 +1,5 @@
 
-export function PrivacyPolicy() {
+function PrivacyPolicy() {
     return (
         <>
             <div className="px-9 mx-2 my-4 bg-slate-100 border-2 border-solid border-slate-300 h-full grid ">
@@ -62,3 +62,5 @@ export function PrivacyPolicy() {
         </>
     )
 }
+
+export default PrivacyPolicy;

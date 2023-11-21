@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import UserContext from '../context/Auth/userContext';
 
-export function Email() {
+function Email() {
     const { userData, setUserData } = useContext(UserContext);
     const [email, setEmail] = useState(userData.email);
 
@@ -48,3 +48,5 @@ export function Email() {
         </>
     )
 }
+
+export default Email;

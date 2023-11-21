@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import UserContext from '../context/Auth/userContext';
 import Sider from './Sider';
 
-export function ChatPage() {
+function ChatPage() {
     // const route = useNavigate();
     const [question, setQuestion] = useState("");
     // const query = useRef(null);
@@ -158,3 +158,4 @@ export function ChatPage() {
     )
 }
 
+export default ChatPage;

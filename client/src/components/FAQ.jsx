@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function FAQ() {
+function FAQ() {
     const [faqStates, setFaqStates] = useState({
         1: false,
         2: false,
@@ -86,3 +86,5 @@ export function FAQ() {
     );
 }
 
+
+export default FAQ;

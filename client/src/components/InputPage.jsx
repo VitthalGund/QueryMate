@@ -5,7 +5,7 @@ import axios from '../api/axios';
 import { Toaster, toast } from 'react-hot-toast';
 import UserContext from '../context/Auth/userContext';
 
-export function InputPage() {
+function InputPage() {
     const { setChatId, setMulti } = useContext(ChatContext);
     const { auth } = useContext(UserContext);
 
@@ -133,3 +133,5 @@ export function InputPage() {
         </>
     )
 }
+
+export default InputPage;
