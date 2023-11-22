@@ -1,7 +1,5 @@
-import React, { Suspense } from "react";
+import FeaturesItem from "./FeaturesItem";
 
-import ReactLoading from "react-loading"
-const FeaturesItem = React.lazy(() => import("./FeaturesItem"))
 export const Feature = () => {
 
     const features = [
@@ -134,9 +132,7 @@ export const Feature = () => {
             </div>
             <div className="grid gap-10 row-gap-10 lg:grid-cols-2 sm:grid-cols-1">
                 {features.map((item, idx) => {
-                    <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
-                        <FeaturesItem key={idx} title={item.title} svg={item.svg} points={item.points} description={item.description} />
-                    </Suspense>
+                    return < FeaturesItem key={idx} title={item.title} svg={item.svg} points={item.points} description={item.description} />
                 })
                 }
             </div>
