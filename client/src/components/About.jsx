@@ -1,16 +1,50 @@
+import OfferSection from "./OfferSection";
 import OurTeam from "./OurTeam";
+import aboutImg from "../../public/QueryMate_logo.png"
 
 export default function About() {
     return (
         <>
-            <div className="font-sans">
-                <div className="px-8 py-5">
-                    <div className="px-4 py-3 bg-slate-100 border-2 border-solid border-slate-300 rounded-lg">
-                        QUERYMATE is a tool that centers on developing an intelligent Question and Answering (QA) System that draws strength from a custom dataset, revolutionizing the way users access and comprehend information. The primary objective of this project is to build an AI-powered model capable of understanding questions posed in natural language and extracting uniform answers from a given text corpus. The motivation behind QUERYMATE stems from the ever-growing challenge of efficiently navigating to find information quickly in the huge amount of data. Nowadays, it&apos;s getting harder to find what we are looking for in all the information available.QUERYMATE is like the friend who explains the complicated parts in a way that suddenly makes everything clear. It&apos;s like having a personal tutor who knows exactly what you need.n, QUERYMATE&apos;s unique specialization in accurate information retrieval from text not only distinguishes it from more versatile models like ChatGPT but also highlights its critical role in education, research, and professional domains. Its ability to provide structured and dependable answers to specific queries positions QueryMate as an essential tool in a datadriven world, where precision and efficiency are paramount. Its potential to revolutionize how we access, utilize, and manage information underscores the significance of QueryMate in the evolving landscape of AI-driven solutions.We are a group of students from Computer Engineering Department of Government Polytechnic Mumbai, Maharashtra, India. As our educational institutions are not capable to teach their students well. In such a situation, students have to study on their own and the problem with that is that students have to read the entire reference book to find the answer to any specific question. We have experienced that to find the short answers from reference book is very critical thing & very time consuming. In such a situation, the QueryMate will give the exact answer from that reference book.And QueryMate will generate answers not only from reference book but also from audio & video files.
+            <div className="flex items-center bg-gray-100 sm:flex-row">
+                <div className="sm:w-1/2 p-10 flex justify-center items-center">
+                    <div className="image object-center text-center">
+                        <img src={aboutImg} className="w-52" />
                     </div>
                 </div>
-                <OurTeam />
+                <div className="sm:w-1/2 p-5">
+                    <div className="text">
+                        <span className="text-gray-500 border-b-2 border-indigo-600 uppercase">About us</span>
+                        <h2 className="my-4 font-bold text-3xl  sm:text-4xl ">About <span className="text-indigo-600">QueryMate</span>
+                        </h2>
+                        <p className="text-gray-700">
+                            Welcome to QueryMate, where innovation meets the data-driven future. We&apos;re not just a platform; we&apos;re a catalyst for change in how we interact with and extract value from the vast sea of data in our digital world.
+
+                        </p>
+                    </div>
+                </div>
             </div>
+            <div className="flex  flex-row-reverse items-center bg-white">
+                <div className="sm:w-1/2 p-5">
+                    <div className="image object-center text-center">
+                        <img src={aboutImg} />
+                    </div>
+                </div>
+                <div className="sm:w-1/2 p-16">
+                    <div className="text">
+                        <span className="text-gray-500 border-b-2 border-indigo-600 uppercase">About us</span>
+                        <h2 className="my-4 font-bold text-3xl  sm:text-4xl ">About <span className="text-indigo-600">QueryMate</span>
+                        </h2>
+                        <p className="text-gray-700">
+                            Welcome to QueryMate, where innovation meets the data-driven future. We&apos;re not just a platform; we&apos;re a catalyst for change in how we interact with and extract value from the vast sea of data in our digital world.
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <OfferSection />
+            <OurTeam />
+
         </>
     )
 }
