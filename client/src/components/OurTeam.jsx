@@ -14,7 +14,7 @@ const OurTeam = () => {
                         <StudentInfo
                             imgLink="https://avatars.githubusercontent.com/u/127607339?v=4"
                             name='Sarvesh Yadav'
-                            role='UI/UX Designer and Content Writer'
+                            role='UI/UX Designer'
                             github='https://github.com/sarveshpyadav'
                             linkedin='https://in.linkedin.com/in/sarveshpyadav'
                         />
