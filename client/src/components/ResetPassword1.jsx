@@ -34,10 +34,10 @@ function MailResetPassword() {
     }
     return (
         <>
-            <div className="font-serif mt-3">
+            <div className="font-serif mt-3 bg-gray-50">
                 <Link to="/loginwithgoogle" className="ml-4 text-3xl font-black">←</Link>
             </div>
-            <div className="flex flex-col justify-center items-center h-[75vh]">
+            <div className="flex flex-col justify-center items-center h-[75vh] bg-gray-50">
                 <h1 className="text-2xl font-bold">RESET PASSWORD</h1>
                 <div className="mb-2">
                     <input type="email" placeholder='Enter The Email' value={email} onChange={(e) => setEmail(e.target.value)}
