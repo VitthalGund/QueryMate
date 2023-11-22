@@ -20,36 +20,6 @@ const Home = () => {
   }
   return (
     <>
-      {/* <div className="flex justify-around items-center flex-wrap">
-        <div className="min-h-screen flex justify-center items-center">
-          <section className="flex justify-center ml-8 flex-col text-center">
-            <p className="font-bold text-4xl py-2">WELCOME TO <span className="text-indigo-600 ">QUERYMATE</span></p>
-            <p className="font-semibold text-4xl py-2">Querymate Processes on <span className='font-semibold text-2xl py-2 text-indigo-600'>
-              <Typewriter
-                words={['Text', 'File like', "PDF's", "DOC's", "Image's", "PPT's", "Audio's", "Video's"]}
-                loop={Infinity}
-                // cursor
-                // cursorStyle='_'
-                typeSpeed={50}
-                deleteSpeed={10}
-                delaySpeed={1000}
-              />
-            </span>
-              <span className="text-indigo-600"><Cursor /></span>
-            </p>
-            <p className="font-medium text-lg text-center py-2">Your helping hand to instantly answer Questions with AI</p>
-            <button className="sm:w-64 justify-center w-56 px-2 py-2 mt-2 font-medium text-xl bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={handleOnclick}>LET&apos;s GET STARTED</button>
-          </section>
-
-          <section className="">
-            <img
-              src="./public/Webimg.png"
-              alt="Workplace"
-              className="h-80"
-            />
-          </section>
-        </div>
-      </div> */}
       <section className="bg-gray-50 home">
         <div
           className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center"
@@ -57,8 +27,8 @@ const Home = () => {
           <div className="mx-auto max-w-xl text-center">
             <h1 className="text-2xl font-extrabold sm:text-5xl">
               For Quick, Easy, Rapid and Precise Response,
-              <strong className="font-extrabold text-blue-700 sm:block">
-                Use QueryMate
+              use <strong className="font-extrabold text-blue-700 sm:block">
+                QueryMate
               </strong>
             </h1>
 
