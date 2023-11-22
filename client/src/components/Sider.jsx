@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const Sider = () => {
     const { userData, auth, setAuth, setUserData, setPersist } = useContext(UserContext);
-    const { setChatId, info } = useContext(ChatContext);
+    const { setChatId, info, setChatTitle } = useContext(ChatContext);
     const navigate = useNavigate();
     const sideBar = useRef();
     const subMenu = useRef();
@@ -59,6 +59,7 @@ const Sider = () => {
         }
     }
 
+    const toHome = () => navigate("/");
     useEffect(() => {
         const fetchChat = async () => {
             const resp = await axios.post("/messages/chats", { email: userData.email }, {
@@ -126,14 +127,14 @@ const Sider = () => {
     return (
         <div className="bg-blue-600">
             <span
-                className="absolute text-white text-4xl top-3 left-1 cursor-pointer"
+                className="absolute text-white top-3 left-1 cursor-pointer text-2xl lg:text-4xl"
                 onClick={openSidebar} // Use the function reference here.
             >
                 <i className="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
             </span>
 
             <div
-                className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900 ${open ? "block" : "hidden" // Conditionally apply the 'block' or 'hidden' class.
+                className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-fit overflow-y-auto text-center bg-gray-900 text-xl lg:text-2xl ${open ? "block" : "hidden" // Conditionally apply the 'block' or 'hidden' class.
                     }`}
                 ref={sideBar}
             >
@@ -184,7 +185,10 @@ const Sider = () => {
                         return (
                             <h1
                                 key={item.chatId}
-                                onClick={() => handleSwitch(item.chatId)}
+                                onClick={() => {
+                                    handleSwitch(item.chatId);
+                                    setChatTitle(item.title)
+                                }}
                                 className={`cursor-pointer w-full bg-slate-800 my-3 p-2 ${editingChatId === item.chatId ? "" : "hover:bg-blue-600"} rounded-md mt-1${item.chatId === localStorage.getItem("chatId") ? " bg-blue-500" : ""
                                     }`}
                             >
@@ -216,18 +220,21 @@ const Sider = () => {
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+                    onClick={toHome}
                 >
                     <i className="bi bi-house-door-fill"></i>
-                    <Link to="/" className="text-[15px] ml-4 text-gray-200 font-bold">Home</Link>
+                    <Link to="/home" className="text-[15px] ml-4 text-gray-200 font-bold">Home</Link>
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+                    onClick={toHome}
                 >
                     <i className="bi bi-bookmark-fill"></i>
                     <Link to="/help" className="text-[15px] ml-4 text-gray-200 font-bold">FAQ</Link>
                 </div>
                 <div
                     className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+                    onClick={toHome}
                 >
                     <i className="bi bi-box-arrow-in-right"></i>
                     <span

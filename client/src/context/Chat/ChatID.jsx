@@ -5,6 +5,7 @@ const ChatID = (props) => {
     const [chatId, setChatId] = useState(localStorage.getItem("chatId"));
     // const [chatId, setChatId] = useState("653b9d1c69a3c827df961a0e");
     const [multi, setMulti] = useState();
+    const [chatTitle, setChatTitle] = useState();
 
     function formatDate(date) {
         const h = "0" + date.getHours();
@@ -24,7 +25,7 @@ const ChatID = (props) => {
         localStorage.setItem("chatId", chatId)
     }, [chatId])
     return (
-        <ChatContext.Provider value={{ chatId, setChatId, multi, setMulti, info, setInfo, formatDate }}>
+        <ChatContext.Provider value={{ chatId, setChatId, multi, setMulti, info, setInfo, formatDate, chatTitle, setChatTitle }}>
             {props.children}
         </ChatContext.Provider>
     );

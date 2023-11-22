@@ -132,7 +132,7 @@ function ChatPage() {
                     containerStyle={{}}
                 /> */}
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
-                    <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - {chatTitle ? chatTitle : "Your Helping Hand😊"}</h1>
+                    <h1 className="text-center font-bold text-white mx-10 text-sm md:text-lg lg:text-2xl">🛡️QueryMate - {chatTitle ? chatTitle : "Your Helping Hand😊"}</h1>
                 </div>
                 <Sider />
                 <div className="flex-grow overflow-y-auto">
@@ -150,14 +150,14 @@ function ChatPage() {
                 <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
                     <div className="flex items-center p-4">
                         <input type="text" placeholder="Type your query..."
-                            className="w-full rounded-lg border border-gray-300 px-4 py-2"
+                            className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm lg:text-1xl"
                             value={question ? question : ""}
                             onChange={(e) => setQuestion(e.target.value)}
                             // ref={query}
                             spellCheck={true}
                             tabIndex={2}
                         />
-                        <button className="ml-2 rounded-lg bg-blue-500 px-4 py-2 text-white" type='submit' tabIndex={3}>Ask</button>
+                        <button className="ml-2 rounded-lg bg-blue-500 px-4 py-2 text-white text-sm md:text-lg lg:text-1xl" type='submit' tabIndex={3}>Ask</button>
                     </div>
                 </form>
             </div>
