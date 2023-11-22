@@ -464,7 +464,7 @@ export const NavBar = () => {
                       </span>
                     </Link>
                     <Link
-                      to="#"
+                      to="/about"
                       className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
                     >
                       {/* Heroicon name: outline/view-grid */}
