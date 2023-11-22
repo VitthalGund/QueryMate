@@ -70,7 +70,7 @@ export async function extractTextFromVideoFrame(
 // Function to extract text from a video using Tesseract.js
 export async function extractTextFromVideo(videoPath) {
   return new Promise((resolve, reject) => {
-    const framesDirectory = "/path/to/frames"; // Directory to store extracted frames
+    const framesDirectory = "../../uploads"; // Directory to store extracted frames
 
     // Extract frames from the video
     const frameCmd = `ffmpeg -i ${videoPath} -vf "fps=1" ${framesDirectory}/frame-%04d.png`;
