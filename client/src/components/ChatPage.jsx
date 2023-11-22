@@ -1,6 +1,6 @@
-import { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 // import './style.css'
-import Chat from './Chat';
+const Chat = React.lazy(() => import('./Chat'));
 import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
 // import { useNavigate } from 'react-router-dom';
@@ -8,14 +8,15 @@ import axios from '../api/axios';
 import { toast } from 'react-toastify';
 import UserContext from '../context/Auth/userContext';
 import Sider from './Sider';
+import ReactLoading from "react-loading"
 
 function ChatPage() {
     // const route = useNavigate();
     const [question, setQuestion] = useState("");
+    const [loading, setLoading] = useState(false);
     // const query = useRef(null);
     const { auth, userData } = useContext(UserContext);
-    const { chatId, multi, info, setInfo, formatDate } = useContext(ChatContext);
-
+    const { chatId, multi, chatTitle, info, setInfo, formatDate } = useContext(ChatContext);
     const path = `/model/${multi ? "qalong" : "qa"}`;
 
     function addObjectToArrayIfNotExists(array, objectToAdd) {
@@ -35,6 +36,7 @@ function ChatPage() {
     };
 
     const getConveration = async () => {
+        setLoading(true);
         const response = await axios.post("/messages", { chatId }, {
             headers: {
                 authorization: auth.accessToken
@@ -63,6 +65,7 @@ function ChatPage() {
         }
         // setInfo([...info, ...update])
         setInfo([...info])
+        setLoading(false);
 
     }
 
@@ -129,15 +132,19 @@ function ChatPage() {
                     containerStyle={{}}
                 /> */}
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 pt-3 flex flex-wrap justify-center object-fill p-4">
-                    <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - Your Helping Hand😊</h1>
+                    <h1 className="text-center text-2xl font-bold text-white mx-10">🛡️QueryMate - {chatTitle ? chatTitle : "Your Helping Hand😊"}</h1>
                 </div>
                 <Sider />
                 <div className="flex-grow overflow-y-auto">
                     <div key={info} className="flex flex-col space-y-2 p-4" id='chatList'>
-                        {info?.length > 0 && chatId ? info.map((item, ind) => {
-                            return (<Chat key={ind} mate={item.mate} text={item.text} side={item.side} img={item.img} />)
-                        }) :
-                            <h1 className="text-center text-2xl font-bold text-violet-500 mx-10 flex justify-center items-center">No Chats found</h1>}
+                        {chatId ? !loading ? info?.map((item, ind) => {
+                            return (
+                                <Chat key={ind} mate={item.mate} text={item.text} side={item.side} img={item.img} />
+                            )
+                        }) : <ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" /> :
+                            <h1 className="text-center text-2xl font-bold text-violet-500 mx-10 flex justify-center items-center">No Chats found</h1>
+                        }
+
                     </div>
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
