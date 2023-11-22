@@ -28,7 +28,7 @@ function Chat({ mate, text, side, img }) {
                         <div className="msg-info-name font-bold">{message.mate}</div>
                         <div className={`msg-info-time text-sm ${side === "end" ? "ml-4" : ""}`}>{message.date}</div>
                     </div>
-                    <div className={`msg-text self-end ${side === "end" ? "bg-green-500" : "bg-blue-500"} text-white rounded-lg p-2 flex items-center`}>
+                    <div className={`msg-text self-end ${side === "end" ? "bg-green-500" : "bg-blue-500"} text-white rounded-lg p-2 flex items-center text-sm md:text-lg lg:text-xl`}>
                         {text}
                     </div>
                 </div>
