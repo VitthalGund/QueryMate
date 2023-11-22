@@ -33,7 +33,7 @@ const Home = () => {
             </h1>
 
             <p className="mt-4 sm:text-xl/relaxed">
-              QueryMate is an AI-powered application capable of understanding questions posed in natural language and extracting precise answers from a given <span className='font-semibold text-xl py-2 text-indigo-600'>
+              QueryMate is an AI-powered application capable of understanding questions posed in natural language and extracting precise answers from a given <span className='font-semi bold sm:text-sm md:text-lg lg:text-1xl py-2 text-indigo-600'>
                 <Typewriter
                   words={['Text', 'Files', "PDFs", "DOCS", "Images", "PPTs", "Audio", "Video", "Online articles, ", "blogs"]}
                   loop={Infinity}
