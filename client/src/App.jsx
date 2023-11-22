@@ -57,90 +57,90 @@ export default function App() {
             } />
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/loginwithgoogle" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <LogSign title="QUERYMATE" />
               </Suspense>
             } />
             <Route exact path="/login" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <LogIn />
               </Suspense>
             } />
             <Route exact path="/signupmail" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <SignEmail />
               </Suspense>
             } />
             <Route exact path="/signuppassword" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <SignupPassword />
               </Suspense>
             } />
             <Route exact path="/resetpassword" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <Email />
               </Suspense>
             } />
             <Route exact path="/notify" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <ResetPassword />
               </Suspense>
             } />
             <Route exact path="/resetpassword-mail" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <MailResetPassword />
               </Suspense>
             } />
             <Route exact path="/check-inbox" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <ResetPassword />
               </Suspense>
             } />
             <Route exact path="/verify">
               <Route exact path=":token=?" element={
-                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                   <Verify />
                 </Suspense>
               } />
             </Route>
             <Route exact path="/privacy" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <PrivacyPolicy />
               </Suspense>
             } />
             <Route exact path="/about" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <About />
               </Suspense>
             } />
             <Route exact path="/help" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <FAQ />
               </Suspense>
             } />
             <Route exact path="*" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <Page404 />
               </Suspense>
             } />
             <Route exact path="/password" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <CreateNewPassword />
               </Suspense>
             } />
             <Route exact path="/new-password-created" element={
-              <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+              <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                 <NewPasswordCreated />
               </Suspense>
             } />
             <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
               <Route exact path="/chat" element={
-                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                   <ChatPage />
                 </Suspense>
               }></Route>
               <Route exact path="/upload" element={
-                <Suspense fallback={<ReactLoading type="bars" color="text-indigo-500" />}>
+                <Suspense fallback={<ReactLoading type="bars" color="#4338ca" className="flex justify-center items-center align-middle m-auto" />}>
                   <InputPage />
                 </Suspense>
               }></Route>
