@@ -92,7 +92,7 @@ function InputPage() {
         textAreaRef.current.style.height = "auto"
         textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
     }, [value])
-
+    // https://tailwindcomponents.com/component/tailwind-css-file-upload
     return (
         <>
             <div className="font-serif bg-slate-50">
