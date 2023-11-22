@@ -3,7 +3,9 @@ import { Link } from "react-router-dom"
 const FeaturesItem = ({ title, description, points, svg }) => {
     return (
         <>
-            <div className="border-3 w-auto flex flex-wrap flex-col">
+            {/* rounded - xl py-8 px-7 shadow-md transition-all hover: shadow-lg sm: p-9 lg: px-6 xl: px-9 */}
+            {/* rounded border border-b border-indigo-900 */}
+            <div className="border-3 w-auto flex flex-wrap flex-col rounded-xl py-8 px-7 shadow-md transition-all hover:shadow-lg sm:p-9 lg:px-6 xl:px-9">
                 <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-indigo-50">
                     {svg}
                 </div>
