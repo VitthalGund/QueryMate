@@ -112,13 +112,13 @@ export default function LogIn() {
                                 >Password</label>
                             </div>
                             <label htmlFor="showPassword" className="mb-4">
-
                                 <input
                                     type="checkbox"
                                     id="persist"
                                     name="persist"
                                     checked={localperist}
                                     onChange={() => togglePersist()}
+                                    className='mr-1'
                                 /> Remember Me</label>
                             <Link to="/resetpassword" className="text-sm font-bold text-blue-600 hover:text-blue-700 pb-2">RESET PASSWORD</Link>
                             <div>
