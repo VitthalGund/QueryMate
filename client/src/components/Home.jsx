@@ -27,7 +27,7 @@ const Home = () => {
           <div className="mx-auto max-w-xl text-center">
             <h1 className="text-2xl font-extrabold sm:text-5xl">
               For Quick, Easy, Rapid and Precise Response,
-              use <strong className="font-extrabold text-blue-700 sm:block">
+              use <strong className="font-extrabold text-indigo-700 sm:block">
                 QueryMate
               </strong>
             </h1>
