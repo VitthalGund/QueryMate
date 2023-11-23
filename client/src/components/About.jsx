@@ -16,12 +16,12 @@ export default function About() {
                         <div className="w-full px-9 mb-10 lg:w-1/2 lg:mb-0">
                             <div className="relative">
                                 <img src={aboutImg} alt=""
-                                    className="relative z-40 object-cover w-full h-96 lg:rounded-tr-[80px] lg:rounded-bl-[80px] rounded mr-16" />
+                                    className="relative z-30 object-cover w-full h-96 lg:rounded-tr-[80px] lg:rounded-bl-[80px] rounded mr-16" />
                                 <div
                                     className="absolute z-10 hidden w-full h-full bg-blue-400 rounded-bl-[80px] rounded -bottom-6 right-6 lg:block">
                                 </div>
                                 <div
-                                    className="absolute z-50 text-blue-400 transform -translate-y-1/2 cursor-pointer top-1/2 left-[46%] hover:text-blue-500">
+                                    className="absolute z-40 text-blue-400 transform -translate-y-1/2 cursor-pointer top-1/2 left-[46%] hover:text-blue-500">
                                     {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         className="w-14 h-14 bi bi-play-circle-fill" viewBox="0 0 16 16">
                                         <path
