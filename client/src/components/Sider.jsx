@@ -15,6 +15,10 @@ const Sider = () => {
     const [drop, setDrop] = useState();
     const [open, setOpen] = useState(false); // Initialize with `false` here.
     const [chats, setChats] = useState([]);
+    const [q, setQ] = useState("");
+
+    const data = Object.values(chats);
+
     function dropdown() {
         setDrop(pre => !pre);
         if (subMenu.current !== undefined) {
@@ -124,6 +128,15 @@ const Sider = () => {
         setEditingChatId(null);
     };
 
+
+    function search(items) {
+        const filteredItems = items.filter((item) => {
+            return item.title.toLowerCase().includes(q.toLowerCase());
+        });
+        return filteredItems;
+
+    }
+
     return (
         <div className="bg-blue-600">
             <span
@@ -159,6 +172,8 @@ const Sider = () => {
                     <input
                         type="text"
                         placeholder="Search"
+                        value={q}
+                        onChange={(e) => setQ(e.target.value)}
                         className="text-[15px] ml-4 w-full bg-transparent focus:outline-none"
                     />
                 </div>
@@ -181,7 +196,7 @@ const Sider = () => {
                     id="submenu"
                 >
 
-                    {chats.map((item) => {
+                    {search(data).map((item) => {
                         return (
                             <h1
                                 key={item.chatId}
