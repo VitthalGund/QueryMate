@@ -53,7 +53,6 @@ router.post("/edit", async (req: express.Request, res: express.Response) => {
 
 router.post("/chats", async (req: express.Request, res: express.Response) => {
   const { email } = req.body;
-  console.log(email);
   if (!email) {
     return res.status(400).json({
       error: "Missing email!",
@@ -61,7 +60,7 @@ router.post("/chats", async (req: express.Request, res: express.Response) => {
   }
 
   const response = await UserChat.find({ email }).distinct("chatId");
-  console.log(response);
+
   const chats = [];
   for (let index = 0; index < response.length; index++) {
     const element = await UserChat.findOne(
@@ -70,7 +69,7 @@ router.post("/chats", async (req: express.Request, res: express.Response) => {
     );
     chats.push(element);
   }
-  console.log(chats);
+
   res.json({ chats });
 });
 
