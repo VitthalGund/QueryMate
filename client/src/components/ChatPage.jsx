@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-// import './style.css'
+import '../index.css'
 const Chat = React.lazy(() => import('./Chat'));
 import ChatContext from '../context/Chat/useContext';
 import axios from '../api/axios';
@@ -14,7 +14,7 @@ function ChatPage() {
     // const route = useNavigate();
     const [question, setQuestion] = useState("");
     const [loading, setLoading] = useState(false);
-    // const query = useRef(null);
+
     const { auth, userData } = useContext(UserContext);
     const { chatId, multi, chatTitle, info, setInfo, formatDate } = useContext(ChatContext);
     const path = `/model/${multi ? "qalong" : "qa"}`;
@@ -135,7 +135,7 @@ function ChatPage() {
                     <h1 className="text-center font-bold text-white mx-10 text-sm md:text-lg lg:text-2xl">🛡️QueryMate - {chatTitle ? chatTitle : "Your Helping Hand😊"}</h1>
                 </div>
                 <Sider />
-                <div className="flex-grow overflow-y-auto">
+                <div className="flex-grow overflow-y-auto chats">
                     <div key={info} className="flex flex-col space-y-2 p-4" id='chatList'>
                         {chatId ? !loading ? info?.map((item, ind) => {
                             return (
