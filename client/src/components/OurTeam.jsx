@@ -2,7 +2,7 @@ import { StudentInfo } from './StudentInfo';
 const OurTeam = () => {
     return (
         <>
-            <section className="text-gray-700 body-font border-t border-gray-200 bg-gray-50">
+            <section className="text-gray-700 body-font border-t border-gray-200 bg-white">
                 <div className="container px-5 py-20 mx-auto">
                     <div className="flex flex-col text-center w-full mb-20">
                         <h2 className="text-4xl xl:text-5xl capitalize text-center text-indigo-900 font-bold">our team</h2>
