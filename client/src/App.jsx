@@ -24,6 +24,7 @@ import PersistenLogin from "./components/PersistenLogin";
 import { ToastContainer } from 'react-toastify';
 import ReactLoading from "react-loading"
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./components/Footer";
 
 const ROLES = {
   'User': 2001,
@@ -147,6 +148,7 @@ export default function App() {
             </Route>
           </Route>
         </Routes>
+        <Footer />
       </Router>
 
 
