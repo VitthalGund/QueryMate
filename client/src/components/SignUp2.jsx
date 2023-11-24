@@ -48,9 +48,9 @@ export default function SignupPassword() {
       console.log(response?.accessToken)
       console.log(response)
       if (response.data.success) {
-        toast.info("verification email is sent on the email address!");
+        //   toast.info("verification email is sent on the email address!");
         navigate('/');
-        toast.info("verify your self!");
+        //   toast.info("verify your self!");
       }
       // setSuccess(true)
     } catch (error) {
