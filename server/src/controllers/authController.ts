@@ -14,7 +14,7 @@ export const handleLogin = async (req: Request, res: Response) => {
   const foundUser = await User.findOne({ email: email });
   if (!foundUser) return res.sendStatus(401); //Unauthorized
   // check password with hash to evaluate password is correct or not
-  const match = await bcryptjs.compare(password, foundUser.password);
+  const match = bcryptjs.compareSync(password, foundUser.password);
   // if password and email is correct then:
   if (match && foundUser.email === email) {
     const roles = Object.values(foundUser.roles).filter(Boolean);
