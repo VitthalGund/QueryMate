@@ -192,7 +192,7 @@ const Sider = () => {
                     </div>
                 </div>
                 <div
-                    className={`text-left text-sm mt-2 w-[93%] mx-auto text-gray-200 font-bold ${drop ? "hidden" : ""}`}
+                    className={`text-left text-sm mt-2 w-[93%] flex flex-col flex-wrap mx-auto text-gray-200 font-bold ${drop ? "hidden" : ""}`}
                     id="submenu"
                 >
 
@@ -204,7 +204,8 @@ const Sider = () => {
                                     handleSwitch(item.chatId);
                                     setChatTitle(item.title)
                                 }}
-                                className={`cursor-pointer w-full bg-slate-800 my-3 p-2 ${editingChatId === item.chatId ? "" : "hover:bg-blue-600"} rounded-md mt-1${item.chatId === localStorage.getItem("chatId") ? " bg-blue-500" : ""
+                                style={{ width: "265px" }}
+                                className={`cursor-pointer w-full max-w-prose bg-slate-800 my-3 p-2 ${editingChatId === item.chatId ? "" : "hover:bg-blue-600"} rounded-md mt-1${item.chatId === localStorage.getItem("chatId") ? " bg-blue-500" : ""
                                     }`}
                             >
                                 {editingChatId === item.chatId ? (

@@ -39,7 +39,6 @@ export default function LogIn() {
             ), {
                 pending: 'validating your credentials',
                 success: 'Login Successfully👌',
-                error: "Unable to connect"
             });
             // console.log(response?.data)
             const accessToken = response?.data?.authToken;
