@@ -1,8 +1,8 @@
 .home {
   --s: 82px; /* control the size */
-  --c1: #b2b2b2;
-  --c2: #ffffff;
-  --c3: #d9d9d9;
+  --c1: #b2b2b2; /* right */
+  --c2: #ffffff; /* left */
+  --c3: #d9d9d9; /* top */
 
   --_g: var(--c3) 0 120deg, #0000 0;
   background: conic-gradient(from -60deg at 50% calc(100% / 3), var(--_g)),
