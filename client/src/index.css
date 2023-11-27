@@ -24,11 +24,13 @@ body ::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-.chats::-webkit-scrollbar-thumb {
+.chats::-webkit-scrollbar-thumb,
+.sider::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 10px;
 }
-.chats {
+.chats,
+.sider {
   --sb-track-color: #cac9cc;
   --sb-thumb-color: #5b5bff;
   --sb-size: 10px;
@@ -36,16 +38,45 @@ body ::-webkit-scrollbar-track {
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 }
 
-.chats::-webkit-scrollbar {
+.chats::-webkit-scrollbar,
+.sider::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
-.chats ::-webkit-scrollbar-track {
+.chats ::-webkit-scrollbar-track,
+.sider ::-webkit-scrollbar-track {
   background: var(--sb-track-color);
   border-radius: 10px;
 }
 
-.chats::-webkit-scrollbar-thumb {
+.chats::-webkit-scrollbar-thumb,
+.sider::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+
+.sider::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+.sider {
+  --sb-track-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  --sb-thumb-color: #cac9cc;
+  --sb-size: 10px;
+
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+
+.sider::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.sider ::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+.sider::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 10px;
 }

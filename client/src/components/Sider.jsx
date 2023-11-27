@@ -147,7 +147,7 @@ const Sider = () => {
             </span>
 
             <div
-                className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-fit overflow-y-auto text-center bg-gray-900 text-xl lg:text-2xl ${open ? "block" : "hidden" // Conditionally apply the 'block' or 'hidden' class.
+                className={`sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-fit overflow-y-auto text-center bg-gray-900 text-xl lg:text-2xl sider ${open ? "block" : "hidden" // Conditionally apply the 'block' or 'hidden' class.
                     }`}
                 ref={sideBar}
             >
