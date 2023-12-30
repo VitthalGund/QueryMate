@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ChatIdContext>
       <SetData>
         <GoogleOAuthProvider
-          clientId={"735548005010-fdok85icp3ehcav3usp99d96sg1hovuk.apps.googleusercontent.com"}>
+          clientId={import.meta.env.ID}>
           <App />
         </GoogleOAuthProvider>
       </SetData>
