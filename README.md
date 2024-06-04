@@ -25,6 +25,106 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 
 ---
 
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+#### Frontend
+1. **Clone Frontend Repository:**
+   - Clone the frontend repository using the following command:
+     ```sh
+     git clone <frontend_repository_url>
+     ```
+   - Navigate to the frontend directory:
+     ```sh
+     cd <frontend_repository_name>
+     ```
+   
+2. **Install Dependencies:**
+   ```sh
+   npm install
+   ```
+
+#### Backend
+1. **Clone Backend Repository:**
+   - Clone the backend repository using the following command:
+     ```sh
+     git clone https://github.com/VitthalGund/QueryMate.git
+     ```
+   - Navigate to the backend directory:
+     ```sh
+     cd QueryMate
+     ```
+
+2. **Node.js:**
+   - Ensure you have Node.js version 18.15.0 installed.
+   - Download from [Node.js v18.15.0](https://nodejs.org/dist/v18.15.0/node-v18.15.0-x64.msi).
+
+3. **Visual Studio:**
+   - Install the latest version of Visual Studio.
+   - Make sure to include the "Desktop development with C++" workload.
+
+4. **Windows Build Tools:**
+   - Download and install Windows Build Tools:
+     - Visit [windows-build-tools GitHub](https://github.com/felixrieseberg/windows-build-tools) or run the following command:
+       ```sh
+       npm install --global --production windows-build-tools
+       ```
+
+5. **node-gyp:**
+   - Download and install node-gyp:
+     - Visit [node-gyp GitHub](https://github.com/nodejs/node-gyp#on-windows).
+
+6. **Install Backend Dependencies:**
+   ```sh
+   npm install
+   ```
+
+### Environment Variables
+
+Create a `.env` file in the root of the backend directory with the following structure:
+
+```plaintext
+PORT=2000
+CLIENT_DOMAIN="http://localhost:3000"
+DATABASE_URI="mongodb://0.0.0.0:27017/DefenceShorts"
+ACCESS_TOKEN_SECRET=<your_access_token_secret>
+REFRESH_TOKEN_SECRET=<your_refresh_token_secret>
+emailApi=<your_email_api>
+emailBrevo=<your_email_brevo>
+email=<your_email>
+smtpKey=<your_smtp_key>
+
+DATABASE_URI="mongodb://0.0.0.0:27017/QueryMate"
+
+passworsd=<your_password>
+passwordBrevo=<your_password_brevo>
+password=<your_password>
+```
+
+Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_email_api>`, `<your_email_brevo>`, `<your_email>`, `<your_smtp_key>`, `<your_password>`, `<your_password_brevo>` with your actual values.
+
+### Running the Project
+
+#### Frontend
+1. **Start the Frontend Server:**
+   ```sh
+   npm start
+   ```
+
+#### Backend
+1. **Start the Backend Server:**
+   ```sh
+   npm run server
+   ```
+
+### Notes
+- Ensure all the above steps are followed correctly to avoid any setup issues.
+- Check the documentation for each dependency if you encounter any errors during installation.
+
+
+
 ## 🕘 Project Timeline :
 
 <details>
@@ -172,4 +272,7 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
   - Architecture Diagram and UI Changes by VitthalGund.
   - Added an architecture diagram and made minor UI changes.
 </details>
+
+
+
 
