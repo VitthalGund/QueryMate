@@ -34,11 +34,12 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 1. **Clone Frontend Repository:**
    - Clone the frontend repository using the following command:
      ```sh
-     git clone <frontend_repository_url>
+     git clone https://github.com/VitthalGund/QueryMate.git
      ```
    - Navigate to the frontend directory:
      ```sh
-     cd <frontend_repository_name>
+     cd QueryMate-main
+     cd client 
      ```
    
 2. **Install Dependencies:**
@@ -54,7 +55,8 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
      ```
    - Navigate to the backend directory:
      ```sh
-     cd QueryMate
+     cd QueryMate-main
+     cd server
      ```
 
 2. **Node.js:**
