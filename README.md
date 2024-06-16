@@ -135,6 +135,11 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 ![Untitled-2023-10-24-1644](https://github.com/VitthalGund/QueryMate/assets/97181033/26cf8fa9-a56c-4ad4-93bb-a8216624faf7)
 
 
+# Project Preview:
+1. Home:
+![New UI home 1](https://github.com/VitthalGund/QueryMate/assets/97181033/00e69326-0163-4ee2-8aa7-5481e7f5788e)
+
+
 
 ## 🕘 Project Timeline :
 
