@@ -105,6 +105,7 @@ function filterAnswer(arr: Mate[]) {
   const top5Objects = arr
     .slice(0, 5)
     .sort((a, b) => b.text.length - a.text.length);
+  top5Objects.length = 0;
 
   return top5Objects;
 }
