@@ -25,6 +25,108 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 
 ---
 
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+#### Frontend
+1. **Clone Frontend Repository:**
+   - Clone the frontend repository using the following command:
+     ```sh
+     git clone https://github.com/VitthalGund/QueryMate.git
+     ```
+   - Navigate to the frontend directory:
+     ```sh
+     cd QueryMate-main
+     cd client 
+     ```
+   
+2. **Install Dependencies:**
+   ```sh
+   npm install
+   ```
+
+#### Backend
+1. **Clone Backend Repository:**
+   - Clone the backend repository using the following command:
+     ```sh
+     git clone https://github.com/VitthalGund/QueryMate.git
+     ```
+   - Navigate to the backend directory:
+     ```sh
+     cd QueryMate-main
+     cd server
+     ```
+
+2. **Node.js:**
+   - Ensure you have Node.js version 18.15.0 installed.
+   - Download from [Node.js v18.15.0](https://nodejs.org/dist/v18.15.0/node-v18.15.0-x64.msi).
+
+3. **Visual Studio:**
+   - Install the latest version of Visual Studio.
+   - Make sure to include the "Desktop development with C++" workload.
+
+4. **Windows Build Tools:**
+   - Download and install Windows Build Tools:
+     - Visit [windows-build-tools GitHub](https://github.com/felixrieseberg/windows-build-tools) or run the following command:
+       ```sh
+       npm install --global --production windows-build-tools
+       ```
+
+5. **node-gyp:**
+   - Download and install node-gyp:
+     - Visit [node-gyp GitHub](https://github.com/nodejs/node-gyp#on-windows).
+
+6. **Install Backend Dependencies:**
+   ```sh
+   npm install
+   ```
+
+### Environment Variables
+
+Create a `.env` file in the root of the backend directory with the following structure:
+
+```plaintext
+PORT=2000
+CLIENT_DOMAIN="http://localhost:3000"
+DATABASE_URI="mongodb://0.0.0.0:27017/DefenceShorts"
+ACCESS_TOKEN_SECRET=<your_access_token_secret>
+REFRESH_TOKEN_SECRET=<your_refresh_token_secret>
+emailApi=<your_email_api>
+emailBrevo=<your_email_brevo>
+email=<your_email>
+smtpKey=<your_smtp_key>
+
+DATABASE_URI="mongodb://0.0.0.0:27017/QueryMate"
+
+passworsd=<your_password>
+passwordBrevo=<your_password_brevo>
+password=<your_password>
+```
+
+Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_email_api>`, `<your_email_brevo>`, `<your_email>`, `<your_smtp_key>`, `<your_password>`, `<your_password_brevo>` with your actual values.
+
+### Running the Project
+
+#### Frontend
+1. **Start the Frontend Server:**
+   ```sh
+   npm start
+   ```
+
+#### Backend
+1. **Start the Backend Server:**
+   ```sh
+   npm run server
+   ```
+
+### Notes
+- Ensure all the above steps are followed correctly to avoid any setup issues.
+- Check the documentation for each dependency if you encounter any errors during installation.
+
+
+
 ## 🕘 Project Timeline :
 
 <details>
@@ -109,33 +211,70 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 + Alongside development, we established a robust testing strategy to focus on thorough testing, including unit tests, integration tests, and user testing.
 + Monitored development progress against the project plan, ensuring that we're on track and making necessary adjustments.
 </details>
-<details>
-<summary><b>Week 08</b> : [11.09.2023 - 17.09.2023]</summary>
 
-+ 
-+ 
+<details>
+<summary><b>Week 11</b> : [06.11.2023 - 12.11.2023]</summary>
+
++ 📅 **November 6, 2023**
+  - Project Kickoff and Initial Setup.
++ 🔧 **November 10, 2023**
+  - Set up development environment and initial repository structure.
 </details>
 <details>
-<summary><b>Week 09</b> : [18.09.2023 - 24.09.2023]</summary>
+<summary><b>Week 12</b> : [13.11.2023 - 19.11.2023]</summary>
 
-+ 
-+ 
++ 📜 **November 13, 2023**
+  - LICENSE.md Created by Vitthal Popat Gund.
++ 🔄 **November 16, 2023**
+  - Merge Branch 'main' of Repository by VitthalGund.
+  - 🛠️ Dependency updates and bug fixes.
+  - 🐛 Fixed an issue where the register route was checking the username twice instead of checking both username and email.
++ 🎨 **November 19, 2023**
+  - Home Page UI Redesigned by VitthalGund.
+  - Major redesigns and UI updates for the home page and other sections.
 </details>
 <details>
-<summary><b>Week 10</b> : [25.09.2023 - 01.10.2023]</summary>
+<summary><b>Week 13</b> : [20.11.2023 - 26.11.2023]</summary>
 
-+ 
-+ 
++ 🚀 **November 21, 2023**
+  - Dynamic Imports and NPM Updates by VitthalGund.
+  - Added dynamic imports to optimize the application.
+  - Updated npm packages to the latest versions.
++ 🌟 **November 22, 2023**
+  - UI Improvements and New Components by VitthalGund.
+  - Added multiple UI improvements, such as dynamic loading for the features section, hover effects, and alignment changes for small screens.
+  - Introduced new components like OfferSection and FeaturesItem.
++ 🔍 **November 23, 2023**
+  - Chat Search Functionality by VitthalGund.
+  - Implemented and enhanced the chat search functionality.
+  - Made several UI updates, including changes to colors, fonts, and the integration of the footer component.
++ 🛠️ **November 24, 2023**
+  - UI and Functional Enhancements by VitthalGund.
+  - Updated axios to the latest version and removed email notification alerts.
+  - Added the compareSync function to compare hash values.
 </details>
 <details>
-<summary><b>Week 11</b> : [02.10.2023 - 08.10.2023]</summary>
+<summary><b>Week 14</b> : [27.11.2023 - 03.12.2023]</summary>
 
-+ 
-+ 
++ 🧩 **November 27, 2023**
+  - Custom Sider Bar and Logout Functionality by VitthalGund.
+  - Integrated a custom sider bar into the chat page and added logout functionality.
 </details>
 <details>
-<summary><b>Week 12</b> : [09.10.2023 - 15.10.2023]</summary>
+<summary><b>Week 19</b> : [25.12.2023 - 31.12.2023]</summary>
 
-+ 
-+ 
++ 🔑 **December 30, 2023**
+  - Client ID Added to Env File by VitthalGund.
+  - Added client ID configuration to the environment file for better security and configuration management.
 </details>
+<details>
+<summary><b>Week 29</b> : [18.03.2024 - 24.03.2024]</summary>
+
++ 🗺️ **March 23, 2024**
+  - Architecture Diagram and UI Changes by VitthalGund.
+  - Added an architecture diagram and made minor UI changes.
+</details>
+
+
+
+
