@@ -126,6 +126,15 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 - Check the documentation for each dependency if you encounter any errors during installation.
 
 
+# Project Architecture
+
+## Backend Architecture:
+![Backend architecture](https://github.com/VitthalGund/QueryMate/assets/97181033/80ea4f6b-3054-4ea6-a894-92e52aaf8423)
+
+## Overall Architecture:
+![Untitled-2023-10-24-1644](https://github.com/VitthalGund/QueryMate/assets/97181033/26cf8fa9-a56c-4ad4-93bb-a8216624faf7)
+
+
 
 ## 🕘 Project Timeline :
 
