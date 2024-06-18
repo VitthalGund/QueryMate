@@ -136,12 +136,12 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 
 
 # Project Preview:
-1. Home:
+### 1. Home:
 ![New UI home 1](https://github.com/VitthalGund/QueryMate/assets/97181033/00e69326-0163-4ee2-8aa7-5481e7f5788e)
 
 ![New UI home 2](https://github.com/VitthalGund/QueryMate/assets/97181033/677e89fd-dbb0-4fa3-b317-3056b97f68c7)
 
-2. Upload Data:
+### 2. Upload Data:
 ![Screenshot 2023-10-27 164744](https://github.com/VitthalGund/QueryMate/assets/97181033/acfc69c7-5a96-4342-b719-bc9c407ffea2)
 ![Screenshot 2023-10-27 165013](https://github.com/VitthalGund/QueryMate/assets/97181033/8618dd12-bb7e-4dc1-b336-39eaec446320)
 
