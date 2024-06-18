@@ -26,6 +26,35 @@ QueryMate is a tool that centers on developing an intelligent Question and Answe
 ---
 
 
+# Project Architecture
+
+## Backend Architecture:
+![Backend architecture](https://github.com/VitthalGund/QueryMate/assets/97181033/80ea4f6b-3054-4ea6-a894-92e52aaf8423)
+
+## Overall Architecture:
+![Untitled-2023-10-24-1644](https://github.com/VitthalGund/QueryMate/assets/97181033/26cf8fa9-a56c-4ad4-93bb-a8216624faf7)
+
+
+# Project Preview:
+### 1. Home:
+![New UI home 1](https://github.com/VitthalGund/QueryMate/assets/97181033/00e69326-0163-4ee2-8aa7-5481e7f5788e)
+
+![New UI home 2](https://github.com/VitthalGund/QueryMate/assets/97181033/677e89fd-dbb0-4fa3-b317-3056b97f68c7)
+
+### 2. Upload Data:
+![Screenshot 2023-10-27 164744](https://github.com/VitthalGund/QueryMate/assets/97181033/acfc69c7-5a96-4342-b719-bc9c407ffea2)
+![Screenshot 2023-10-27 165013](https://github.com/VitthalGund/QueryMate/assets/97181033/8618dd12-bb7e-4dc1-b336-39eaec446320)
+
+
+### 3. Chat with your data in Natural Language:
+![Screenshot 2023-10-27 165259](https://github.com/VitthalGund/QueryMate/assets/97181033/cf6d2ded-2be1-42ae-bbd9-b3827ac9d712)
+![Screenshot 2023-10-27 170729](https://github.com/VitthalGund/QueryMate/assets/97181033/46953957-a3a7-48db-95f8-d3c92a6686be)
+![Screenshot 2023-10-27 170911](https://github.com/VitthalGund/QueryMate/assets/97181033/68bbbfd6-32f5-43dc-9d3a-514b65ca1802)
+![Screenshot 2023-10-27 171042](https://github.com/VitthalGund/QueryMate/assets/97181033/43e02aa9-dcb4-4f28-b0ef-d927b08a3d27)
+![Screenshot 2023-10-27 171229](https://github.com/VitthalGund/QueryMate/assets/97181033/bdfb8350-267e-4d8d-865f-936ae016eb77)
+![Screenshot 2023-10-27 171433](https://github.com/VitthalGund/QueryMate/assets/97181033/4e9ac7a5-75b5-4122-bb23-c4ebd9bac42c)
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -126,33 +155,6 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 - Check the documentation for each dependency if you encounter any errors during installation.
 
 
-# Project Architecture
-
-## Backend Architecture:
-![Backend architecture](https://github.com/VitthalGund/QueryMate/assets/97181033/80ea4f6b-3054-4ea6-a894-92e52aaf8423)
-
-## Overall Architecture:
-![Untitled-2023-10-24-1644](https://github.com/VitthalGund/QueryMate/assets/97181033/26cf8fa9-a56c-4ad4-93bb-a8216624faf7)
-
-
-# Project Preview:
-### 1. Home:
-![New UI home 1](https://github.com/VitthalGund/QueryMate/assets/97181033/00e69326-0163-4ee2-8aa7-5481e7f5788e)
-
-![New UI home 2](https://github.com/VitthalGund/QueryMate/assets/97181033/677e89fd-dbb0-4fa3-b317-3056b97f68c7)
-
-### 2. Upload Data:
-![Screenshot 2023-10-27 164744](https://github.com/VitthalGund/QueryMate/assets/97181033/acfc69c7-5a96-4342-b719-bc9c407ffea2)
-![Screenshot 2023-10-27 165013](https://github.com/VitthalGund/QueryMate/assets/97181033/8618dd12-bb7e-4dc1-b336-39eaec446320)
-
-
-### 3. Chat with your data in Natural Language:
-![Screenshot 2023-10-27 165259](https://github.com/VitthalGund/QueryMate/assets/97181033/cf6d2ded-2be1-42ae-bbd9-b3827ac9d712)
-![Screenshot 2023-10-27 170729](https://github.com/VitthalGund/QueryMate/assets/97181033/46953957-a3a7-48db-95f8-d3c92a6686be)
-![Screenshot 2023-10-27 170911](https://github.com/VitthalGund/QueryMate/assets/97181033/68bbbfd6-32f5-43dc-9d3a-514b65ca1802)
-![Screenshot 2023-10-27 171042](https://github.com/VitthalGund/QueryMate/assets/97181033/43e02aa9-dcb4-4f28-b0ef-d927b08a3d27)
-![Screenshot 2023-10-27 171229](https://github.com/VitthalGund/QueryMate/assets/97181033/bdfb8350-267e-4d8d-865f-936ae016eb77)
-![Screenshot 2023-10-27 171433](https://github.com/VitthalGund/QueryMate/assets/97181033/4e9ac7a5-75b5-4122-bb23-c4ebd9bac42c)
 
 
 ## 🕘 Project Timeline :
