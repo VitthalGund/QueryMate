@@ -139,7 +139,19 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 1. Home:
 ![New UI home 1](https://github.com/VitthalGund/QueryMate/assets/97181033/00e69326-0163-4ee2-8aa7-5481e7f5788e)
 
+![New UI home 2](https://github.com/VitthalGund/QueryMate/assets/97181033/677e89fd-dbb0-4fa3-b317-3056b97f68c7)
 
+![New UI home 3](https://github.com/VitthalGund/QueryMate/assets/97181033/7a24e21e-00fd-4740-807d-ce5c9b64d13f)
+
+![New UI home 4](https://github.com/VitthalGund/QueryMate/assets/97181033/8450281f-f5a6-469a-afd5-53eb7f3272ec)
+
+![New UI home 5](https://github.com/VitthalGund/QueryMate/assets/97181033/c31a7fa3-563c-4c9b-8efd-ff788bf4d8e4)
+
+![New UI home 6](https://github.com/VitthalGund/QueryMate/assets/97181033/36dfeb62-9ff8-42eb-a8cb-27af90b09c0c)
+
+![New UI home 7](https://github.com/VitthalGund/QueryMate/assets/97181033/dd27dc75-f0b9-4cf2-9752-b99cf15ad8f3)
+
+![New UI home 8](https://github.com/VitthalGund/QueryMate/assets/97181033/2c309b2d-ac98-43ac-82c5-c06eb5b7c83b)
 
 ## 🕘 Project Timeline :
 
