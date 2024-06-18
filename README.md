@@ -147,12 +147,12 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 
 
 ### 3. Chat with your data in Natural Language:
-![Screenshot 2023-10-27 171433](https://github.com/VitthalGund/QueryMate/assets/97181033/4e9ac7a5-75b5-4122-bb23-c4ebd9bac42c)
-![Screenshot 2023-10-27 171229](https://github.com/VitthalGund/QueryMate/assets/97181033/bdfb8350-267e-4d8d-865f-936ae016eb77)
-![Screenshot 2023-10-27 171042](https://github.com/VitthalGund/QueryMate/assets/97181033/43e02aa9-dcb4-4f28-b0ef-d927b08a3d27)
-![Screenshot 2023-10-27 170911](https://github.com/VitthalGund/QueryMate/assets/97181033/68bbbfd6-32f5-43dc-9d3a-514b65ca1802)
-![Screenshot 2023-10-27 170729](https://github.com/VitthalGund/QueryMate/assets/97181033/46953957-a3a7-48db-95f8-d3c92a6686be)
 ![Screenshot 2023-10-27 165259](https://github.com/VitthalGund/QueryMate/assets/97181033/cf6d2ded-2be1-42ae-bbd9-b3827ac9d712)
+![Screenshot 2023-10-27 170729](https://github.com/VitthalGund/QueryMate/assets/97181033/46953957-a3a7-48db-95f8-d3c92a6686be)
+![Screenshot 2023-10-27 170911](https://github.com/VitthalGund/QueryMate/assets/97181033/68bbbfd6-32f5-43dc-9d3a-514b65ca1802)
+![Screenshot 2023-10-27 171042](https://github.com/VitthalGund/QueryMate/assets/97181033/43e02aa9-dcb4-4f28-b0ef-d927b08a3d27)
+![Screenshot 2023-10-27 171229](https://github.com/VitthalGund/QueryMate/assets/97181033/bdfb8350-267e-4d8d-865f-936ae016eb77)
+![Screenshot 2023-10-27 171433](https://github.com/VitthalGund/QueryMate/assets/97181033/4e9ac7a5-75b5-4122-bb23-c4ebd9bac42c)
 
 
 ## 🕘 Project Timeline :
