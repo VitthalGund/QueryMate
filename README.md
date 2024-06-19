@@ -17,7 +17,6 @@
 
 In a world overwhelmed with information, finding precise and accurate answers efficiently is crucial. While doing research work, we often use resources like documents containing an abundance of lengthy information, official documentations, technical blogs, e-books, etc. to get a relevant answer for the questions from a particular data source. We, as learners, are usually recommended to read reference books for our academic subjects, which is good. However, there are times when we want quick and accurate answers. Even for that purpose, we have to thoroughly analyze the entire book which contains a bit of lengthy content. This work is very time-consuming, and it drains our energy in reading irrelevant information.
 
----
 
 #### ABSTRACT :
 
