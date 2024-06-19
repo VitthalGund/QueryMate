@@ -152,7 +152,7 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 
 
 
-## 🕘 Project Timeline :
+## 🕘 Project Timelines :
 
 <details>
 <summary><b>Week 01</b> : [31.07.2023 - 06.08.2023]</summary>
