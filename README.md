@@ -148,7 +148,6 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
    npm run server
    ```
 
-- Check the documentation for each dependency if you encounter any errors during installation.
 
 
 
