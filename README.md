@@ -145,7 +145,7 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 #### Backend
 1. **Start the Backend Server:**
    ```sh
-   npm run server
+   npm run dev
    ```
 
 
