@@ -139,7 +139,7 @@ Replace `<your_access_token_secret>`, `<your_refresh_token_secret>`, `<your_emai
 #### Frontend
 1. **Start the Frontend Server:**
    ```sh
-   npm start
+   npm run start
    ```
 
 #### Backend
