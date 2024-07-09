@@ -117,7 +117,7 @@ Create a `.env` file in the root of the backend directory with the following str
 ```plaintext
 PORT=2000
 CLIENT_DOMAIN="http://localhost:3000"
-DATABASE_URI="mongodb://0.0.0.0:27017/DefenceShorts"
+DATABASE_URI="mongodb://0.0.0.0:27017/QueryMate"
 ACCESS_TOKEN_SECRET=<your_access_token_secret>
 REFRESH_TOKEN_SECRET=<your_refresh_token_secret>
 emailApi=<your_email_api>
