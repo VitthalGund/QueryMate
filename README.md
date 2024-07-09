@@ -1,4 +1,4 @@
-# QUERYMATE - Standalone Search Engine 
+# QUERYMATE - AI Powered Standalone Search Engine 
 
 ## 👩🏻‍💻 Mentor :
 
